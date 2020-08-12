@@ -245,10 +245,22 @@ public class PlayerMovement : MonoBehaviour
         switch (collision.transform.tag)
         {
             //--------------------------------------------- OBSTACLE
-            case "Obstacle":
-                this.enabled = false;
-                GameManager.gm.InstantiateEffect("Explosion", transform.position, transform.rotation);
+            case "Obstacle": 
+                Explode(); 
                 break;
         }
+    }
+
+    public void Damage(float dmg)
+    {
+
+    }
+
+    public void Explode()
+    {
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 5);
+        this.enabled = false;
+        GameManager.gm.InstantiateEffect("Explosion", transform.position, transform.rotation);
     }
 }

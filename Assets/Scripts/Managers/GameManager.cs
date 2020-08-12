@@ -26,30 +26,8 @@ public class GameManager : MonoBehaviour
     }
     public Effects effects;
 
-    //UI ELEMENTS
-    [System.Serializable]
-    public class UIElements
-    {
-        //LIST OF UI ELEMENTS
-        public Text speedometer;
-        public Slider energyBar;
-    }
-    public UIElements UI;
-
-    //REFERENCES
-    PlayerMovement player;
-
-    private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
-    }
-
     void Update()
     {
-        //UPDATE UI
-        UI.speedometer.text = Mathf.FloorToInt(player.currentSpeed).ToString();
-        UI.energyBar.value = player.l_energy / player.energyParameters.maxEnergy;
-
         //PROTO DEBUG
         if (Input.GetButton("Pause"))
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
