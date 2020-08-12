@@ -10,11 +10,16 @@ public class CameraBehaviourD : MonoBehaviour
     //REFERENCES
     public CameraState cameraState;
     public CameraMode cameraMode;
+
+    Camera cam;
     PlayerMovement player;
 
+    float t = 0;
+
     //CORE PARAMETERS
-    float fieldOfView;
     float distanceToTarget;
+    float desiredDistanceToTarget;
+    float desiredfieldOfView;
 
     //------------------------------------ EXTRA SETTINGS
     //PUBLIC ON INSPECTOR
@@ -26,30 +31,48 @@ public class CameraBehaviourD : MonoBehaviour
     public ExtraSettings extraSettings;
     //---------------------------------------------------
 
-    //OTHER
-    float offsetX, offsetY, offsetZ;
-
     void Start()
     {
         //REFERENCES
+        cam = GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
-
-        //SET OFFSETS
-        offsetX = transform.position.x - player.transform.position.x;
-        offsetY = transform.position.y - player.transform.position.y;
-        offsetZ = transform.position.z - player.transform.position.z;
     }
 
     void LateUpdate()
     {
+        //CAMERA UPDATE
         transform.forward = player.forwardDirection;
+
+        t += 2 * Time.deltaTime;
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, t);
+        distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, t);
 
         //STATE MACHINE
         switch (cameraState)
         {
             case CameraState.idle:
-                distanceToTarget = 5;
-                fieldOfView = 75;
+                desiredDistanceToTarget = 4;
+                desiredfieldOfView = 75;
+                break;
+
+            case CameraState.moving:
+                desiredDistanceToTarget = 4;
+                desiredfieldOfView = 80;
+                break;
+
+            case CameraState.low_nitro:
+                desiredDistanceToTarget = 4;
+                desiredfieldOfView = 95;
+                break;
+
+            case CameraState.mid_nitro:
+                desiredDistanceToTarget = 3;
+                desiredfieldOfView = 110;
+                break;
+
+            case CameraState.high_nitro:
+                desiredDistanceToTarget = 2;
+                desiredfieldOfView = 140;
                 break;
         }
 
@@ -57,7 +80,7 @@ public class CameraBehaviourD : MonoBehaviour
         switch (cameraMode)
         {
             case CameraMode.staticMode:
-                transform.position = new Vector3(player.transform.position.x + offsetX, transform.position.y, transform.position.z);
+                transform.position = new Vector3(player.transform.position.x + distanceToTarget, transform.position.y, transform.position.z);
                 break;
 
             case CameraMode.dynamicMode:
@@ -66,11 +89,11 @@ public class CameraBehaviourD : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
                 break;
         }
+    }
 
-        ////STATIC MODE?
-        //if (extraSettings.staticMode)
-        //    transform.position = new Vector3(player.position.x + offsetX, transform.position.y, transform.position.z);
-
-        //else transform.position = new Vector3(player.position.x + offsetX, player.position.y + offsetY, player.position.z + offsetZ);
+    public void ChangeState(CameraState state)
+    {
+        t = 0;
+        cameraState = state;
     }
 }

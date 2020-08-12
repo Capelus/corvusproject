@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     //-------------------------------------- REFERENCES
         PlayerInput playerInput;
+        CameraBehaviourD cam;
     //-------------------------------------------------
 
 
@@ -38,7 +39,8 @@ public class PlayerMovement : MonoBehaviour
         [System.Serializable]
         public class EnergyParameters
         {
-            public float maxEnergy = 100;
+            public float maxEnergy = 300;
+            public float initialEnergy = 0;
         }
         public EnergyParameters energyParameters;
 
@@ -55,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
             public float blueNitroMultiplier = 2;
             public float yellowNitroMultiplier = 3;
             public float redNitroMultiplier = 5;
+
+            public GameObject[] jets;
 
             public float energyCost = 5;
         }
@@ -101,11 +105,12 @@ public class PlayerMovement : MonoBehaviour
     {
         //GET REFERENCES
         playerInput = GetComponent<PlayerInput>();
+        cam = Camera.main.GetComponent<CameraBehaviourD>();
 
         //INITIALIZE LOCAL VARIABLES
         l_cadence = blasterParameters.cadence;
         l_maxSpeed = movementParameters.maxSpeed;
-        l_energy = energyParameters.maxEnergy;
+        l_energy = energyParameters.initialEnergy;
         baseRotation = transform.rotation;
     }
 
@@ -120,21 +125,81 @@ public class PlayerMovement : MonoBehaviour
                 else currentSpeed -= l_acceleration * Time.deltaTime;
                 break;
             }
+
+            //CAMERA EFFECT
+            cam.ChangeState(CameraState.moving);
         }
 
-        else currentSpeed = Mathf.Lerp(currentSpeed, 0, 0.05f);
+        else
+        {
+            currentSpeed = Mathf.Lerp(currentSpeed, 0, 0.05f);
+
+            //CAMERA EFFECT
+            cam.ChangeState(CameraState.idle);
+        }
         //----------------------------------------------------------------------------------------------------   
 
 
         //---------------------------------------------------------------------------------------------- NITRO
         if (playerInput.accelerate && playerInput.nitro && l_energy > 0)
         {
-            //BOOST
-            l_maxSpeed = movementParameters.maxSpeed * nitroParameters.blueNitroMultiplier;
-            l_acceleration = movementParameters.acceleration * nitroParameters.blueNitroMultiplier;
+            switch (l_energy)
+            {
+                //BLUE
+                case float e when (l_energy < energyParameters.maxEnergy / 3):
+                    //BOOST
+                    l_maxSpeed = movementParameters.maxSpeed * nitroParameters.blueNitroMultiplier;
+                    l_acceleration = movementParameters.acceleration * nitroParameters.blueNitroMultiplier;
 
-            //CAMERA EFFECT
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 110, 0.2f);
+                    //PARTICLES
+                    EffectsManager.fxm.effects.warpSpeed = 0.3f;
+                    EffectsManager.fxm.effects.nebulaActive = false;
+
+                    foreach (GameObject j in nitroParameters.jets)
+                        j.GetComponent<ParticleSystemRenderer>().material.color = Color.cyan;
+
+                    //CAMERA EFFECT
+                    cam.ChangeState(CameraState.low_nitro);
+                    break;
+
+                //YELLOW
+                case float e when (l_energy > energyParameters.maxEnergy / 3 && l_energy < energyParameters.maxEnergy / 3 * 2):
+                    //BOOST
+                    l_maxSpeed = movementParameters.maxSpeed * nitroParameters.yellowNitroMultiplier;
+                    l_acceleration = movementParameters.acceleration * nitroParameters.yellowNitroMultiplier;
+
+                    //PARTICLES
+                    EffectsManager.fxm.effects.warpSpeed = 0.6f;
+                    EffectsManager.fxm.effects.nebulaActive = true;
+                    EffectsManager.fxm.effects.nebulaDissolve = 1;
+                    EffectsManager.fxm.effects.nebulaSpeed = 0.3f;
+
+                    foreach (GameObject j in nitroParameters.jets)
+                        j.GetComponent<ParticleSystemRenderer>().material.color = Color.yellow;
+
+                    //CAMERA EFFECT
+                    cam.ChangeState(CameraState.mid_nitro);
+                    break;
+
+                //RED
+                case float e when (l_energy > energyParameters.maxEnergy / 3 * 2):
+                    //BOOST
+                    l_maxSpeed = movementParameters.maxSpeed * nitroParameters.redNitroMultiplier;
+                    l_acceleration = movementParameters.acceleration * nitroParameters.redNitroMultiplier;
+
+                    //PARTICLES
+                    EffectsManager.fxm.effects.warpSpeed = 1f;
+                    EffectsManager.fxm.effects.nebulaActive = true;
+                    EffectsManager.fxm.effects.nebulaDissolve = 0.3f;
+                    EffectsManager.fxm.effects.nebulaSpeed = 1;
+
+                    foreach (GameObject j in nitroParameters.jets)
+                        j.GetComponent<ParticleSystemRenderer>().material.color = Color.red;
+
+                    //CAMERA EFFECT
+                    cam.ChangeState(CameraState.high_nitro);
+                    break;
+            }
 
             //ENERGY DRAIN
             l_energy -= nitroParameters.energyCost * Time.deltaTime;
@@ -145,6 +210,13 @@ public class PlayerMovement : MonoBehaviour
             //UN-BOOST
             l_maxSpeed = movementParameters.maxSpeed;
             l_acceleration = movementParameters.acceleration;
+
+            //RESTORE PARTICLES EFFECT
+            EffectsManager.fxm.effects.warpSpeed = 0;
+            EffectsManager.fxm.effects.nebulaActive = false;
+
+            foreach (GameObject j in nitroParameters.jets)
+                j.GetComponent<ParticleSystemRenderer>().material.color = Color.white;
 
             //RESTORE CAMERA EFFECT
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 75, 0.2f);
@@ -211,7 +283,14 @@ public class PlayerMovement : MonoBehaviour
 
 
         //---------------------------------------------------------------------------------------------- OTHER
-        l_energy = Mathf.Clamp(l_energy, 0, 100);
+        l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);
+        //----------------------------------------------------------------------------------------------------
+
+
+        //---------------------------------------------------------------------------------------------- DEBUG
+        //RECHARGE ENERGY
+        if (playerInput.rechargeEnergy)
+            RechargeEnergy(1);
         //----------------------------------------------------------------------------------------------------
     }
 
@@ -233,7 +312,7 @@ public class PlayerMovement : MonoBehaviour
             case "EnergyRing":
                 if (GetComponent<Animation>().isPlaying)
                 {
-                    l_energy += 40;
+                    RechargeEnergy(40);
                     Destroy(other.gameObject);
                 }
                 break;
@@ -251,7 +330,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void Damage(float dmg)
+    public void RechargeEnergy(float quantity)
+    {
+        l_energy += quantity;
+    }
+
+    public void Damage(float quantity)
     {
 
     }
@@ -261,6 +345,6 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 5);
         this.enabled = false;
-        GameManager.gm.InstantiateEffect("Explosion", transform.position, transform.rotation);
+        EffectsManager.fxm.InstantiateEffect("Explosion", transform.position, transform.rotation);
     }
 }

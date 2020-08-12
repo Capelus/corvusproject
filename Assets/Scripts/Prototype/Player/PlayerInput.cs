@@ -39,4 +39,10 @@ public class PlayerInput : MonoBehaviour
     {
         get { return Input.GetButton("Fire"); }
     }
+
+    //-----------------------------------------DEBUG
+    public bool rechargeEnergy
+    {
+        get { return Input.GetKey(KeyCode.Tab); }
+    }
 }
