@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro}
-public enum CameraMode { staticMode, dynamicMode}
+public enum CameraMode { railMode, followMode}
 
 public class CameraBehaviourD : MonoBehaviour
 {
@@ -25,10 +25,9 @@ public class CameraBehaviourD : MonoBehaviour
     //PUBLIC ON INSPECTOR
     [System.Serializable]
     public class ExtraSettings
-    {
-        public bool staticMode = true;
+    {        
     }
-    public ExtraSettings extraSettings;
+    //public ExtraSettings extraSettings;
     //---------------------------------------------------
 
     void Start()
@@ -51,27 +50,27 @@ public class CameraBehaviourD : MonoBehaviour
         switch (cameraState)
         {
             case CameraState.idle:
-                desiredDistanceToTarget = 4;
+                desiredDistanceToTarget = 5;
                 desiredfieldOfView = 75;
                 break;
 
             case CameraState.moving:
-                desiredDistanceToTarget = 4;
+                desiredDistanceToTarget = 6;
                 desiredfieldOfView = 80;
                 break;
 
             case CameraState.low_nitro:
-                desiredDistanceToTarget = 4;
+                desiredDistanceToTarget = 5;
                 desiredfieldOfView = 95;
                 break;
 
             case CameraState.mid_nitro:
-                desiredDistanceToTarget = 3;
+                desiredDistanceToTarget = 4;
                 desiredfieldOfView = 110;
                 break;
 
             case CameraState.high_nitro:
-                desiredDistanceToTarget = 2;
+                desiredDistanceToTarget = 3;
                 desiredfieldOfView = 140;
                 break;
         }
@@ -79,11 +78,14 @@ public class CameraBehaviourD : MonoBehaviour
         //CAMERA MODE
         switch (cameraMode)
         {
-            case CameraMode.staticMode:
-                transform.position = new Vector3(player.transform.position.x + distanceToTarget, transform.position.y, transform.position.z);
+            case CameraMode.railMode:
+                Vector3 cameraPosition = TrackManager.tm.GetPositionAtDistance(player.distanceTravelled-distanceToTarget);
+                transform.position = cameraPosition;
+                transform.forward = TrackManager.tm.GetPositionAtDistance(player.distanceTravelled) - transform.position;
+
                 break;
 
-            case CameraMode.dynamicMode:
+            case CameraMode.followMode:
                 transform.position = player.transform.position - transform.forward * distanceToTarget;
                 transform.LookAt(player.transform.position);
                 transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);

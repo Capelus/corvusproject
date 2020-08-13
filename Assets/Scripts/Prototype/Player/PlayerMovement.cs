@@ -28,8 +28,9 @@ public class PlayerMovement : MonoBehaviour
         public MovementParameters movementParameters;
 
         //LOCAL
-        [HideInInspector] public float l_maxSpeed, l_acceleration, currentSpeed;
+        [HideInInspector] public float l_maxSpeed, l_acceleration, currentSpeed, horizontalMove, verticalMove;
         [HideInInspector] public Vector3 forwardDirection = Vector3.left;
+        [HideInInspector] public float distanceTravelled = 0;
         bool canMove = true;
     //-------------------------------------------------
 
@@ -112,6 +113,9 @@ public class PlayerMovement : MonoBehaviour
         l_maxSpeed = movementParameters.maxSpeed;
         l_energy = energyParameters.initialEnergy;
         baseRotation = transform.rotation;
+
+        //SET INITIAL POSITION
+        transform.position = TrackManager.tm.GetPositionAtDistance(0);
     }
 
     void Update()
@@ -260,23 +264,23 @@ public class PlayerMovement : MonoBehaviour
         {
             Move();
 
-            //HORIZONTAL TILTS
-            if(playerInput.movement.x < 0) //LEFT
-                transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(0, 0, movementParameters.tiltAngle), 0.05f);
+            ////HORIZONTAL TILTS
+            //if(playerInput.movement.x < 0) //LEFT
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(0, 0, movementParameters.tiltAngle), 0.05f);
             
-            else if(playerInput.movement.x > 0) //RIGHT
-                transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(0, 0, -movementParameters.tiltAngle), 0.05f);
+            //else if(playerInput.movement.x > 0) //RIGHT
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(0, 0, -movementParameters.tiltAngle), 0.05f);
             
-            else transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation, 0.02f);
+            //else transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation, 0.02f);
             
-            //VERTICAL TILTS
-            if(playerInput.movement.y < 0) //DOWN
-                transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(-movementParameters.tiltAngle, 0, 0), 0.05f);
+            ////VERTICAL TILTS
+            //if(playerInput.movement.y < 0) //DOWN
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(-movementParameters.tiltAngle, 0, 0), 0.05f);
 
-            else if (playerInput.movement.y > 0) //UP
-                transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(movementParameters.tiltAngle, 0, 0), 0.05f);
+            //else if (playerInput.movement.y > 0) //UP
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(movementParameters.tiltAngle, 0, 0), 0.05f);
 
-            else transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation, 0.02f);
+            //else transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation, 0.02f);
         }
 
         //----------------------------------------------------------------------------------------------------
@@ -296,12 +300,31 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        Vector3 movementDirection = 
-            (transform.right * playerInput.movement.x * movementParameters.handlingSpeed) +  //HORIZONTAL
-            (Vector3.up * playerInput.movement.y * movementParameters.handlingSpeed) +       //VERTICAL
-            (forwardDirection * currentSpeed);                                               //FORWARD
+        //INCREMENT DISTANCE TRAVELLED
+        distanceTravelled += currentSpeed * Time.deltaTime;
 
-        transform.position += movementDirection * Time.deltaTime;
+        //GET FORWARD VECTOR
+        forwardDirection = TrackManager.tm.GetDirectionAtDistance(distanceTravelled);
+        transform.forward = forwardDirection.normalized;
+
+        //CALCULATE 2D MOVEMENT
+        horizontalMove += playerInput.movement.x * movementParameters.handlingSpeed * Time.deltaTime;
+        verticalMove += playerInput.movement.y * movementParameters.handlingSpeed * Time.deltaTime;
+
+        //CLAMP ON LIMITS
+        horizontalMove = Mathf.Clamp(horizontalMove, -movementParameters.maxWidth, movementParameters.maxWidth);
+        verticalMove = Mathf.Clamp(verticalMove, -movementParameters.maxHeight, movementParameters.maxHeight);
+
+        //CALCULATE FINAL MOVEMENT
+        Vector3 movementDirection = TrackManager.tm.GetPositionAtDistance(distanceTravelled);
+        movementDirection += transform.right * horizontalMove;
+        movementDirection += transform.up * verticalMove;
+
+        //MOVE
+        transform.position = movementDirection;
+
+        //ROTATE
+        transform.rotation = TrackManager.tm.GetRotationAtDistance(distanceTravelled);
     }
 
     private void OnTriggerEnter(Collider other)

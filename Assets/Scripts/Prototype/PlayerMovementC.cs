@@ -53,6 +53,8 @@ public class PlayerMovementC : MonoBehaviour
     {
         lCadence = blaster.cadence;
         baseRotation = transform.rotation;
+
+        transform.position = pathCreator.path.GetPointAtDistance(0, endOfPathInstruction);
     }
 
     void Update()
@@ -129,8 +131,13 @@ public class PlayerMovementC : MonoBehaviour
         if (pathCreator != null)
         {
             distanceTravelled += movement.currentSpeed * Time.deltaTime;
-            transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
-            transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+
+            transform.forward = pathCreator.path.GetPointAtDistance(distanceTravelled + 1, endOfPathInstruction) - pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+
+            transform.position += transform.forward * movement.currentSpeed * Time.deltaTime;
+
+            //transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+            //transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
         }
 
         //SHOOT
@@ -162,8 +169,14 @@ public class PlayerMovementC : MonoBehaviour
     {
         // transform.position += new Vector3(dir.x * movement.currentSpeed, dir.y * movement.handlingSpeed, dir.z * movement.handlingSpeed) * Time.deltaTime;
 
-        distanceTravelled += movement.currentSpeed * Time.deltaTime;
-        transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
-        transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+        //transform.forward = pathCreator.path.GetPointAtDistance(movement.currentSpeed * Time.deltaTime, endOfPathInstruction);
+
+        transform.rotation = pathCreator.path.GetRotationAtDistance(movement.currentSpeed * Time.deltaTime, endOfPathInstruction);
+
+        //transform.position += transform.forward * movement.currentSpeed * Time.deltaTime;
+
+        //distanceTravelled += movement.currentSpeed * Time.deltaTime;
+        //transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+        //transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
     }
 }
