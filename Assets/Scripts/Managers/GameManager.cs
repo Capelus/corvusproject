@@ -8,12 +8,12 @@ using UnityEngine.VFX;
 public class GameManager : MonoBehaviour
 {
     //SINGLETON
-    public static GameManager gm;
+    public static GameManager Instance;
     private void Awake()
     {
-        if (gm != null)
+        if (Instance != null)
             Destroy(this.gameObject);
-        else gm = this;
+        else Instance = this;
 
         DontDestroyOnLoad(this.gameObject);
     }

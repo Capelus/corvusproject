@@ -20,6 +20,7 @@ public class CameraBehaviourD : MonoBehaviour
     float distanceToTarget;
     float desiredDistanceToTarget;
     float desiredfieldOfView;
+    float desiredShakeAmount;
 
     //------------------------------------ EXTRA SETTINGS
     //PUBLIC ON INSPECTOR
@@ -52,26 +53,41 @@ public class CameraBehaviourD : MonoBehaviour
             case CameraState.idle:
                 desiredDistanceToTarget = 5;
                 desiredfieldOfView = 75;
+
+                //CAMERA SHAKE
+                desiredShakeAmount = 0;
                 break;
 
             case CameraState.moving:
                 desiredDistanceToTarget = 6;
                 desiredfieldOfView = 80;
+
+                //CAMERA SHAKE
+                desiredShakeAmount = 0;
                 break;
 
             case CameraState.low_nitro:
                 desiredDistanceToTarget = 5;
                 desiredfieldOfView = 95;
+
+                //CAMERA SHAKE
+                desiredShakeAmount = 0.02f;
                 break;
 
             case CameraState.mid_nitro:
                 desiredDistanceToTarget = 4;
                 desiredfieldOfView = 110;
+
+                //CAMERA SHAKE
+                desiredShakeAmount = 0.05f;
                 break;
 
             case CameraState.high_nitro:
                 desiredDistanceToTarget = 3;
                 desiredfieldOfView = 140;
+
+                //CAMERA SHAKE
+                desiredShakeAmount = 0.1f;
                 break;
         }
 
@@ -79,10 +95,10 @@ public class CameraBehaviourD : MonoBehaviour
         switch (cameraMode)
         {
             case CameraMode.railMode:
-                Vector3 cameraPosition = TrackManager.tm.GetPositionAtDistance(player.distanceTravelled-distanceToTarget);
+                Vector3 cameraPosition = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
                 transform.position = cameraPosition;
-                transform.forward = TrackManager.tm.GetPositionAtDistance(player.distanceTravelled) - transform.position;
-
+                transform.forward = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled) - transform.position;
+                transform.LookAt(TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled));
                 break;
 
             case CameraMode.followMode:
@@ -91,6 +107,9 @@ public class CameraBehaviourD : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
                 break;
         }
+
+        //CAMERA SHAKE
+        transform.localPosition += Random.insideUnitSphere * desiredShakeAmount;
     }
 
     public void ChangeState(CameraState state)

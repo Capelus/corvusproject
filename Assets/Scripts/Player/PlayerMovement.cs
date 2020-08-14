@@ -13,7 +13,9 @@ public class PlayerMovement : MonoBehaviour
 
 
     //----------------------------- MOVEMENT PARAMETERS  
-        //PUBLIC ON INSPECTOR
+    //PUBLIC ON INSPECTOR
+        public GameObject spaceship;
+
         [System.Serializable]
         public class MovementParameters
         {
@@ -31,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
         [HideInInspector] public float l_maxSpeed, l_acceleration, currentSpeed, horizontalMove, verticalMove;
         [HideInInspector] public Vector3 forwardDirection = Vector3.left;
         [HideInInspector] public float distanceTravelled = 0;
+
         bool canMove = true;
     //-------------------------------------------------
 
@@ -113,9 +116,10 @@ public class PlayerMovement : MonoBehaviour
         l_maxSpeed = movementParameters.maxSpeed;
         l_energy = energyParameters.initialEnergy;
         baseRotation = transform.rotation;
+        GetComponent<MeshCollider>().sharedMesh = spaceship.GetComponent<MeshFilter>().mesh;
 
         //SET INITIAL POSITION
-        transform.position = TrackManager.tm.GetPositionAtDistance(0);
+        transform.position = TrackManager.Instance.GetPositionAtDistance(0);
     }
 
     void Update()
@@ -136,7 +140,11 @@ public class PlayerMovement : MonoBehaviour
 
         else
         {
-            currentSpeed = Mathf.Lerp(currentSpeed, 0, 0.05f);
+            //DECELERATE
+            currentSpeed -= l_acceleration * Time.deltaTime;
+
+            if (currentSpeed < 10)
+                currentSpeed = 10;
 
             //CAMERA EFFECT
             cam.ChangeState(CameraState.idle);
@@ -231,7 +239,22 @@ public class PlayerMovement : MonoBehaviour
         //---------------------------------------------------------------------------------------- BARREL ROLL
         if (playerInput.roll)
         {
-            GetComponent<Animation>().Play();
+            if (!GetComponent<Animation>().isPlaying)
+            {
+                if (playerInput.movement.x < 0)
+                    GetComponent<Animation>().Play("anim_BarrelRoll_Left");
+
+                else if (playerInput.movement.x > 0)
+                    GetComponent<Animation>().Play("anim_BarrelRoll_Right");
+
+                else
+                {
+                    if (Random.value < 0.5f)
+                        GetComponent<Animation>().Play("anim_BarrelRoll_Left");
+
+                    else GetComponent<Animation>().Play("anim_BarrelRoll_Right");
+                }
+            } 
         }
         //----------------------------------------------------------------------------------------------------
 
@@ -265,28 +288,31 @@ public class PlayerMovement : MonoBehaviour
             Move();
 
             ////HORIZONTAL TILTS
-            //if(playerInput.movement.x < 0) //LEFT
-            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(0, 0, movementParameters.tiltAngle), 0.05f);
-            
-            //else if(playerInput.movement.x > 0) //RIGHT
-            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(0, 0, -movementParameters.tiltAngle), 0.05f);
-            
-            //else transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation, 0.02f);
-            
+            //baseRotation = transform.rotation;
+
+            //if (playerInput.movement.x < 0) //LEFT
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(0, 0, movementParameters.tiltAngle), 1f * Time.deltaTime);
+
+            //else if (playerInput.movement.x > 0) //RIGHT
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(0, 0, -movementParameters.tiltAngle), 1f * Time.deltaTime);
+
+            //else transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation, 1f * Time.deltaTime);
+
             ////VERTICAL TILTS
-            //if(playerInput.movement.y < 0) //DOWN
-            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(-movementParameters.tiltAngle, 0, 0), 0.05f);
+            //if (playerInput.movement.y < 0) //DOWN
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(-movementParameters.tiltAngle, 0, 0), 1f * Time.deltaTime);
 
             //else if (playerInput.movement.y > 0) //UP
-            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(movementParameters.tiltAngle, 0, 0), 0.05f);
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(movementParameters.tiltAngle, 0, 0), 1f * Time.deltaTime);
 
-            //else transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation, 0.02f);
+            //else transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation, 1f * Time.deltaTime);
         }
 
         //----------------------------------------------------------------------------------------------------
 
 
-        //---------------------------------------------------------------------------------------------- OTHER
+        //---------------------------------------------------------------------------------------------- OTHER     
+        //CLAMP ENERGY
         l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);
         //----------------------------------------------------------------------------------------------------
 
@@ -304,7 +330,7 @@ public class PlayerMovement : MonoBehaviour
         distanceTravelled += currentSpeed * Time.deltaTime;
 
         //GET FORWARD VECTOR
-        forwardDirection = TrackManager.tm.GetDirectionAtDistance(distanceTravelled);
+        forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
         transform.forward = forwardDirection.normalized;
 
         //CALCULATE 2D MOVEMENT
@@ -316,7 +342,7 @@ public class PlayerMovement : MonoBehaviour
         verticalMove = Mathf.Clamp(verticalMove, -movementParameters.maxHeight, movementParameters.maxHeight);
 
         //CALCULATE FINAL MOVEMENT
-        Vector3 movementDirection = TrackManager.tm.GetPositionAtDistance(distanceTravelled);
+        Vector3 movementDirection = TrackManager.Instance.GetPositionAtDistance(distanceTravelled);
         movementDirection += transform.right * horizontalMove;
         movementDirection += transform.up * verticalMove;
 
@@ -324,7 +350,7 @@ public class PlayerMovement : MonoBehaviour
         transform.position = movementDirection;
 
         //ROTATE
-        transform.rotation = TrackManager.tm.GetRotationAtDistance(distanceTravelled);
+        transform.rotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
     }
 
     private void OnTriggerEnter(Collider other)

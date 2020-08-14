@@ -6,7 +6,7 @@ using PathCreation;
 public class TrackManager : MonoBehaviour
 {
     //SINGLETON
-    public static TrackManager tm;
+    public static TrackManager Instance;
 
     //PATH REFERENCES
      PathCreator pathCreator;
@@ -14,7 +14,7 @@ public class TrackManager : MonoBehaviour
 
     private void Awake()
     {
-        tm = this;
+        Instance = this;
     }
 
     private void Start()

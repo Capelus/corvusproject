@@ -43,6 +43,6 @@ public class PlayerInput : MonoBehaviour
     //-----------------------------------------DEBUG
     public bool rechargeEnergy
     {
-        get { return Input.GetKey(KeyCode.Tab); }
+        get { return Input.GetButton("ReloadEnergy"); }
     }
 }
