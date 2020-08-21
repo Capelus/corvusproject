@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraBehaviourD : MonoBehaviour
+public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro }
+public enum CameraMode { railMode, followMode }
+
+public class CameraBehaviour2 : MonoBehaviour
 {
     //REFERENCES
     public CameraState cameraState;
     public CameraMode cameraMode;
 
     Camera cam;
-    PlayerMovement player;
+    PlayerMovement2 player;
 
     float t = 0;
 
@@ -23,25 +26,26 @@ public class CameraBehaviourD : MonoBehaviour
     //PUBLIC ON INSPECTOR
     [System.Serializable]
     public class ExtraSettings
-    {        
+    {
     }
     //public ExtraSettings extraSettings;
     //---------------------------------------------------
 
     //OTHER
-    private Vector3 velocity;
+    Rigidbody rb;
 
     void Start()
     {
         //REFERENCES
         cam = GetComponent<Camera>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement2>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void LateUpdate()
     {
         //CAMERA UPDATE
-        transform.forward = player.forwardDirection;
+        //transform.forward = player.forwardDirection;
 
         t += 2 * Time.deltaTime;
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, t);
@@ -102,9 +106,8 @@ public class CameraBehaviourD : MonoBehaviour
                 break;
 
             case CameraMode.followMode:
-                transform.position = player.transform.position - transform.forward * distanceToTarget;
+                transform.position = Vector3.Lerp(transform.position, player.transform.position, 10 * Time.deltaTime);
                 transform.LookAt(player.transform.position);
-                transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
                 break;
         }
 

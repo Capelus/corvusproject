@@ -8,7 +8,7 @@ public class PlayerMovement2 : MonoBehaviour
 {
     //-------------------------------------- REFERENCES
     PlayerInput playerInput;
-    CameraBehaviourD cam;
+    CameraBehaviour2 cam;
     //-------------------------------------------------
 
 
@@ -21,7 +21,7 @@ public class PlayerMovement2 : MonoBehaviour
     {
         public float maxSpeed = 150;
         public float acceleration = 40;
-        public float handlingSpeed = 15;
+        public float turnSpeed = 15;
         public int tiltAngle = 15;
 
         public float maxWidth = 5;
@@ -103,23 +103,26 @@ public class PlayerMovement2 : MonoBehaviour
 
     //--------------------------------------------- OTHER
     Quaternion baseRotation;
+    Rigidbody rb;
+    public Transform cameraPivot;
     //---------------------------------------------------
 
     private void Start()
     {
         //GET REFERENCES
         playerInput = GetComponent<PlayerInput>();
-        cam = Camera.main.GetComponent<CameraBehaviourD>();
+        cam = Camera.main.GetComponent<CameraBehaviour2>();
 
         //INITIALIZE LOCAL VARIABLES
         l_cadence = blasterParameters.cadence;
         l_maxSpeed = movementParameters.maxSpeed;
         l_energy = energyParameters.initialEnergy;
         baseRotation = transform.rotation;
+        rb = GetComponent<Rigidbody>();
         GetComponent<MeshCollider>().sharedMesh = spaceship.GetComponent<MeshFilter>().mesh;
 
         //SET INITIAL POSITION
-        transform.position = TrackManager.Instance.GetPositionAtDistance(0);
+        //transform.position = TrackManager.Instance.GetPositionAtDistance(0);
     }
 
     void Update()
@@ -143,8 +146,8 @@ public class PlayerMovement2 : MonoBehaviour
             //DECELERATE
             currentSpeed -= l_acceleration * Time.deltaTime;
 
-            if (currentSpeed < 10)
-                currentSpeed = 10;
+            if (currentSpeed <= 1)
+                currentSpeed = 1;
 
             //CAMERA EFFECT
             cam.ChangeState(CameraState.idle);
@@ -285,7 +288,7 @@ public class PlayerMovement2 : MonoBehaviour
         //------------------------------------------------------------------------------------------- MOVEMENT
         if (canMove)
         {
-            Move();
+            Rotate();
 
             ////HORIZONTAL TILTS
             //baseRotation = transform.rotation;
@@ -324,33 +327,33 @@ public class PlayerMovement2 : MonoBehaviour
         //----------------------------------------------------------------------------------------------------
     }
 
-    void Move()
+    private void FixedUpdate()
     {
-        //INCREMENT DISTANCE TRAVELLED
-        distanceTravelled += currentSpeed * Time.deltaTime;
+        if (canMove)
+        {
+            Move();
+        }
+    }
 
-        //GET FORWARD VECTOR
-        forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
-        transform.forward = forwardDirection.normalized;
+    void Rotate()
+    {
+        float yaw = 0;
+        if (Mathf.Abs(playerInput.movement.x) > 0.1f)
+            yaw = movementParameters.turnSpeed * playerInput.movement.x * Time.deltaTime;
 
-        //CALCULATE 2D MOVEMENT
-        horizontalMove += playerInput.movement.x * movementParameters.handlingSpeed * Time.deltaTime;
-        verticalMove += playerInput.movement.y * movementParameters.handlingSpeed * Time.deltaTime;
-
-        //CLAMP ON LIMITS
-        horizontalMove = Mathf.Clamp(horizontalMove, -movementParameters.maxWidth, movementParameters.maxWidth);
-        verticalMove = Mathf.Clamp(verticalMove, -movementParameters.maxHeight, movementParameters.maxHeight);
-
-        //CALCULATE FINAL MOVEMENT
-        Vector3 movementDirection = TrackManager.Instance.GetPositionAtDistance(distanceTravelled);
-        movementDirection += transform.right * horizontalMove;
-        movementDirection += transform.up * verticalMove;
-
-        //MOVE
-        transform.position = movementDirection;
+        float pitch = 0;
+        if (Mathf.Abs(playerInput.movement.y) > 0.1f)
+            pitch = movementParameters.turnSpeed * playerInput.movement.y * Time.deltaTime;
 
         //ROTATE
-        transform.rotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
+        transform.Rotate(pitch, 0, 0);
+        transform.Rotate(0, yaw, 0, relativeTo:Space.World);
+    }
+
+    void Move()
+    {
+        //MOVE
+        transform.position += transform.forward * currentSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
