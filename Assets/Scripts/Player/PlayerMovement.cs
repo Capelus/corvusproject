@@ -7,102 +7,102 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     //-------------------------------------- REFERENCES
-        PlayerInput playerInput;
-        CameraBehaviourD cam;
+    PlayerInput playerInput;
+    CameraBehaviourD cam;
     //-------------------------------------------------
 
 
     //----------------------------- MOVEMENT PARAMETERS  
     //PUBLIC ON INSPECTOR
-        public GameObject spaceship;
+    public GameObject spaceship;
 
-        [System.Serializable]
-        public class MovementParameters
-        {
-            public float maxSpeed = 150;
-            public float acceleration = 40;
-            public float handlingSpeed = 15;
-            public int tiltAngle = 15;
+    [System.Serializable]
+    public class MovementParameters
+    {
+        public float maxSpeed = 150;
+        public float acceleration = 40;
+        public float handlingSpeed = 15;
+        public int tiltAngle = 15;
 
-            public float maxWidth = 5;
-            public float maxHeight = 5;
-        }
-        public MovementParameters movementParameters;
+        public float maxWidth = 5;
+        public float maxHeight = 5;
+    }
+    public MovementParameters movementParameters;
 
-        //LOCAL
-        [HideInInspector] public float l_maxSpeed, l_acceleration, currentSpeed, horizontalMove, verticalMove;
-        [HideInInspector] public Vector3 forwardDirection = Vector3.left;
-        [HideInInspector] public float distanceTravelled = 0;
+    //LOCAL
+    [HideInInspector] public float l_maxSpeed, l_acceleration, currentSpeed, horizontalMove, verticalMove;
+    [HideInInspector] public Vector3 forwardDirection = Vector3.left;
+    [HideInInspector] public float distanceTravelled = 0;
 
-        bool canMove = true;
+    bool canMove = true;
     //-------------------------------------------------
 
 
     //------------------------------------------ ENERGY
-        //PUBLIC ON INSPECTOR
-        [System.Serializable]
-        public class EnergyParameters
-        {
-            public float maxEnergy = 300;
-            public float initialEnergy = 0;
-        }
-        public EnergyParameters energyParameters;
+    //PUBLIC ON INSPECTOR
+    [System.Serializable]
+    public class EnergyParameters
+    {
+        public float maxEnergy = 300;
+        public float initialEnergy = 0;
+    }
+    public EnergyParameters energyParameters;
 
-        //LOCAL
-        [HideInInspector] public float l_energy;
+    //LOCAL
+    [HideInInspector] public float l_energy;
     //-------------------------------------------------
 
 
     //------------------------------------------- NITRO
-        //PUBLIC ON INSPECTOR
-        [System.Serializable]
-        public class NitroParameters
-        {
-            public float blueNitroMultiplier = 2;
-            public float yellowNitroMultiplier = 3;
-            public float redNitroMultiplier = 5;
+    //PUBLIC ON INSPECTOR
+    [System.Serializable]
+    public class NitroParameters
+    {
+        public float blueNitroMultiplier = 2;
+        public float yellowNitroMultiplier = 3;
+        public float redNitroMultiplier = 5;
 
-            public GameObject[] jets;
+        public GameObject[] jets;
 
-            public float energyCost = 5;
-        }
-        public NitroParameters nitroParameters;
+        public float energyCost = 5;
+    }
+    public NitroParameters nitroParameters;
     //-------------------------------------------------
 
 
     //------------------------------------------ BLASTER
-        //PUBLIC ON INSPECTOR
-        [System.Serializable]
-        public class BlasterParameters
-        {
-            public Transform shotSpawn1, shotSpawn2;
-            public GameObject shot;
-            public float cadence = 0.2f;
+    //PUBLIC ON INSPECTOR
+    [System.Serializable]
+    public class BlasterParameters
+    {
+        public Transform shotSpawn1, shotSpawn2;
+        public GameObject shot;
+        public float cadence = 0.2f;
 
-            public float energyCost = 1;
-        }
-        public BlasterParameters blasterParameters;
+        public float energyCost = 1;
+    }
+    public BlasterParameters blasterParameters;
 
-        //LOCAL
-        [HideInInspector] public float l_cadence;
-        [HideInInspector] public bool shotSwitch = false;
+    //LOCAL
+    [HideInInspector] public float l_cadence;
+    [HideInInspector] public bool shotSwitch = false;
     //---------------------------------------------------
 
 
     //------------------------------------ EXTRA SETTINGS
-        //PUBLIC ON INSPECTOR
-        [System.Serializable]
-        public class ExtraSettings
-        {
-            public bool allowHorizontalMovement = true;
-            public bool invertVerticalAxis;
-        }
-        public ExtraSettings extraSettings;
+    //PUBLIC ON INSPECTOR
+    [System.Serializable]
+    public class ExtraSettings
+    {
+        public bool allowHorizontalMovement = true;
+        public bool invertVerticalAxis;
+    }
+    public ExtraSettings extraSettings;
     //---------------------------------------------------
 
 
     //--------------------------------------------- OTHER
-        Quaternion baseRotation;
+    Quaternion baseRotation;
     //---------------------------------------------------
 
     private void Start()
@@ -254,7 +254,7 @@ public class PlayerMovement : MonoBehaviour
 
                     else GetComponent<Animation>().Play("anim_BarrelRoll_Right");
                 }
-            } 
+            }
         }
         //----------------------------------------------------------------------------------------------------
 
@@ -373,8 +373,8 @@ public class PlayerMovement : MonoBehaviour
         switch (collision.transform.tag)
         {
             //--------------------------------------------- OBSTACLE
-            case "Obstacle": 
-                Explode(); 
+            case "Obstacle":
+                Explode();
                 break;
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro }
+public enum CameraMode { railMode, followMode, railSmoothMode }
 
 public class CameraBehaviourD : MonoBehaviour
 {
@@ -23,13 +25,14 @@ public class CameraBehaviourD : MonoBehaviour
     //PUBLIC ON INSPECTOR
     [System.Serializable]
     public class ExtraSettings
-    {        
+    {
     }
     //public ExtraSettings extraSettings;
     //---------------------------------------------------
 
     //OTHER
-    private Vector3 velocity;
+    float hOffset = 0;
+    float vOffset = 0;
 
     void Start()
     {
@@ -38,7 +41,7 @@ public class CameraBehaviourD : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
-    void LateUpdate()
+    void Update()
     {
         //CAMERA UPDATE
         transform.forward = player.forwardDirection;
@@ -105,6 +108,18 @@ public class CameraBehaviourD : MonoBehaviour
                 transform.position = player.transform.position - transform.forward * distanceToTarget;
                 transform.LookAt(player.transform.position);
                 transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+                break;
+
+            case CameraMode.railSmoothMode:
+                t += 1.6f * Time.deltaTime;
+
+                Vector3 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
+
+                hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 2, t);
+                vOffset = Mathf.Lerp(vOffset, player.verticalMove / 2, t);
+
+                transform.position = cameraPos + transform.right * hOffset + transform.up * vOffset;
+                transform.forward = player.transform.forward;
                 break;
         }
 

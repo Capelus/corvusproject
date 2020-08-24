@@ -5395,7 +5395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraState: 0
-  cameraMode: 0
+  cameraMode: 2
 --- !u!20 &1687258584
 Camera:
   m_ObjectHideFlags: 0

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro }
-public enum CameraMode { railMode, followMode }
+
 
 public class CameraBehaviour2 : MonoBehaviour
 {
