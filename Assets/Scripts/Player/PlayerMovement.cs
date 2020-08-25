@@ -100,7 +100,6 @@ public class PlayerMovement : MonoBehaviour
 
 
     //--------------------------------------------- OTHER
-    Quaternion baseRotation;
     Animator animator;
     //---------------------------------------------------
 
@@ -115,7 +114,6 @@ public class PlayerMovement : MonoBehaviour
         l_cadence = blasterParameters.cadence;
         l_maxSpeed = movementParameters.maxSpeed;
         l_energy = energyParameters.initialEnergy;
-        baseRotation = transform.rotation;
 
         //SET INITIAL POSITION
         transform.position = TrackManager.Instance.GetPositionAtDistance(0) + transform.up * -3;
