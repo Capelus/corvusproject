@@ -14,8 +14,6 @@ public class PlayerMovement : MonoBehaviour
 
     //----------------------------- MOVEMENT PARAMETERS  
     //PUBLIC ON INSPECTOR
-    public GameObject spaceship;
-
     [System.Serializable]
     public class MovementParameters
     {
@@ -103,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
 
     //--------------------------------------------- OTHER
     Quaternion baseRotation;
+    Animator animator;
     //---------------------------------------------------
 
     private void Start()
@@ -110,16 +109,16 @@ public class PlayerMovement : MonoBehaviour
         //GET REFERENCES
         playerInput = GetComponent<PlayerInput>();
         cam = Camera.main.GetComponent<CameraBehaviourD>();
+        animator = GetComponent<Animator>();
 
         //INITIALIZE LOCAL VARIABLES
         l_cadence = blasterParameters.cadence;
         l_maxSpeed = movementParameters.maxSpeed;
         l_energy = energyParameters.initialEnergy;
         baseRotation = transform.rotation;
-        GetComponent<MeshCollider>().sharedMesh = spaceship.GetComponent<MeshFilter>().mesh;
 
         //SET INITIAL POSITION
-        transform.position = TrackManager.Instance.GetPositionAtDistance(0);
+        transform.position = TrackManager.Instance.GetPositionAtDistance(0) + transform.up * -3;
     }
 
     void Update()
@@ -231,7 +230,7 @@ public class PlayerMovement : MonoBehaviour
                 j.GetComponent<ParticleSystemRenderer>().material.color = Color.white;
 
             //RESTORE CAMERA EFFECT
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 75, 0.2f);
+            cam.ChangeState(CameraState.moving);
         }
         //----------------------------------------------------------------------------------------------------
 
@@ -239,22 +238,26 @@ public class PlayerMovement : MonoBehaviour
         //---------------------------------------------------------------------------------------- BARREL ROLL
         if (playerInput.roll)
         {
-            if (!GetComponent<Animation>().isPlaying)
+            //LEFT
+            if (playerInput.rawMovement.x < 0)
+                animator.SetBool("BarrelRoll_Left", true);
+
+            //RIGHT
+            else if (playerInput.rawMovement.x > 0)
+                animator.SetBool("BarrelRoll_Right", true);
+
+            //STRAIGHT
+            else
             {
-                if (playerInput.movement.x < 0)
-                    GetComponent<Animation>().Play("anim_BarrelRoll_Left");
+                if (Random.value < 0.5f) animator.SetBool("BarrelRoll_Left", true);
+                else animator.SetBool("BarrelRoll_Right", true);
+            }          
+        }
 
-                else if (playerInput.movement.x > 0)
-                    GetComponent<Animation>().Play("anim_BarrelRoll_Right");
-
-                else
-                {
-                    if (Random.value < 0.5f)
-                        GetComponent<Animation>().Play("anim_BarrelRoll_Left");
-
-                    else GetComponent<Animation>().Play("anim_BarrelRoll_Right");
-                }
-            }
+        else
+        {
+            animator.SetBool("BarrelRoll_Left", false);
+            animator.SetBool("BarrelRoll_Right", false);
         }
         //----------------------------------------------------------------------------------------------------
 
@@ -284,30 +287,7 @@ public class PlayerMovement : MonoBehaviour
 
         //------------------------------------------------------------------------------------------- MOVEMENT
         if (canMove)
-        {
             Move();
-
-            ////HORIZONTAL TILTS
-            //baseRotation = transform.rotation;
-
-            //if (playerInput.movement.x < 0) //LEFT
-            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(0, 0, movementParameters.tiltAngle), 1f * Time.deltaTime);
-
-            //else if (playerInput.movement.x > 0) //RIGHT
-            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(0, 0, -movementParameters.tiltAngle), 1f * Time.deltaTime);
-
-            //else transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation, 1f * Time.deltaTime);
-
-            ////VERTICAL TILTS
-            //if (playerInput.movement.y < 0) //DOWN
-            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(-movementParameters.tiltAngle, 0, 0), 1f * Time.deltaTime);
-
-            //else if (playerInput.movement.y > 0) //UP
-            //    transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation * Quaternion.Euler(movementParameters.tiltAngle, 0, 0), 1f * Time.deltaTime);
-
-            //else transform.rotation = Quaternion.Slerp(transform.rotation, baseRotation, 1f * Time.deltaTime);
-        }
-
         //----------------------------------------------------------------------------------------------------
 
 
@@ -334,8 +314,8 @@ public class PlayerMovement : MonoBehaviour
         transform.forward = forwardDirection.normalized;
 
         //CALCULATE 2D MOVEMENT
-        horizontalMove += playerInput.movement.x * movementParameters.handlingSpeed * Time.deltaTime;
-        verticalMove += playerInput.movement.y * movementParameters.handlingSpeed * Time.deltaTime;
+        horizontalMove += playerInput.rawMovement.x * movementParameters.handlingSpeed * Time.deltaTime;
+        verticalMove += playerInput.rawMovement.y * movementParameters.handlingSpeed * Time.deltaTime;
 
         //CLAMP ON LIMITS
         horizontalMove = Mathf.Clamp(horizontalMove, -movementParameters.maxWidth, movementParameters.maxWidth);
@@ -351,6 +331,10 @@ public class PlayerMovement : MonoBehaviour
 
         //ROTATE
         transform.rotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
+
+        //TILT
+        animator.SetFloat("Tilt X", playerInput.smoothedMovement.x);
+        animator.SetFloat("Tilt Y", playerInput.smoothedMovement.y);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -359,10 +343,24 @@ public class PlayerMovement : MonoBehaviour
         {
             //------------------------------------------ ENERGY RING
             case "EnergyRing":
-                if (GetComponent<Animation>().isPlaying)
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Spaceship_BarrellRoll_Left") || animator.GetCurrentAnimatorStateInfo(0).IsName("Spaceship_BarrellRoll_Right"))
                 {
                     RechargeEnergy(40);
                     Destroy(other.gameObject);
+                }
+                break;
+
+            case "PitLaneTrigger":
+                if (other.name == "PitLane Trigger Exit")
+                {
+                    cam.GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("PitLane"));
+                    cam.GetComponent<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("RaceTrack");
+                }
+
+                else
+                {
+                    cam.GetComponent<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("PitLane");
+                    cam.GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("RaceTrack"));
                 }
                 break;
         }

@@ -5,7 +5,15 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     //MOVEMENT
-    public Vector2 movement
+
+    //SMOOTH PARAMETERS
+    float movX = 0;
+    float movY = 0;
+    float movSpeed = 1f;
+    float sensitivity = 3f;
+    float dead = 0.001f;
+
+    public Vector2 rawMovement
     {
         get
         {
@@ -14,6 +22,24 @@ public class PlayerInput : MonoBehaviour
             i.y = Input.GetAxis("Vertical");
             return i;
         }
+    }
+
+    public Vector2 smoothedMovement
+    {
+        get
+        {
+            float inputX = Input.GetAxis("Horizontal");
+            float inputY = Input.GetAxis("Vertical");
+
+            movX = Mathf.MoveTowards(movX, inputX, sensitivity * Time.deltaTime);
+            movX = (Mathf.Abs(movX) < dead) ? 0f : movX;
+
+            movY = Mathf.MoveTowards(movY, inputY, sensitivity * Time.deltaTime);
+            movY = (Mathf.Abs(movY) < dead) ? 0f : movY;
+
+
+            return new Vector2(movX, movY);
+        }      
     }
 
     //ACCELERATION

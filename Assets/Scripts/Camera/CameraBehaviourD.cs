@@ -23,11 +23,7 @@ public class CameraBehaviourD : MonoBehaviour
 
     //------------------------------------ EXTRA SETTINGS
     //PUBLIC ON INSPECTOR
-    [System.Serializable]
-    public class ExtraSettings
-    {
-    }
-    //public ExtraSettings extraSettings;
+
     //---------------------------------------------------
 
     //OTHER
@@ -37,18 +33,23 @@ public class CameraBehaviourD : MonoBehaviour
     void Start()
     {
         //REFERENCES
-        cam = GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+
+        cam = GetComponent<Camera>();
     }
 
     void Update()
     {
-        //CAMERA UPDATE
-        transform.forward = player.forwardDirection;
+        //CAMERAS UPDATE
+
+        transform.forward = player.forwardDirection; //FORWARD
 
         t += 2 * Time.deltaTime;
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, t);
-        distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, t);
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, t); //FOV
+        distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, t); //DISTANCE TO SPACESHIP
+
+        transform.localPosition += Random.insideUnitSphere * desiredShakeAmount; //CAMERA SHAKE
+        
 
         //STATE MACHINE
         switch (cameraState)
@@ -98,33 +99,28 @@ public class CameraBehaviourD : MonoBehaviour
         switch (cameraMode)
         {
             case CameraMode.railMode:
-                Vector3 cameraPosition = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
-                transform.position = cameraPosition;
-                transform.forward = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled) - transform.position;
-                transform.LookAt(TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled));
-                break;
 
-            case CameraMode.followMode:
-                transform.position = player.transform.position - transform.forward * distanceToTarget;
-                transform.LookAt(player.transform.position);
-                transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+                Vector3 cameraPosition = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
+                cam.transform.position = cameraPosition;
+                cam.transform.forward = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled) - cam.transform.position;
+                cam.transform.LookAt(TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled));             
+                
                 break;
 
             case CameraMode.railSmoothMode:
-                t += 1.6f * Time.deltaTime;
 
-                Vector3 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
+                    t += 1.6f * Time.deltaTime;
 
-                hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 2, t);
-                vOffset = Mathf.Lerp(vOffset, player.verticalMove / 2, t);
+                    Vector3 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
-                transform.position = cameraPos + transform.right * hOffset + transform.up * vOffset;
-                transform.forward = player.transform.forward;
+                    hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 2, t);
+                    vOffset = Mathf.Lerp(vOffset, player.verticalMove / 2, t);
+
+                    cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
+                    cam.transform.forward = player.transform.forward;
+                                  
                 break;
         }
-
-        //CAMERA SHAKE
-        transform.localPosition += Random.insideUnitSphere * desiredShakeAmount;
     }
 
     public void ChangeState(CameraState state)

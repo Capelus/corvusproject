@@ -244,10 +244,10 @@ public class PlayerMovement2 : MonoBehaviour
         {
             if (!GetComponent<Animation>().isPlaying)
             {
-                if (playerInput.movement.x < 0)
+                if (playerInput.rawMovement.x < 0)
                     GetComponent<Animation>().Play("anim_BarrelRoll_Left");
 
-                else if (playerInput.movement.x > 0)
+                else if (playerInput.rawMovement.x > 0)
                     GetComponent<Animation>().Play("anim_BarrelRoll_Right");
 
                 else
@@ -338,12 +338,12 @@ public class PlayerMovement2 : MonoBehaviour
     void Rotate()
     {
         float yaw = 0;
-        if (Mathf.Abs(playerInput.movement.x) > 0.1f)
-            yaw = movementParameters.turnSpeed * playerInput.movement.x * Time.deltaTime;
+        if (Mathf.Abs(playerInput.rawMovement.x) > 0.1f)
+            yaw = movementParameters.turnSpeed * playerInput.rawMovement.x * Time.deltaTime;
 
         float pitch = 0;
-        if (Mathf.Abs(playerInput.movement.y) > 0.1f)
-            pitch = movementParameters.turnSpeed * playerInput.movement.y * Time.deltaTime;
+        if (Mathf.Abs(playerInput.rawMovement.y) > 0.1f)
+            pitch = movementParameters.turnSpeed * playerInput.rawMovement.y * Time.deltaTime;
 
         //ROTATE
         transform.Rotate(pitch, 0, 0);
