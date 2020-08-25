@@ -27,6 +27,6 @@ Material:
     m_Floats:
     - Dissolve_: 0.3
     m_Colors:
-    - Color_53146B9B: {r: 0.65615827, g: 0.30838376, b: 1.0377358, a: 1}
-    - NebulaSpeed_: {r: 0, g: 1, b: 0, a: 0}
+    - Color_53146B9B: {r: 0.24124692, g: 0.7364961, b: 1.1894034, a: 1}
+    - NebulaSpeed_: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
