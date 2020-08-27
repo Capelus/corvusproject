@@ -9,7 +9,6 @@ public class PlayerInput : MonoBehaviour
     //SMOOTH PARAMETERS
     float movX = 0;
     float movY = 0;
-    float movSpeed = 1f;
     float sensitivity = 3f;
     float dead = 0.001f;
 

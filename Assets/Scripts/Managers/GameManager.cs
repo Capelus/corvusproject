@@ -7,6 +7,10 @@ using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
+    //PUBLIC INTEREST REFERENCES
+
+    public PlayerBehaviour player;
+
     //SINGLETON
     public static GameManager Instance;
     private void Awake()

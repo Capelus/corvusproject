@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerBehaviour : MonoBehaviour
 {
     //-------------------------------------- REFERENCES
     PlayerInput playerInput;
-    CameraBehaviourD cam;
+    CameraBehaviour cam;
     //-------------------------------------------------
 
+    //HEALTH
+    public float health = 100;
 
     //----------------------------- MOVEMENT PARAMETERS  
     //PUBLIC ON INSPECTOR
@@ -103,11 +105,16 @@ public class PlayerMovement : MonoBehaviour
     Animator animator;
     //---------------------------------------------------
 
+    private void Awake()
+    {
+        GameManager.Instance.player = this;
+    }
+
     private void Start()
     {
         //GET REFERENCES
         playerInput = GetComponent<PlayerInput>();
-        cam = Camera.main.GetComponent<CameraBehaviourD>();
+        cam = Camera.main.GetComponent<CameraBehaviour>();
         animator = GetComponent<Animator>();
 
         //INITIALIZE LOCAL VARIABLES
@@ -161,8 +168,8 @@ public class PlayerMovement : MonoBehaviour
                     l_acceleration = movementParameters.acceleration * nitroParameters.blueNitroMultiplier;
 
                     //PARTICLES
-                    EffectsManager.fxm.effects.warpSpeed = 0.3f;
-                    EffectsManager.fxm.effects.nebulaActive = false;
+                    EffectsManager.Instance.effects.warpSpeed = 0.3f;
+                    EffectsManager.Instance.effects.nebulaActive = false;
 
                     foreach (GameObject j in nitroParameters.jets)
                         j.GetComponent<ParticleSystemRenderer>().material.color = Color.cyan;
@@ -178,10 +185,10 @@ public class PlayerMovement : MonoBehaviour
                     l_acceleration = movementParameters.acceleration * nitroParameters.yellowNitroMultiplier;
 
                     //PARTICLES
-                    EffectsManager.fxm.effects.warpSpeed = 0.6f;
-                    EffectsManager.fxm.effects.nebulaActive = true;
-                    EffectsManager.fxm.effects.nebulaDissolve = 1;
-                    EffectsManager.fxm.effects.nebulaSpeed = 0.3f;
+                    EffectsManager.Instance.effects.warpSpeed = 0.6f;
+                    EffectsManager.Instance.effects.nebulaActive = true;
+                    EffectsManager.Instance.effects.nebulaDissolve = 1;
+                    EffectsManager.Instance.effects.nebulaSpeed = 0.3f;
 
                     foreach (GameObject j in nitroParameters.jets)
                         j.GetComponent<ParticleSystemRenderer>().material.color = Color.yellow;
@@ -197,10 +204,10 @@ public class PlayerMovement : MonoBehaviour
                     l_acceleration = movementParameters.acceleration * nitroParameters.redNitroMultiplier;
 
                     //PARTICLES
-                    EffectsManager.fxm.effects.warpSpeed = 1f;
-                    EffectsManager.fxm.effects.nebulaActive = true;
-                    EffectsManager.fxm.effects.nebulaDissolve = 0.3f;
-                    EffectsManager.fxm.effects.nebulaSpeed = 1;
+                    EffectsManager.Instance.effects.warpSpeed = 1f;
+                    EffectsManager.Instance.effects.nebulaActive = true;
+                    EffectsManager.Instance.effects.nebulaDissolve = 0.3f;
+                    EffectsManager.Instance.effects.nebulaSpeed = 1;
 
                     foreach (GameObject j in nitroParameters.jets)
                         j.GetComponent<ParticleSystemRenderer>().material.color = Color.red;
@@ -221,8 +228,8 @@ public class PlayerMovement : MonoBehaviour
             l_acceleration = movementParameters.acceleration;
 
             //RESTORE PARTICLES EFFECT
-            EffectsManager.fxm.effects.warpSpeed = 0;
-            EffectsManager.fxm.effects.nebulaActive = false;
+            EffectsManager.Instance.effects.warpSpeed = 0;
+            EffectsManager.Instance.effects.nebulaActive = false;
 
             foreach (GameObject j in nitroParameters.jets)
                 j.GetComponent<ParticleSystemRenderer>().material.color = Color.white;
@@ -274,7 +281,8 @@ public class PlayerMovement : MonoBehaviour
                 else
                     s = Instantiate(blasterParameters.shot, blasterParameters.shotSpawn1.position, blasterParameters.shotSpawn1.rotation);
 
-                s.GetComponent<ShotBehaviour>().speed += currentSpeed;
+                s.tag = "Player";
+                s.GetComponent<ProjectileParameters>().initialSpeed = currentSpeed;
                 l_cadence = blasterParameters.cadence;
                 shotSwitch = !shotSwitch;
                 l_energy -= blasterParameters.energyCost;
@@ -292,6 +300,10 @@ public class PlayerMovement : MonoBehaviour
         //---------------------------------------------------------------------------------------------- OTHER     
         //CLAMP ENERGY
         l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);
+
+        //CHECK HEALTH
+        if (health <= 0)
+            Explode();
         //----------------------------------------------------------------------------------------------------
 
 
@@ -375,14 +387,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void RechargeEnergy(float quantity)
+    public void RechargeEnergy(float amount)
     {
-        l_energy += quantity;
+        l_energy += amount;
     }
 
-    public void Damage(float quantity)
+    public void TakeDamage(float amount)
     {
-
+        health -= amount;
     }
 
     public void Explode()
@@ -390,6 +402,6 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 5);
         this.enabled = false;
-        EffectsManager.fxm.InstantiateEffect("Explosion", transform.position, transform.rotation);
+        EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
     }
 }
