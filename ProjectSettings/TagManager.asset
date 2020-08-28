@@ -8,6 +8,7 @@ TagManager:
   - EnergyRing
   - Obstacle
   - PitLaneTrigger
+  - Enemy
   layers:
   - Default
   - TransparentFX

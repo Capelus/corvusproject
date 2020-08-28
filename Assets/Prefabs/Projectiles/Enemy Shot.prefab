@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2668836808017702893}
   - component: {fileID: 970057304062844837}
   m_Layer: 0
-  m_Name: Shot
+  m_Name: Enemy Shot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 269988879153526050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1497461, y: 0.18299279, z: 2.3445036}
+  m_LocalScale: {x: 0.89792186, y: 1.0972788, z: 3.4669116}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 32735db82e7528343a2b878787e49030, type: 2}
+  - {fileID: 2100000, guid: d9a77dfbfd8afcb46bdd080790fa571c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceOnPath: 0
-  speed: 80
+  speed: 40
   direction: {x: 0, y: 0, z: 0}
   damage: 20
   lifeTime: 2

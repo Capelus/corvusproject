@@ -128,7 +128,7 @@ public class PlayerMovement2 : MonoBehaviour
     void Update()
     {
         //--------------------------------------------------------------------------------------- ACCELERATION
-        if (playerInput.accelerate)
+        if (PlayerInput.accelerate)
         {
             while (Mathf.Abs(currentSpeed - l_maxSpeed) > Mathf.Epsilon)
             {
@@ -156,7 +156,7 @@ public class PlayerMovement2 : MonoBehaviour
 
 
         //---------------------------------------------------------------------------------------------- NITRO
-        if (playerInput.accelerate && playerInput.nitro && l_energy > 0)
+        if (PlayerInput.accelerate && PlayerInput.nitro && l_energy > 0)
         {
             switch (l_energy)
             {
@@ -167,8 +167,8 @@ public class PlayerMovement2 : MonoBehaviour
                     l_acceleration = movementParameters.acceleration * nitroParameters.blueNitroMultiplier;
 
                     //PARTICLES
-                    EffectsManager.fxm.effects.warpSpeed = 0.3f;
-                    EffectsManager.fxm.effects.nebulaActive = false;
+                    EffectsManager.Instance.effects.warpSpeed = 0.3f;
+                    EffectsManager.Instance.effects.nebulaActive = false;
 
                     foreach (GameObject j in nitroParameters.jets)
                         j.GetComponent<ParticleSystemRenderer>().material.color = Color.cyan;
@@ -184,10 +184,10 @@ public class PlayerMovement2 : MonoBehaviour
                     l_acceleration = movementParameters.acceleration * nitroParameters.yellowNitroMultiplier;
 
                     //PARTICLES
-                    EffectsManager.fxm.effects.warpSpeed = 0.6f;
-                    EffectsManager.fxm.effects.nebulaActive = true;
-                    EffectsManager.fxm.effects.nebulaDissolve = 1;
-                    EffectsManager.fxm.effects.nebulaSpeed = 0.3f;
+                    EffectsManager.Instance.effects.warpSpeed = 0.6f;
+                    EffectsManager.Instance.effects.nebulaActive = true;
+                    EffectsManager.Instance.effects.nebulaDissolve = 1;
+                    EffectsManager.Instance.effects.nebulaSpeed = 0.3f;
 
                     foreach (GameObject j in nitroParameters.jets)
                         j.GetComponent<ParticleSystemRenderer>().material.color = Color.yellow;
@@ -203,10 +203,10 @@ public class PlayerMovement2 : MonoBehaviour
                     l_acceleration = movementParameters.acceleration * nitroParameters.redNitroMultiplier;
 
                     //PARTICLES
-                    EffectsManager.fxm.effects.warpSpeed = 1f;
-                    EffectsManager.fxm.effects.nebulaActive = true;
-                    EffectsManager.fxm.effects.nebulaDissolve = 0.3f;
-                    EffectsManager.fxm.effects.nebulaSpeed = 1;
+                    EffectsManager.Instance.effects.warpSpeed = 1f;
+                    EffectsManager.Instance.effects.nebulaActive = true;
+                    EffectsManager.Instance.effects.nebulaDissolve = 0.3f;
+                    EffectsManager.Instance.effects.nebulaSpeed = 1;
 
                     foreach (GameObject j in nitroParameters.jets)
                         j.GetComponent<ParticleSystemRenderer>().material.color = Color.red;
@@ -227,8 +227,8 @@ public class PlayerMovement2 : MonoBehaviour
             l_acceleration = movementParameters.acceleration;
 
             //RESTORE PARTICLES EFFECT
-            EffectsManager.fxm.effects.warpSpeed = 0;
-            EffectsManager.fxm.effects.nebulaActive = false;
+            EffectsManager.Instance.effects.warpSpeed = 0;
+            EffectsManager.Instance.effects.nebulaActive = false;
 
             foreach (GameObject j in nitroParameters.jets)
                 j.GetComponent<ParticleSystemRenderer>().material.color = Color.white;
@@ -240,14 +240,14 @@ public class PlayerMovement2 : MonoBehaviour
 
 
         //---------------------------------------------------------------------------------------- BARREL ROLL
-        if (playerInput.roll)
+        if (PlayerInput.roll)
         {
             if (!GetComponent<Animation>().isPlaying)
             {
-                if (playerInput.rawMovement.x < 0)
+                if (PlayerInput.rawMovement.x < 0)
                     GetComponent<Animation>().Play("anim_BarrelRoll_Left");
 
-                else if (playerInput.rawMovement.x > 0)
+                else if (PlayerInput.rawMovement.x > 0)
                     GetComponent<Animation>().Play("anim_BarrelRoll_Right");
 
                 else
@@ -263,7 +263,7 @@ public class PlayerMovement2 : MonoBehaviour
 
 
         //-------------------------------------------------------------------------------------------- BLASTER
-        if (playerInput.blaster && l_energy > 0)
+        if (PlayerInput.blaster && l_energy > 0)
         {
             l_cadence -= Time.deltaTime;
             if (l_cadence < 0)
@@ -276,7 +276,7 @@ public class PlayerMovement2 : MonoBehaviour
                 else
                     s = Instantiate(blasterParameters.shot, blasterParameters.shotSpawn1.position, blasterParameters.shotSpawn1.rotation);
 
-                s.GetComponent<ShotBehaviour>().speed += currentSpeed;
+                s.GetComponent<BasicShot>().speed += currentSpeed;
                 l_cadence = blasterParameters.cadence;
                 shotSwitch = !shotSwitch;
                 l_energy -= blasterParameters.energyCost;
@@ -322,7 +322,7 @@ public class PlayerMovement2 : MonoBehaviour
 
         //---------------------------------------------------------------------------------------------- DEBUG
         //RECHARGE ENERGY
-        if (playerInput.rechargeEnergy)
+        if (PlayerInput.rechargeEnergy)
             RechargeEnergy(1);
         //----------------------------------------------------------------------------------------------------
     }
@@ -338,12 +338,12 @@ public class PlayerMovement2 : MonoBehaviour
     void Rotate()
     {
         float yaw = 0;
-        if (Mathf.Abs(playerInput.rawMovement.x) > 0.1f)
-            yaw = movementParameters.turnSpeed * playerInput.rawMovement.x * Time.deltaTime;
+        if (Mathf.Abs(PlayerInput.rawMovement.x) > 0.1f)
+            yaw = movementParameters.turnSpeed * PlayerInput.rawMovement.x * Time.deltaTime;
 
         float pitch = 0;
-        if (Mathf.Abs(playerInput.rawMovement.y) > 0.1f)
-            pitch = movementParameters.turnSpeed * playerInput.rawMovement.y * Time.deltaTime;
+        if (Mathf.Abs(PlayerInput.rawMovement.y) > 0.1f)
+            pitch = movementParameters.turnSpeed * PlayerInput.rawMovement.y * Time.deltaTime;
 
         //ROTATE
         transform.Rotate(pitch, 0, 0);
@@ -397,6 +397,6 @@ public class PlayerMovement2 : MonoBehaviour
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 5);
         this.enabled = false;
-        EffectsManager.fxm.InstantiateEffect("Explosion", transform.position, transform.rotation);
+        EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
     }
 }

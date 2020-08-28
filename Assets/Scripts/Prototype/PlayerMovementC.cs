@@ -154,7 +154,7 @@ public class PlayerMovementC : MonoBehaviour
                 else
                     s = Instantiate(blaster.shot, blaster.shotSpawn1.position, blaster.shotSpawn1.rotation);
 
-                s.GetComponent<ShotBehaviour>().speed += movement.currentSpeed;
+                s.GetComponent<BasicShot>().speed += movement.currentSpeed;
                 lCadence = blaster.cadence;
                 lastShotSwitch = !lastShotSwitch;
             }

@@ -9,11 +9,10 @@ public class PlayerInput : MonoBehaviour
     //SMOOTH PARAMETERS
     float movX = 0;
     float movY = 0;
-    float movSpeed = 1f;
     float sensitivity = 3f;
     float dead = 0.001f;
 
-    public Vector2 rawMovement
+    public static Vector2 rawMovement
     {
         get
         {
@@ -43,31 +42,31 @@ public class PlayerInput : MonoBehaviour
     }
 
     //ACCELERATION
-    public bool accelerate
+    public static bool accelerate
     {
         get { return Input.GetButton("Accelerate"); }
     }
 
     //BARREL ROLL
-    public bool roll
+    public static bool roll
     {
         get { return Input.GetButton("Roll"); }
     }
 
     //NITRO
-    public bool nitro
+    public static bool nitro
     {
         get { return Input.GetButton("Nitro"); }
     }
 
     //BLASTER
-    public bool blaster
+    public static bool blaster
     {
         get { return Input.GetButton("Fire"); }
     }
 
     //-----------------------------------------DEBUG
-    public bool rechargeEnergy
+    public static bool rechargeEnergy
     {
         get { return Input.GetButton("ReloadEnergy"); }
     }

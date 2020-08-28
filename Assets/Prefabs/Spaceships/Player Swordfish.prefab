@@ -63,12 +63,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementParameters:
-    maxSpeed: 60
-    acceleration: 20
+    maxSpeed: 150
+    acceleration: 40
     handlingSpeed: 15
     tiltAngle: 15
-    maxWidth: 4
-    maxHeight: 3
+    maxWidth: 6
+    maxHeight: 5
   l_maxSpeed: 0
   l_acceleration: 0
   currentSpeed: 0
@@ -81,9 +81,9 @@ MonoBehaviour:
     initialEnergy: 200
   l_energy: 0
   nitroParameters:
-    blueNitroMultiplier: 2
-    yellowNitroMultiplier: 3
-    redNitroMultiplier: 5
+    blueNitroMultiplier: 1.5
+    yellowNitroMultiplier: 2
+    redNitroMultiplier: 3
     jets:
     - {fileID: 2500953770398452841}
     - {fileID: 3159449553556810469}
@@ -141,7 +141,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 247232084478899198}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b13639e052fe42d4da5b8d6f564b1d76, type: 3}

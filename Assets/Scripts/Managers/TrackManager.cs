@@ -9,12 +9,13 @@ public class TrackManager : MonoBehaviour
     public static TrackManager Instance;
 
     //PATH REFERENCES
-     PathCreator pathCreator;
+    PathCreator pathCreator;
     public EndOfPathInstruction endOfPathInstruction;
 
     private void Awake()
     {
         Instance = this;
+
     }
 
     private void Start()
@@ -38,11 +39,24 @@ public class TrackManager : MonoBehaviour
         return rotation;
     }
 
+    public Vector3 GetEulerRotationAtDistance(float distance)
+    {
+        Vector3 rotation;
+        rotation = pathCreator.path.GetRotationAtDistance(distance, endOfPathInstruction).eulerAngles;
+
+        return rotation;
+    }
+
     public Vector3 GetDirectionAtDistance(float distance)
     {
         Vector3 direction;
         direction = pathCreator.path.GetPointAtDistance(distance + 1, endOfPathInstruction) - pathCreator.path.GetPointAtDistance(distance, endOfPathInstruction);
 
         return direction;
+    }
+
+    public float GetClosestDistanceOnPath(Vector3 location)
+    {
+        return pathCreator.path.GetClosestDistanceAlongPath(location);
     }
 }

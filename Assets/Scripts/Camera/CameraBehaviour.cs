@@ -4,14 +4,14 @@ using UnityEngine;
 public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro }
 public enum CameraMode { railMode, followMode, railSmoothMode }
 
-public class CameraBehaviourD : MonoBehaviour
+public class CameraBehaviour : MonoBehaviour
 {
     //REFERENCES
     public CameraState cameraState;
     public CameraMode cameraMode;
 
     Camera cam;
-    PlayerMovement player;
+    PlayerBehaviour player;
 
     float t = 0;
 
@@ -40,7 +40,7 @@ public class CameraBehaviourD : MonoBehaviour
     void Start()
     {
         //REFERENCES
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
 
         cam = GetComponent<Camera>();
     }
@@ -124,16 +124,7 @@ public class CameraBehaviourD : MonoBehaviour
                 vOffset = Mathf.Lerp(vOffset, player.verticalMove / 2, t);
 
                 cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
-                //cam.transform.forward = player.transform.forward;
-
-                //var rotation = Quaternion.LookRotation(TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position);
-                //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * cameraSettings.lookAtDumping);
-
-                Debug.DrawRay(transform.position ,TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position);
-
                 transform.forward = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized;
-
-                //transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, Time.deltaTime * cameraSettings.lookAtSpeed);
 
                 break;
         }

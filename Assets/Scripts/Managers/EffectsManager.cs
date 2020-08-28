@@ -6,7 +6,7 @@ using UnityEngine.VFX;
 public class EffectsManager : MonoBehaviour
 {
     //SINGLETON
-    public static EffectsManager fxm;
+    public static EffectsManager Instance;
 
     //EFFECTS
     [System.Serializable]
@@ -32,7 +32,7 @@ public class EffectsManager : MonoBehaviour
 
     private void Awake()
     {
-        fxm = this;
+        Instance = this;
     }
 
     private void Update()
