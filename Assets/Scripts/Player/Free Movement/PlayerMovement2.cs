@@ -128,7 +128,7 @@ public class PlayerMovement2 : MonoBehaviour
     void Update()
     {
         //--------------------------------------------------------------------------------------- ACCELERATION
-        if (playerInput.accelerate)
+        if (PlayerInput.accelerate)
         {
             while (Mathf.Abs(currentSpeed - l_maxSpeed) > Mathf.Epsilon)
             {
@@ -156,7 +156,7 @@ public class PlayerMovement2 : MonoBehaviour
 
 
         //---------------------------------------------------------------------------------------------- NITRO
-        if (playerInput.accelerate && playerInput.nitro && l_energy > 0)
+        if (PlayerInput.accelerate && PlayerInput.nitro && l_energy > 0)
         {
             switch (l_energy)
             {
@@ -240,14 +240,14 @@ public class PlayerMovement2 : MonoBehaviour
 
 
         //---------------------------------------------------------------------------------------- BARREL ROLL
-        if (playerInput.roll)
+        if (PlayerInput.roll)
         {
             if (!GetComponent<Animation>().isPlaying)
             {
-                if (playerInput.rawMovement.x < 0)
+                if (PlayerInput.rawMovement.x < 0)
                     GetComponent<Animation>().Play("anim_BarrelRoll_Left");
 
-                else if (playerInput.rawMovement.x > 0)
+                else if (PlayerInput.rawMovement.x > 0)
                     GetComponent<Animation>().Play("anim_BarrelRoll_Right");
 
                 else
@@ -263,7 +263,7 @@ public class PlayerMovement2 : MonoBehaviour
 
 
         //-------------------------------------------------------------------------------------------- BLASTER
-        if (playerInput.blaster && l_energy > 0)
+        if (PlayerInput.blaster && l_energy > 0)
         {
             l_cadence -= Time.deltaTime;
             if (l_cadence < 0)
@@ -322,7 +322,7 @@ public class PlayerMovement2 : MonoBehaviour
 
         //---------------------------------------------------------------------------------------------- DEBUG
         //RECHARGE ENERGY
-        if (playerInput.rechargeEnergy)
+        if (PlayerInput.rechargeEnergy)
             RechargeEnergy(1);
         //----------------------------------------------------------------------------------------------------
     }
@@ -338,12 +338,12 @@ public class PlayerMovement2 : MonoBehaviour
     void Rotate()
     {
         float yaw = 0;
-        if (Mathf.Abs(playerInput.rawMovement.x) > 0.1f)
-            yaw = movementParameters.turnSpeed * playerInput.rawMovement.x * Time.deltaTime;
+        if (Mathf.Abs(PlayerInput.rawMovement.x) > 0.1f)
+            yaw = movementParameters.turnSpeed * PlayerInput.rawMovement.x * Time.deltaTime;
 
         float pitch = 0;
-        if (Mathf.Abs(playerInput.rawMovement.y) > 0.1f)
-            pitch = movementParameters.turnSpeed * playerInput.rawMovement.y * Time.deltaTime;
+        if (Mathf.Abs(PlayerInput.rawMovement.y) > 0.1f)
+            pitch = movementParameters.turnSpeed * PlayerInput.rawMovement.y * Time.deltaTime;
 
         //ROTATE
         transform.Rotate(pitch, 0, 0);

@@ -129,7 +129,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         //--------------------------------------------------------------------------------------- ACCELERATION
-        if (playerInput.accelerate)
+        if (PlayerInput.accelerate)
         {
             while (Mathf.Abs(currentSpeed - l_maxSpeed) > Mathf.Epsilon)
             {
@@ -157,7 +157,7 @@ public class PlayerBehaviour : MonoBehaviour
 
 
         //---------------------------------------------------------------------------------------------- NITRO
-        if (playerInput.accelerate && playerInput.nitro && l_energy > 0)
+        if (PlayerInput.accelerate && PlayerInput.nitro && l_energy > 0)
         {
             switch (l_energy)
             {
@@ -241,14 +241,14 @@ public class PlayerBehaviour : MonoBehaviour
 
 
         //---------------------------------------------------------------------------------------- BARREL ROLL
-        if (playerInput.roll)
+        if (PlayerInput.roll)
         {
             //LEFT
-            if (playerInput.rawMovement.x < 0)
+            if (PlayerInput.rawMovement.x < 0)
                 animator.SetBool("BarrelRoll_Left", true);
 
             //RIGHT
-            else if (playerInput.rawMovement.x > 0)
+            else if (PlayerInput.rawMovement.x > 0)
                 animator.SetBool("BarrelRoll_Right", true);
 
             //STRAIGHT
@@ -268,7 +268,7 @@ public class PlayerBehaviour : MonoBehaviour
 
 
         //-------------------------------------------------------------------------------------------- BLASTER
-        if (playerInput.blaster && l_energy > 0)
+        if (PlayerInput.blaster && l_energy > 0)
         {
             l_cadence -= Time.deltaTime;
             if (l_cadence < 0)
@@ -309,7 +309,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         //---------------------------------------------------------------------------------------------- DEBUG
         //RECHARGE ENERGY
-        if (playerInput.rechargeEnergy)
+        if (PlayerInput.rechargeEnergy)
             RechargeEnergy(1);
         //----------------------------------------------------------------------------------------------------
     }
@@ -324,8 +324,8 @@ public class PlayerBehaviour : MonoBehaviour
         transform.forward = forwardDirection.normalized;
 
         //CALCULATE 2D MOVEMENT
-        horizontalMove += playerInput.rawMovement.x * movementParameters.handlingSpeed * Time.deltaTime;
-        verticalMove += playerInput.rawMovement.y * movementParameters.handlingSpeed * Time.deltaTime;
+        horizontalMove += PlayerInput.rawMovement.x * movementParameters.handlingSpeed * Time.deltaTime;
+        verticalMove += PlayerInput.rawMovement.y * movementParameters.handlingSpeed * Time.deltaTime;
 
         //CLAMP ON LIMITS
         horizontalMove = Mathf.Clamp(horizontalMove, -movementParameters.maxWidth, movementParameters.maxWidth);

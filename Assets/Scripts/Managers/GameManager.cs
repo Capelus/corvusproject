@@ -26,6 +26,17 @@ public class GameManager : MonoBehaviour
     {
         //PROTO DEBUG
         if (Input.GetButton("Pause"))
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);        
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    /// <param name="factor">The factor you want to slow time by. (eg: 2 -> Time twice as slow)</param>
+    public void SlowTime(float factor)
+    {
+        Time.timeScale *= 1 / factor;
+    }
+
+    public void RestoreTime()
+    {
+        Time.timeScale = 1;
     }
 }
