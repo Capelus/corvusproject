@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro }
-public enum CameraMode { railMode, followMode, railSmoothMode }
+public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro, ring_skillcheck }
+public enum CameraMode { railMode, followMode, railSmoothMode, skillCheckMode }
 
 public class CameraBehaviour : MonoBehaviour
 {
@@ -16,10 +16,12 @@ public class CameraBehaviour : MonoBehaviour
     float t = 0;
 
     //CORE PARAMETERS
+    Vector3 cameraPos;
     float distanceToTarget;
     float desiredDistanceToTarget;
     float desiredfieldOfView;
     float desiredShakeAmount;
+    float damp = 1.6f;
 
     //------------------------------------ EXTRA SETTINGS
     //PUBLIC ON INSPECTOR
@@ -48,15 +50,11 @@ public class CameraBehaviour : MonoBehaviour
     void Update()
     {
         //CAMERAS UPDATE
-
-        //transform.forward = player.forwardDirection; //FORWARD
-
         t += 2 * Time.deltaTime;
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, t); //FOV
         distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, t); //DISTANCE TO SPACESHIP
 
-        transform.localPosition += Random.insideUnitSphere * desiredShakeAmount; //CAMERA SHAKE
-        
+        transform.localPosition += Random.insideUnitSphere * desiredShakeAmount; //CAMERA SHAKE    
 
         //STATE MACHINE
         switch (cameraState)
@@ -100,15 +98,25 @@ public class CameraBehaviour : MonoBehaviour
                 //CAMERA SHAKE
                 desiredShakeAmount = 0.1f;
                 break;
+
+            case CameraState.ring_skillcheck:
+                desiredDistanceToTarget = 3;
+                desiredfieldOfView = 140;
+
+                //CAMERA SHAKE
+                desiredShakeAmount = 0.1f;
+                break;
         }
 
         //CAMERA MODE
         switch (cameraMode)
         {
+           
+
             case CameraMode.railMode:
 
-                Vector3 cameraPosition = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
-                cam.transform.position = cameraPosition;
+                cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
+                cam.transform.position = cameraPos;
                 cam.transform.forward = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled) - cam.transform.position;
                 cam.transform.LookAt(TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled));             
                 
@@ -116,15 +124,34 @@ public class CameraBehaviour : MonoBehaviour
 
             case CameraMode.railSmoothMode:
 
-                t += 1.6f * Time.deltaTime;
+                t += damp * Time.deltaTime;
 
-                Vector3 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
+                cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
                 hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 2, t);
                 vOffset = Mathf.Lerp(vOffset, player.verticalMove / 2, t);
 
                 cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
                 transform.forward = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized;
+
+                break;
+
+            case CameraMode.skillCheckMode:
+
+                t += damp * Time.deltaTime;
+
+                cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
+
+                hOffset = Mathf.Lerp(hOffset, -3, t);
+                vOffset = Mathf.Lerp(vOffset, -2, t);
+
+                cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
+
+                //transform.LookAt(player.transform.position);
+
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(player.transform.position), Time.unscaledDeltaTime * t);
+
+                //transform.forward = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized;
 
                 break;
         }

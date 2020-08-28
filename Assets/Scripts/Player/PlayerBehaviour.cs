@@ -317,7 +317,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Move()
     {
         //INCREMENT DISTANCE TRAVELLED
-        distanceTravelled += currentSpeed * Time.deltaTime;
+        distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
 
         //GET FORWARD VECTOR
         forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
