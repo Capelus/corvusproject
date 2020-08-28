@@ -16,7 +16,7 @@ public class PlayerInput : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.playerInput = this;
-        inputEnabled = true;
+        inputEnabled = false;
     }
 
     public Vector2 rawMovement

@@ -5,17 +5,17 @@ using UnityEngine.UI;
 
 public class RaceManager : MonoBehaviour
 {
-    public float countDown;
-    private void Awake(){
-
-        GameManager.Instance.raceManager = this;
-    }
+    public float countDown = 0;
+    
 
     private void Start()
     {
-        countDown = 3.0f;
+        GameManager.Instance.raceManager = this;
+        countDown = 3.60f;
     }
     void Update(){
-        countDown -= Time.deltaTime;
+        if(countDown>0) countDown -= Time.deltaTime;
+        if (countDown < 0) countDown = 0;
+
     }
 }
