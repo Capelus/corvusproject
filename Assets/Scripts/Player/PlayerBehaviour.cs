@@ -297,7 +297,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Move()
     {
-
         //ACCELERATION
         if (playerInput.accelerate)
         {

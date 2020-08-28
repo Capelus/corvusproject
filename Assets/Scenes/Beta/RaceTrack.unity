@@ -3879,9 +3879,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe7e93a3d92bfcf47afa9b8cc56fb4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UIW:
+    countDown: {fileID: 380487556}
   UI:
     speedometer: {fileID: 1608819271}
-    countDown: {fileID: 380487556}
     energyBarLow: {fileID: 1927661405}
     energyBarMid: {fileID: 1861141576}
     energyBarHigh: {fileID: 751909443}
@@ -4476,10 +4477,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 3.18
-  m_Height: 18.283531
+  m_Radius: 3.8
+  m_Height: 26.630585
   m_Direction: 2
-  m_Center: {x: -0.00001021894, y: -3.845615, z: 5.014477}
+  m_Center: {x: -0.000010224643, y: -3.8455565, z: 7.553389}
 --- !u!114 &1045305246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19747,8 +19748,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aaa55d224f526c4fa76378ab0077b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraState: 5
-  cameraMode: 3
+  cameraState: 0
+  cameraMode: 2
   cameraSettings:
     sightBeyond: 80
     lookAtSpeed: 1
@@ -22210,6 +22211,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  camera: {fileID: 0}
+  playerInput: {fileID: 0}
+  raceManager: {fileID: 0}
 --- !u!4 &2114749614
 Transform:
   m_ObjectHideFlags: 0

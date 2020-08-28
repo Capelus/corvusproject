@@ -43,7 +43,7 @@ public class CameraBehaviour : MonoBehaviour
     {
         //REFERENCES
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
-
+        GameManager.Instance.camera = this;
         cam = GetComponent<Camera>();
     }
 
@@ -100,11 +100,8 @@ public class CameraBehaviour : MonoBehaviour
                 break;
 
             case CameraState.ring_skillcheck:
-                desiredDistanceToTarget = 3;
+                desiredDistanceToTarget = 4;
                 desiredfieldOfView = 140;
-
-                //CAMERA SHAKE
-                desiredShakeAmount = 0.1f;
                 break;
         }
 
@@ -132,13 +129,13 @@ public class CameraBehaviour : MonoBehaviour
                 vOffset = Mathf.Lerp(vOffset, player.verticalMove / 2, t);
 
                 cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
-                transform.forward = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized;
+                transform.forward = Vector3.Lerp(transform.forward, (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized,t);
 
                 break;
 
             case CameraMode.skillCheckMode:
 
-                t += damp * Time.deltaTime;
+                t += damp * Time.unscaledDeltaTime;
 
                 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
@@ -147,11 +144,8 @@ public class CameraBehaviour : MonoBehaviour
 
                 cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
 
-                //transform.LookAt(player.transform.position);
-
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(player.transform.position), Time.unscaledDeltaTime * t);
-
-                //transform.forward = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized;
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(player.transform.position), t);
+                transform.LookAt(player.transform.position);
 
                 break;
         }

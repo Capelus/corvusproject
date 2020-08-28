@@ -54,7 +54,7 @@ public class BoostRingBehaviour : MonoBehaviour
     {
         coroutineStarted = true;
 
-        while (!PlayerInput.roll)
+        while (!GameManager.Instance.playerInput.roll)
         {
             ring.transform.Rotate(0, 0, skillcheckRotationSpeed * Time.unscaledDeltaTime);
             yield return null;
@@ -86,6 +86,8 @@ public class BoostRingBehaviour : MonoBehaviour
         //RESTORE EVERYTHING
         GameManager.Instance.RestoreTime();
         GameManager.Instance.player.currentSpeed = previousSpeed + boost;
+        GameManager.Instance.camera.cameraMode = CameraMode.railSmoothMode;
+        GameManager.Instance.camera.cameraState = CameraState.moving;
         trigger.enabled = false;
         l_cooldownTime = cooldownTime;
 
@@ -98,6 +100,8 @@ public class BoostRingBehaviour : MonoBehaviour
         if (other.CompareTag("Player") && !coroutineStarted)
         {
             GameManager.Instance.SlowTime(slowTimeFactor);
+            GameManager.Instance.camera.cameraMode = CameraMode.skillCheckMode;
+            GameManager.Instance.camera.cameraState = CameraState.ring_skillcheck;
 
             previousSpeed = GameManager.Instance.player.currentSpeed;
             ringDistance = Vector3.Distance(transform.position, GameManager.Instance.player.transform.position);
@@ -116,6 +120,9 @@ public class BoostRingBehaviour : MonoBehaviour
             //RESTORE EVERYTHING
             GameManager.Instance.RestoreTime();
             GameManager.Instance.player.currentSpeed = previousSpeed;
+            GameManager.Instance.camera.cameraMode = CameraMode.railSmoothMode;
+            GameManager.Instance.camera.cameraState = CameraState.moving;
+
             trigger.enabled = false;
             l_cooldownTime = cooldownTime;
             StopCoroutine("SkillCheck");
