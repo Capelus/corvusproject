@@ -53,8 +53,6 @@ public class UIManager : MonoBehaviour
         UI.energyBarLow.value = player.l_energy;
         UI.energyBarMid.value = player.l_energy;
         UI.energyBarHigh.value = player.l_energy;
-        UIW.countDown.text = GameManager.Instance.raceManager.countDown.ToString();
-
-
+        //UIW.countDown.text = GameManager.Instance.raceManager.countDown.ToString();
     }
 }

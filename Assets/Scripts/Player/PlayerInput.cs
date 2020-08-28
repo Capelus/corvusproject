@@ -15,11 +15,12 @@ public class PlayerInput : MonoBehaviour
 
     private void Start()
     {
-        
+        GameManager.Instance.playerInput = this;
+        inputEnabled = true;
     }
+
     public Vector2 rawMovement
-    {
-        
+    {     
         get
         {
             Vector2 i = Vector2.zero;

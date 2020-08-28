@@ -297,7 +297,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Move()
     {
-
         //ACCELERATION
         if (playerInput.accelerate)
         {
@@ -325,7 +324,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         //INCREMENT DISTANCE TRAVELLED
-        distanceTravelled += currentSpeed * Time.deltaTime;
+        distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
 
         //CALCULATE 2D MOVEMENT
         horizontalMove += playerInput.rawMovement.x * movementParameters.handlingSpeed * Time.deltaTime;

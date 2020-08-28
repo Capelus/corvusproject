@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     //PUBLIC INTEREST REFERENCES
 
     public PlayerBehaviour player;
+    public CameraBehaviour camera;
+    public PlayerInput playerInput;
     public RaceManager raceManager;
 
     //SINGLETON
@@ -21,10 +23,7 @@ public class GameManager : MonoBehaviour
         else Instance = this;
 
         DontDestroyOnLoad(this.gameObject);
-
     }
-
- 
 
     void Update()
     {
