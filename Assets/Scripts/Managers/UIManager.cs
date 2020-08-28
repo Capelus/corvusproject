@@ -49,10 +49,15 @@ public class UIManager : MonoBehaviour
     {
         //UPDATE UI
         UI.speedometer.text = Mathf.FloorToInt(player.currentSpeed).ToString();
-        //player.GetComponent<PlayerInput>().inputEnabled=false;
         UI.energyBarLow.value = player.l_energy;
         UI.energyBarMid.value = player.l_energy;
         UI.energyBarHigh.value = player.l_energy;
-        //UIW.countDown.text = GameManager.Instance.raceManager.countDown.ToString();
+        UIW.countDown.text = GameManager.Instance.raceManager.countDown.ToString("f0");
+        if (GameManager.Instance.raceManager.countDown <= 1.0f)
+        {
+            player.GetComponent<PlayerInput>().inputEnabled = true;
+            UIW.countDown.text = "GO!";
+
+        }
     }
 }

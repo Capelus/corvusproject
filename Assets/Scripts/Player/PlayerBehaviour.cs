@@ -123,7 +123,7 @@ public class PlayerBehaviour : MonoBehaviour
         l_energy = energyParameters.initialEnergy;
 
         //SET INITIAL POSITION
-        transform.position = TrackManager.Instance.GetPositionAtDistance(0) + transform.up * -3;
+        transform.position = TrackManager.Instance.GetPositionAtDistance(0);// + transform.up * -3;
         canMove = true;
     }
 
