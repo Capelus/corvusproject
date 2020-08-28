@@ -3787,9 +3787,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe7e93a3d92bfcf47afa9b8cc56fb4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UIW:
+    countDown: {fileID: 380487556}
   UI:
     speedometer: {fileID: 1608819271}
-    countDown: {fileID: 380487556}
     energyBarLow: {fileID: 1927661405}
     energyBarMid: {fileID: 1861141576}
     energyBarHigh: {fileID: 751909443}
@@ -21902,6 +21903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  raceManager: {fileID: 0}
 --- !u!4 &2114749614
 Transform:
   m_ObjectHideFlags: 0
