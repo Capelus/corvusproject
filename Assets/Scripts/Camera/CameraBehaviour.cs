@@ -100,7 +100,7 @@ public class CameraBehaviour : MonoBehaviour
                 break;
 
             case CameraState.ring_skillcheck:
-                desiredDistanceToTarget = 4;
+                desiredDistanceToTarget = 8;
                 desiredfieldOfView = 140;
                 break;
         }
