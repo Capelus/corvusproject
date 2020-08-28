@@ -34,7 +34,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public Vector3 forwardDirection = Vector3.left;
     [HideInInspector] public float distanceTravelled = 0;
 
-    bool canMove = true;
+    [HideInInspector] public bool canMove;
     //-------------------------------------------------
 
 
@@ -124,40 +124,14 @@ public class PlayerBehaviour : MonoBehaviour
 
         //SET INITIAL POSITION
         transform.position = TrackManager.Instance.GetPositionAtDistance(0) + transform.up * -3;
+        canMove = true;
     }
 
     void Update()
     {
-        //--------------------------------------------------------------------------------------- ACCELERATION
-        if (PlayerInput.accelerate)
-        {
-            while (Mathf.Abs(currentSpeed - l_maxSpeed) > Mathf.Epsilon)
-            {
-                if (currentSpeed < l_maxSpeed) currentSpeed += l_acceleration * Time.deltaTime;
-                else currentSpeed -= l_acceleration * Time.deltaTime;
-                break;
-            }
-
-            //CAMERA EFFECT
-            cam.ChangeState(CameraState.moving);
-        }
-
-        else
-        {
-            //DECELERATE
-            currentSpeed -= l_acceleration * Time.deltaTime;
-
-            if (currentSpeed < 10)
-                currentSpeed = 10;
-
-            //CAMERA EFFECT
-            cam.ChangeState(CameraState.idle);
-        }
-        //----------------------------------------------------------------------------------------------------   
-
 
         //---------------------------------------------------------------------------------------------- NITRO
-        if (PlayerInput.accelerate && PlayerInput.nitro && l_energy > 0)
+        if (playerInput.accelerate && playerInput.nitro && l_energy > 0)
         {
             switch (l_energy)
             {
@@ -241,14 +215,14 @@ public class PlayerBehaviour : MonoBehaviour
 
 
         //---------------------------------------------------------------------------------------- BARREL ROLL
-        if (PlayerInput.roll)
+        if (playerInput.roll)
         {
             //LEFT
-            if (PlayerInput.rawMovement.x < 0)
+            if (playerInput.rawMovement.x < 0)
                 animator.SetBool("BarrelRoll_Left", true);
 
             //RIGHT
-            else if (PlayerInput.rawMovement.x > 0)
+            else if (playerInput.rawMovement.x > 0)
                 animator.SetBool("BarrelRoll_Right", true);
 
             //STRAIGHT
@@ -256,7 +230,7 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 if (Random.value < 0.5f) animator.SetBool("BarrelRoll_Left", true);
                 else animator.SetBool("BarrelRoll_Right", true);
-            }          
+            }
         }
 
         else
@@ -268,7 +242,7 @@ public class PlayerBehaviour : MonoBehaviour
 
 
         //-------------------------------------------------------------------------------------------- BLASTER
-        if (PlayerInput.blaster && l_energy > 0)
+        if (playerInput.blaster && l_energy > 0)
         {
             l_cadence -= Time.deltaTime;
             if (l_cadence < 0)
@@ -288,11 +262,18 @@ public class PlayerBehaviour : MonoBehaviour
                 l_energy -= blasterParameters.energyCost;
             }
         }
+
         //----------------------------------------------------------------------------------------------------
 
 
         //------------------------------------------------------------------------------------------- MOVEMENT
-        if (canMove)
+
+        //GET FORWARD VECTOR
+        forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
+        transform.forward = forwardDirection.normalized;
+
+        //MOVE
+        if (canMove && playerInput.inputEnabled)
             Move();
         //----------------------------------------------------------------------------------------------------
 
@@ -309,23 +290,46 @@ public class PlayerBehaviour : MonoBehaviour
 
         //---------------------------------------------------------------------------------------------- DEBUG
         //RECHARGE ENERGY
-        if (PlayerInput.rechargeEnergy)
+        if (playerInput.rechargeEnergy)
             RechargeEnergy(1);
         //----------------------------------------------------------------------------------------------------
     }
 
     void Move()
     {
+
+        //ACCELERATION
+        if (playerInput.accelerate)
+        {
+            while (Mathf.Abs(currentSpeed - l_maxSpeed) > Mathf.Epsilon)
+            {
+                if (currentSpeed < l_maxSpeed) currentSpeed += l_acceleration * Time.deltaTime;
+                else currentSpeed -= l_acceleration * Time.deltaTime;
+                break;
+            }
+
+            //CAMERA EFFECT
+            cam.ChangeState(CameraState.moving);
+        }
+
+        else
+        {
+            //DECELERATE
+            currentSpeed -= l_acceleration * Time.deltaTime;
+
+            if (currentSpeed < 10)
+                currentSpeed = 10;
+
+            //CAMERA EFFECT
+            cam.ChangeState(CameraState.idle);
+        }
+
         //INCREMENT DISTANCE TRAVELLED
         distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
 
-        //GET FORWARD VECTOR
-        forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
-        transform.forward = forwardDirection.normalized;
-
         //CALCULATE 2D MOVEMENT
-        horizontalMove += PlayerInput.rawMovement.x * movementParameters.handlingSpeed * Time.deltaTime;
-        verticalMove += PlayerInput.rawMovement.y * movementParameters.handlingSpeed * Time.deltaTime;
+        horizontalMove += playerInput.rawMovement.x * movementParameters.handlingSpeed * Time.deltaTime;
+        verticalMove += playerInput.rawMovement.y * movementParameters.handlingSpeed * Time.deltaTime;
 
         //CLAMP ON LIMITS
         horizontalMove = Mathf.Clamp(horizontalMove, -movementParameters.maxWidth, movementParameters.maxWidth);
