@@ -54,7 +54,11 @@ public class PlayerInput : MonoBehaviour
     //ACCELERATION
     public bool accelerate
     {
-        get { return Input.GetButton("Accelerate"); }
+        get 
+        {
+            if (Input.GetAxis("Accelerate") > 0) return true;
+            return false;
+        }
     }
 
     //BARREL ROLL
