@@ -6,6 +6,7 @@ public class BoostRingBehaviour : MonoBehaviour
 {
     //REFERENCES
     GameObject ring;
+    PlayerInput playerInput;
 
     public float rotationSpeed = 50;
     public float skillcheckRotationSpeed = 50;
@@ -27,7 +28,7 @@ public class BoostRingBehaviour : MonoBehaviour
     //SKILLCHECK COROUTINE
     IEnumerator SkillCheck()
     {
-        while (!PlayerInput.roll)
+        while (!playerInput.roll)
         {
             ring.transform.Rotate(0, 0, skillcheckRotationSpeed * Time.unscaledDeltaTime);
             yield return null;

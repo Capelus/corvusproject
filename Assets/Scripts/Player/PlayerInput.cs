@@ -11,22 +11,30 @@ public class PlayerInput : MonoBehaviour
     float movY = 0;
     float sensitivity = 3f;
     float dead = 0.001f;
+    [HideInInspector]public bool inputEnabled;
 
-    public static Vector2 rawMovement
+    private void Start()
     {
+        
+    }
+    public Vector2 rawMovement
+    {
+        
         get
         {
             Vector2 i = Vector2.zero;
             i.x = Input.GetAxis("Horizontal");
             i.y = Input.GetAxis("Vertical");
+            
             return i;
         }
     }
 
     public Vector2 smoothedMovement
     {
+        
         get
-        {
+            {
             float inputX = Input.GetAxis("Horizontal");
             float inputY = Input.GetAxis("Vertical");
 
@@ -38,35 +46,36 @@ public class PlayerInput : MonoBehaviour
 
 
             return new Vector2(movX, movY);
-        }      
+            }
+        
     }
 
     //ACCELERATION
-    public static bool accelerate
+    public bool accelerate
     {
         get { return Input.GetButton("Accelerate"); }
     }
 
     //BARREL ROLL
-    public static bool roll
+    public bool roll
     {
         get { return Input.GetButton("Roll"); }
     }
 
     //NITRO
-    public static bool nitro
+    public bool nitro
     {
         get { return Input.GetButton("Nitro"); }
     }
 
     //BLASTER
-    public static bool blaster
+    public bool blaster
     {
         get { return Input.GetButton("Fire"); }
     }
 
     //-----------------------------------------DEBUG
-    public static bool rechargeEnergy
+    public bool rechargeEnergy
     {
         get { return Input.GetButton("ReloadEnergy"); }
     }

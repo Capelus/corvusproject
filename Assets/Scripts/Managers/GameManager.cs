@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     //PUBLIC INTEREST REFERENCES
 
     public PlayerBehaviour player;
+    public RaceManager raceManager;
 
     //SINGLETON
     public static GameManager Instance;
@@ -20,7 +21,10 @@ public class GameManager : MonoBehaviour
         else Instance = this;
 
         DontDestroyOnLoad(this.gameObject);
+
     }
+
+ 
 
     void Update()
     {
