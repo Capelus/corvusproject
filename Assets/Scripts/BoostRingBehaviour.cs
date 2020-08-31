@@ -42,7 +42,7 @@ public class BoostRingBehaviour : MonoBehaviour
     private void Update()
     {
         //ROTATE
-        ring.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+        ring.transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
 
         l_cooldownTime -= Time.unscaledDeltaTime;
         if (l_cooldownTime < 0 && !trigger.enabled)
@@ -56,7 +56,7 @@ public class BoostRingBehaviour : MonoBehaviour
 
         while (!GameManager.Instance.playerInput.roll)
         {
-            ring.transform.Rotate(0, 0, skillcheckRotationSpeed * Time.unscaledDeltaTime);
+            ring.transform.Rotate(0, skillcheckRotationSpeed * Time.unscaledDeltaTime, 0);
             yield return null;
         }
 
