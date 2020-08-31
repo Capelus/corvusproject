@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+
+
+
     //REFERENCES
     PlayerBehaviour player;
 
@@ -16,7 +19,7 @@ public class UIManager : MonoBehaviour
     {
         //LIST OF UI ELEMENTS
         public Text countDown;
-       
+
     }
     public UIWarmUp UIW;
 
@@ -28,6 +31,7 @@ public class UIManager : MonoBehaviour
         public Slider energyBarLow;
         public Slider energyBarMid;
         public Slider energyBarHigh;
+        public Text raceTimer;
     }
     public UIElements UI;
 
@@ -35,7 +39,7 @@ public class UIManager : MonoBehaviour
     {
         player = GameManager.Instance.player;
 
-        
+
         UI.energyBarLow.minValue = 0;
         UI.energyBarMid.minValue = (player.energyParameters.maxEnergy / 3);
         UI.energyBarHigh.minValue = (player.energyParameters.maxEnergy / 3) * 2;
@@ -59,5 +63,13 @@ public class UIManager : MonoBehaviour
             UIW.countDown.text = "GO!";
 
         }
+        if (GameManager.Instance.raceManager.countDown == 0.0f)
+        {
+            UIW.countDown.text = "";
+        }
+
+        //UI.raceTimer.text = GameManager.Instance.raceManager.minutes.ToString("f0") + ":" + GameManager.Instance.raceManager.seconds.ToString("f0") + ":" + GameManager.Instance.raceManager.milliseconds.ToString();
+        UI.raceTimer.text = GameManager.Instance.raceManager.convertedTime;
+
     }
 }
