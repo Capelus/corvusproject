@@ -108,8 +108,6 @@ public class CameraBehaviour : MonoBehaviour
         //CAMERA MODE
         switch (cameraMode)
         {
-           
-
             case CameraMode.railMode:
 
                 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);

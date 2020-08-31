@@ -306,9 +306,6 @@ public class PlayerBehaviour : MonoBehaviour
                 else currentSpeed -= l_acceleration * Time.deltaTime;
                 break;
             }
-
-            //CAMERA EFFECT
-            cam.ChangeState(CameraState.moving);
         }
 
         else
