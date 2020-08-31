@@ -28,13 +28,13 @@ public class EnemyBehaviour : MonoBehaviour
         range = enemyTemplate.range;
         drop = enemyTemplate.drop;
         dropAmount = enemyTemplate.dropAmount;
+
+        //SET DISTANCE ON PATH
+        distanceOnTrack = TrackManager.Instance.GetClosestDistanceOnPath(transform.position);
     }
 
     void Update()
     {
-        //SET DISTANCE ON PATH
-        distanceOnTrack = TrackManager.Instance.GetClosestDistanceOnPath(transform.position);
-
         //DETECT PLAYER
         if (Mathf.Abs(distanceOnTrack - GameManager.Instance.player.distanceTravelled) < range)
         {
