@@ -9,6 +9,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     //REFERENCES
     public Transform shotSpawn;
+    Rigidbody rigidbody;
 
     //VARIABLES
     float health;
@@ -21,6 +22,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Start()
     {
+        //REFERENCES
+        rigidbody = GetComponent<Rigidbody>();
+
         //INITIALIZE
         health = enemyTemplate.health;
         projectile = enemyTemplate.projectile;
@@ -62,8 +66,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Explode()
     {
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        GetComponent<Rigidbody>().AddExplosionForce(50, transform.position, 5);
+        rigidbody.constraints = RigidbodyConstraints.None;
+        rigidbody.AddExplosionForce(50, transform.position, 5);
+        rigidbody.useGravity = true;
+        GetComponent<CapsuleCollider>().enabled = false;
         this.enabled = false;
         EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
     }

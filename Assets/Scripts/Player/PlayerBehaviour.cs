@@ -295,6 +295,12 @@ public class PlayerBehaviour : MonoBehaviour
         //----------------------------------------------------------------------------------------------------
     }
 
+    private void LateUpdate()
+    {
+        //RESTORE ANIMATOR BOOLS
+        animator.SetBool("Impact", false);
+    }
+
     void Move()
     {
         //ACCELERATION
@@ -352,12 +358,10 @@ public class PlayerBehaviour : MonoBehaviour
         switch (other.tag)
         {
             //------------------------------------------ ENERGY RING
-            case "EnergyRing":
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Spaceship_BarrellRoll_Left") || animator.GetCurrentAnimatorStateInfo(0).IsName("Spaceship_BarrellRoll_Right"))
-                {
-                    RechargeEnergy(40);
-                    Destroy(other.gameObject);
-                }
+            case "Nitro":
+                RechargeEnergy(30);
+                SoundManager.Instance.PlaySound("NitroCluster");
+                Destroy(other.gameObject);         
                 break;
 
             case "PitLaneTrigger":
@@ -383,6 +387,12 @@ public class PlayerBehaviour : MonoBehaviour
             //--------------------------------------------- OBSTACLE
             case "Obstacle":
                 Explode();
+                animator.SetBool("Impact", true);
+                break;
+
+            case "Enemy":
+                Explode();
+                animator.SetBool("Impact", true);
                 break;
         }
     }
@@ -399,9 +409,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Explode()
     {
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 5);
-        this.enabled = false;
+        currentSpeed -= 30;
         EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
     }
 }
