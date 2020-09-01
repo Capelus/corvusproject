@@ -135,9 +135,10 @@ GameObject:
   - component: {fileID: 300558}
   - component: {fileID: 300557}
   - component: {fileID: 300556}
+  - component: {fileID: 300559}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -205,6 +206,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 42.469, y: -34.196, z: -9.396}
+--- !u!64 &300559
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300555}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1001 &8962994
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -670,9 +685,10 @@ GameObject:
   - component: {fileID: 141873289}
   - component: {fileID: 141873288}
   - component: {fileID: 141873287}
+  - component: {fileID: 141873290}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -740,6 +756,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 42.469, y: 325.898, z: -9.396}
+--- !u!64 &141873290
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141873286}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &191254062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,9 +1541,10 @@ GameObject:
   - component: {fileID: 338442030}
   - component: {fileID: 338442029}
   - component: {fileID: 338442028}
+  - component: {fileID: 338442031}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1581,6 +1612,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 42.469, y: 241.199, z: -9.396}
+--- !u!64 &338442031
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338442027}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1001 &349607868
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2210,9 +2255,10 @@ GameObject:
   - component: {fileID: 601843335}
   - component: {fileID: 601843334}
   - component: {fileID: 601843333}
+  - component: {fileID: 601843336}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2280,6 +2326,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 42.469, y: 241.199, z: -9.396}
+--- !u!64 &601843336
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601843332}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &610806392
 GameObject:
   m_ObjectHideFlags: 0
@@ -3176,9 +3236,10 @@ GameObject:
   - component: {fileID: 698971747}
   - component: {fileID: 698971746}
   - component: {fileID: 698971745}
+  - component: {fileID: 698971748}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3246,6 +3307,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 74.258, y: 222.084, z: -26.351}
+--- !u!64 &698971748
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698971744}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1001 &729872937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4257,9 +4332,10 @@ GameObject:
   - component: {fileID: 1211924012}
   - component: {fileID: 1211924011}
   - component: {fileID: 1211924010}
+  - component: {fileID: 1211924013}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4327,6 +4403,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -25.641, y: 1.554, z: 80.696}
+--- !u!64 &1211924013
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211924009}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1001 &1215102906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4413,9 +4503,10 @@ GameObject:
   - component: {fileID: 1239890077}
   - component: {fileID: 1239890076}
   - component: {fileID: 1239890075}
+  - component: {fileID: 1239890078}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4483,6 +4574,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -11.065, y: 90.848, z: -259.087}
+--- !u!64 &1239890078
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239890074}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &1256698415
 GameObject:
   m_ObjectHideFlags: 0
@@ -4494,9 +4599,10 @@ GameObject:
   - component: {fileID: 1256698418}
   - component: {fileID: 1256698417}
   - component: {fileID: 1256698416}
+  - component: {fileID: 1256698419}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4564,6 +4670,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: -25.641, y: 307.82098, z: 80.696}
+--- !u!64 &1256698419
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256698415}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &1270642658
 GameObject:
   m_ObjectHideFlags: 0
@@ -4575,9 +4695,10 @@ GameObject:
   - component: {fileID: 1270642661}
   - component: {fileID: 1270642660}
   - component: {fileID: 1270642659}
+  - component: {fileID: 1270642662}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4645,6 +4766,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 30, y: -130.22, z: 0}
+--- !u!64 &1270642662
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1270642658}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1001 &1276746945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4846,9 +4981,10 @@ GameObject:
   - component: {fileID: 1297003368}
   - component: {fileID: 1297003367}
   - component: {fileID: 1297003366}
+  - component: {fileID: 1297003369}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4916,6 +5052,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: -25.641, y: 21.334, z: 80.696}
+--- !u!64 &1297003369
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297003365}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &1303972620
 GameObject:
   m_ObjectHideFlags: 0
@@ -17951,9 +18101,10 @@ GameObject:
   - component: {fileID: 1507030450}
   - component: {fileID: 1507030449}
   - component: {fileID: 1507030448}
+  - component: {fileID: 1507030451}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18021,6 +18172,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -61.384, y: -116.068, z: -134.4}
+--- !u!64 &1507030451
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507030447}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &1511393713
 GameObject:
   m_ObjectHideFlags: 0
@@ -18118,9 +18283,10 @@ GameObject:
   - component: {fileID: 1541551679}
   - component: {fileID: 1541551678}
   - component: {fileID: 1541551677}
+  - component: {fileID: 1541551680}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18188,6 +18354,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 42.469, y: 241.199, z: -9.396}
+--- !u!64 &1541551680
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541551676}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1001 &1553792620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18308,9 +18488,10 @@ GameObject:
   - component: {fileID: 1575287456}
   - component: {fileID: 1575287455}
   - component: {fileID: 1575287454}
+  - component: {fileID: 1575287457}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18378,6 +18559,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -61.384, y: -311.068, z: -134.4}
+--- !u!64 &1575287457
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575287453}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &1631401494
 GameObject:
   m_ObjectHideFlags: 0
@@ -18389,9 +18584,10 @@ GameObject:
   - component: {fileID: 1631401497}
   - component: {fileID: 1631401496}
   - component: {fileID: 1631401495}
+  - component: {fileID: 1631401498}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18459,6 +18655,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 30, y: -150, z: 0}
+--- !u!64 &1631401498
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631401494}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1001 &1642825165
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18908,9 +19118,10 @@ GameObject:
   - component: {fileID: 1762185716}
   - component: {fileID: 1762185715}
   - component: {fileID: 1762185714}
+  - component: {fileID: 1762185717}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18978,6 +19189,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 30, y: -150, z: 0}
+--- !u!64 &1762185717
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762185713}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!4 &1764897303 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4130402876934554861, guid: 742505aa406f60341a2fac6f7803906e,
@@ -19716,9 +19941,10 @@ GameObject:
   - component: {fileID: 1918632359}
   - component: {fileID: 1918632358}
   - component: {fileID: 1918632357}
+  - component: {fileID: 1918632360}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19786,6 +20012,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -57.751, y: 218.73, z: -372.504}
+--- !u!64 &1918632360
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918632356}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &1931721041
 GameObject:
   m_ObjectHideFlags: 0
@@ -20000,9 +20240,10 @@ GameObject:
   - component: {fileID: 1975694709}
   - component: {fileID: 1975694708}
   - component: {fileID: 1975694707}
+  - component: {fileID: 1975694710}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20070,6 +20311,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+--- !u!64 &1975694710
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975694706}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &1981346940
 GameObject:
   m_ObjectHideFlags: 0
@@ -20507,9 +20762,11 @@ GameObject:
   - component: {fileID: 2056950982}
   - component: {fileID: 2056950981}
   - component: {fileID: 2056950980}
+  - component: {fileID: 2056950984}
+  - component: {fileID: 2056950983}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20577,6 +20834,33 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 42.469, y: 241.199, z: -9.396}
+--- !u!65 &2056950983
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056950979}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6237592, y: 1.8046311, z: 2.8027518}
+  m_Center: {x: 0.08467666, y: 1.3201404, z: 0.38720083}
+--- !u!64 &2056950984
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056950979}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &2062782485
 GameObject:
   m_ObjectHideFlags: 0
@@ -21137,9 +21421,10 @@ GameObject:
   - component: {fileID: 2111768648}
   - component: {fileID: 2111768647}
   - component: {fileID: 2111768646}
+  - component: {fileID: 2111768649}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21207,6 +21492,20 @@ Transform:
   m_Father: {fileID: 275638504}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 42.469, y: 272.07098, z: -9.396}
+--- !u!64 &2111768649
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111768645}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!1 &2114749612
 GameObject:
   m_ObjectHideFlags: 0
@@ -21663,13 +21962,28 @@ GameObject:
   - component: {fileID: 3167784373568824432}
   - component: {fileID: 3167784373570118736}
   - component: {fileID: 3167784373571249808}
+  - component: {fileID: 3167784373569058897}
   m_Layer: 12
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: HardObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!64 &3167784373569058897
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3167784373569058896}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300006, guid: d27239c9a7de0f243876d949bb27027b, type: 3}
 --- !u!33 &3167784373570118736
 MeshFilter:
   m_ObjectHideFlags: 0
