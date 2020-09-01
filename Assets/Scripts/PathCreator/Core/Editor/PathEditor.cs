@@ -181,20 +181,24 @@ namespace PathCreationEditor {
                     GUILayout.Space (inspectorSectionSpacing);
                 }
 
-                data.showNormals = EditorGUILayout.Foldout (data.showNormals, new GUIContent ("Normals Options"), true, boldFoldoutStyle);
-                if (data.showNormals) {
-                    bezierPath.FlipNormals = EditorGUILayout.Toggle (new GUIContent ("Flip Normals"), bezierPath.FlipNormals);
-                    if (bezierPath.Space == PathSpace.xyz) {
-                        bezierPath.GlobalNormalsAngle = EditorGUILayout.Slider (new GUIContent ("Global Angle"), bezierPath.GlobalNormalsAngle, 0, 360);
+                data.showNormals = EditorGUILayout.Foldout(data.showNormals, new GUIContent("Normals Options"), true, boldFoldoutStyle);
+                if (data.showNormals)
+                {
+                    bezierPath.FlipNormals = EditorGUILayout.Toggle(new GUIContent("Flip Normals"), bezierPath.FlipNormals);
+                    if (bezierPath.Space == PathSpace.xyz)
+                    {
+                        bezierPath.GlobalNormalsAngle = EditorGUILayout.Slider(new GUIContent("Global Angle"), bezierPath.GlobalNormalsAngle, 0, 360);
 
-                        if (GUILayout.Button ("Reset Normals")) {
-                            Undo.RecordObject (creator, "Reset Normals");
+                        if (GUILayout.Button("Reset Normals"))
+                        {
+                            Undo.RecordObject(creator, "Reset Normals");
                             bezierPath.FlipNormals = false;
-                            bezierPath.ResetNormalAngles ();
+                            bezierPath.ResetNormalAngles();
                         }
                     }
-                    GUILayout.Space (inspectorSectionSpacing);
+                    GUILayout.Space(inspectorSectionSpacing);
                 }
+                
 
                 // Editor display options
                 data.showDisplayOptions = EditorGUILayout.Foldout (data.showDisplayOptions, new GUIContent ("Display Options"), true, boldFoldoutStyle);
@@ -463,26 +467,30 @@ namespace PathCreationEditor {
                     Handles.DrawWireCube (bounds.center, bounds.size);
                 }
 
-                // Draw normals
-                if (data.showNormals) {
-                    if (!hasUpdatedNormalsVertexPath) {
-                        normalsVertexPath = new VertexPath (bezierPath, creator.transform, normalsSpacing);
+                if (data.showNormals)
+                {
+                    if (!hasUpdatedNormalsVertexPath)
+                    {
+                        normalsVertexPath = new VertexPath(bezierPath, creator.transform, normalsSpacing);
                         hasUpdatedNormalsVertexPath = true;
                     }
 
-                    if (editingNormalsOld != data.showNormals) {
+                    if (editingNormalsOld != data.showNormals)
+                    {
                         editingNormalsOld = data.showNormals;
-                        Repaint ();
+                        Repaint();
                     }
 
                     Vector3[] normalLines = new Vector3[normalsVertexPath.NumPoints * 2];
                     Handles.color = globalDisplaySettings.normals;
-                    for (int i = 0; i < normalsVertexPath.NumPoints; i++) {
-                        normalLines[i * 2] = normalsVertexPath.GetPoint (i);
-                        normalLines[i * 2 + 1] = normalsVertexPath.GetPoint (i) + normalsVertexPath.GetNormal (i) * globalDisplaySettings.normalsLength;
+                    for (int i = 0; i < normalsVertexPath.NumPoints; i++)
+                    {
+                        normalLines[i * 2] = normalsVertexPath.GetPoint(i);
+                        normalLines[i * 2 + 1] = normalsVertexPath.GetPoint(i) + normalsVertexPath.GetNormal(i) * globalDisplaySettings.normalsLength;
                     }
-                    Handles.DrawLines (normalLines);
+                    Handles.DrawLines(normalLines);
                 }
+                      
             }
 
             if (data.displayAnchorPoints) {

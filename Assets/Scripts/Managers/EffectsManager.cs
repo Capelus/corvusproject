@@ -50,9 +50,9 @@ public class EffectsManager : MonoBehaviour
         else effects.nebula.enabled = false;
     }
 
-    public void InstantiateEffect(string effect, Vector3 position, Quaternion rotation)
+    public void InstantiateEffect(string name, Vector3 position, Quaternion rotation)
     {
-        switch (effect)
+        switch (name)
         {
             case "Explosion":
                 Instantiate(effects.explosion, position, rotation);

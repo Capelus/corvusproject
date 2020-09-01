@@ -35,6 +35,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public float distanceTravelled = 0;
 
     [HideInInspector] public bool canMove;
+    float stunTime = 0;
     //-------------------------------------------------
 
 
@@ -274,7 +275,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         //MOVE
         if (canMove && playerInput.inputEnabled)
-            Move();
+                Move();       
         //----------------------------------------------------------------------------------------------------
 
 
@@ -295,33 +296,40 @@ public class PlayerBehaviour : MonoBehaviour
         //----------------------------------------------------------------------------------------------------
     }
 
+    private void LateUpdate()
+    {
+        //RESTORE ANIMATOR BOOLS
+        animator.SetBool("Impact", false);
+    }
+
     void Move()
     {
         //ACCELERATION
-        if (playerInput.accelerate)
+        stunTime -= Time.unscaledDeltaTime;
+        if (stunTime <= 0)
         {
-            while (Mathf.Abs(currentSpeed - l_maxSpeed) > Mathf.Epsilon)
+            if (playerInput.accelerate)
             {
-                if (currentSpeed < l_maxSpeed) currentSpeed += l_acceleration * Time.deltaTime;
-                else currentSpeed -= l_acceleration * Time.deltaTime;
-                break;
+                while (Mathf.Abs(currentSpeed - l_maxSpeed) > Mathf.Epsilon)
+                {
+                    if (currentSpeed < l_maxSpeed) currentSpeed += l_acceleration * Time.deltaTime;
+                    else currentSpeed -= l_acceleration * Time.deltaTime;
+                    break;
+                }
             }
 
-            //CAMERA EFFECT
-            cam.ChangeState(CameraState.moving);
+            else
+            {
+                //DECELERATE
+                currentSpeed -= l_acceleration * Time.deltaTime;
+
+                //CAMERA EFFECT
+                cam.ChangeState(CameraState.idle);
+            }
         }
 
-        else
-        {
-            //DECELERATE
-            currentSpeed -= l_acceleration * Time.deltaTime;
-
-            if (currentSpeed < 10)
-                currentSpeed = 10;
-
-            //CAMERA EFFECT
-            cam.ChangeState(CameraState.idle);
-        }
+        //CLAMP SPEED
+        currentSpeed = Mathf.Clamp(currentSpeed, -2, l_maxSpeed);
 
         //INCREMENT DISTANCE TRAVELLED
         distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
@@ -355,12 +363,10 @@ public class PlayerBehaviour : MonoBehaviour
         switch (other.tag)
         {
             //------------------------------------------ ENERGY RING
-            case "EnergyRing":
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Spaceship_BarrellRoll_Left") || animator.GetCurrentAnimatorStateInfo(0).IsName("Spaceship_BarrellRoll_Right"))
-                {
-                    RechargeEnergy(40);
-                    Destroy(other.gameObject);
-                }
+            case "Nitro":
+                RechargeEnergy(30);
+                SoundManager.Instance.PlaySound("NitroCluster");
+                Destroy(other.gameObject);         
                 break;
 
             case "PitLaneTrigger":
@@ -385,7 +391,18 @@ public class PlayerBehaviour : MonoBehaviour
         {
             //--------------------------------------------- OBSTACLE
             case "Obstacle":
-                Explode();
+                Knockback(30);
+                animator.SetBool("Impact", true);
+                break;
+
+            case "HardObstacle":
+                Knockback(currentSpeed + 20);
+                animator.SetBool("Impact", true);
+                break;
+
+            case "Enemy":
+                Knockback(30);
+                animator.SetBool("Impact", true);
                 break;
         }
     }
@@ -400,10 +417,15 @@ public class PlayerBehaviour : MonoBehaviour
         health -= amount;
     }
 
+    public void Knockback(float amount)
+    {
+        currentSpeed -= amount;
+        stunTime = 0.5f;
+        EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
+    }
+
     public void Explode()
     {
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        GetComponent<Rigidbody>().AddExplosionForce(10, transform.position, 5);
         this.enabled = false;
         EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
     }
