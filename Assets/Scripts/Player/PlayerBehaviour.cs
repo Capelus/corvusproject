@@ -329,7 +329,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         //CLAMP SPEED
-        currentSpeed = Mathf.Clamp(currentSpeed, -2, l_maxSpeed);
+        currentSpeed = Mathf.Clamp(currentSpeed, 5, l_maxSpeed);
 
         //INCREMENT DISTANCE TRAVELLED
         distanceTravelled += currentSpeed * Time.unscaledDeltaTime;

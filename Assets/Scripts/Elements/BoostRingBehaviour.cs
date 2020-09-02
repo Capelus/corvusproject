@@ -86,7 +86,7 @@ public class BoostRingBehaviour : MonoBehaviour
         //RESTORE EVERYTHING
         GameManager.Instance.RestoreTime();
         GameManager.Instance.player.currentSpeed = previousSpeed + boost;
-        GameManager.Instance.camera.cameraMode = CameraMode.railSmoothMode;
+        GameManager.Instance.camera.cameraMode = CameraMode.railSmoothModeUP;
         GameManager.Instance.camera.cameraState = CameraState.moving;
         trigger.enabled = false;
         l_cooldownTime = cooldownTime;
@@ -120,7 +120,7 @@ public class BoostRingBehaviour : MonoBehaviour
             //RESTORE EVERYTHING
             GameManager.Instance.RestoreTime();
             GameManager.Instance.player.currentSpeed = previousSpeed;
-            GameManager.Instance.camera.cameraMode = CameraMode.railSmoothMode;
+            GameManager.Instance.camera.cameraMode = CameraMode.railSmoothModeUP;
             GameManager.Instance.camera.cameraState = CameraState.moving;
 
             trigger.enabled = false;

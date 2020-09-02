@@ -8,6 +8,8 @@ public class Enemy : ScriptableObject
 {
     public GameObject shipPrefab;
     public float health = 100;
+    public float maxSpeed = 150;
+    public float distanceToPlayer = 50;
     public GameObject projectile;
     public float cadence = 1;
     public float range = 10;

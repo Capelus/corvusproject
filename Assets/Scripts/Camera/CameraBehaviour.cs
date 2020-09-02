@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro, ring_skillcheck }
-public enum CameraMode { railMode, followMode, railSmoothMode, skillCheckMode }
+public enum CameraMode { railMode, followMode, railSmoothMode, railSmoothModeUP, skillCheckMode }
 
 public class CameraBehaviour : MonoBehaviour
 {
@@ -128,6 +128,21 @@ public class CameraBehaviour : MonoBehaviour
 
                 cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
                 transform.forward = Vector3.Lerp(transform.forward, (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized,t);
+
+                break;
+
+            case CameraMode.railSmoothModeUP:
+
+                t += damp * Time.deltaTime;
+
+                cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
+
+                hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 1.5f, t);
+                vOffset = Mathf.Lerp(vOffset, (player.verticalMove + 2f) / 1.5f, t);
+
+                cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up* vOffset;
+
+                transform.forward = Vector3.Lerp(transform.forward, (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized, t);
 
                 break;
 
