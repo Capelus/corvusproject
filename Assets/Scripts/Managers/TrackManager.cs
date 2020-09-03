@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PathCreation;
 
+[ExecuteInEditMode]
 public class TrackManager : MonoBehaviour
 {
     //SINGLETON
@@ -15,12 +16,17 @@ public class TrackManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
     }
 
     private void Start()
     {
         pathCreator = GetComponent<PathCreator>();
+    }
+
+    private void Update()
+    {
+        if(pathCreator == null)
+            pathCreator = GetComponent<PathCreator>();
     }
 
     public Vector3 GetPositionAtDistance(float distance)
@@ -58,5 +64,10 @@ public class TrackManager : MonoBehaviour
     public float GetClosestDistanceOnPath(Vector3 location)
     {
         return pathCreator.path.GetClosestDistanceAlongPath(location);
+    }
+
+    public float GetPathLength()
+    {
+        return pathCreator.path.length;
     }
 }
