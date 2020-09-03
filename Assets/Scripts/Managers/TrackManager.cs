@@ -13,6 +13,11 @@ public class TrackManager : MonoBehaviour
     PathCreator pathCreator;
     public EndOfPathInstruction endOfPathInstruction;
 
+    //PUBLIC INTEREST REFERENCES
+    [HideInInspector] public Vector3 objectPoolPosition;
+    [HideInInspector] public GameObject [] enemies;
+    [HideInInspector] public GameObject [] shots;
+
     private void Awake()
     {
         Instance = this;
@@ -20,7 +25,10 @@ public class TrackManager : MonoBehaviour
 
     private void Start()
     {
+        //SET REFERENCES
         pathCreator = GetComponent<PathCreator>();
+        objectPoolPosition = GameObject.Find("Object Pool").transform.position;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
     }
 
     private void Update()

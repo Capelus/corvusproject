@@ -8,7 +8,6 @@ using UnityEngine.VFX;
 public class GameManager : MonoBehaviour
 {
     //PUBLIC INTEREST REFERENCES
-
     public PlayerBehaviour player;
     public CameraBehaviour camera;
     public PlayerInput playerInput;

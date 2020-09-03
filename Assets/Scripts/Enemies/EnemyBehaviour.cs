@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyMode { appearance, onTrack }
+public enum EnemyMode { onPool, appearance, disappearance, onTrack, eliminated }
 
 public class EnemyBehaviour : MonoBehaviour
 {
@@ -21,6 +21,7 @@ public class EnemyBehaviour : MonoBehaviour
     float speed;
     float maxSpeed;
     float distanceToPlayer;
+    float timeOnTrack;
     GameObject projectile;
     float cadence;
     float range;
@@ -28,8 +29,12 @@ public class EnemyBehaviour : MonoBehaviour
     float dropAmount;
 
     //INTERNAL
-    Vector3 targetPosition;
+    [HideInInspector] public Vector3 targetPosition = Vector3.zero;
+    Vector3 poolPosition;
+    [HideInInspector] public float xOffset = 0;
+    [HideInInspector] public float yOffset = 0;
     float distanceOnPath;
+    float eliminatedTime = 4;
 
     void Start()
     {
@@ -37,33 +42,54 @@ public class EnemyBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         //INITIALIZE
-        enemyMode = EnemyMode.appearance;
+        enemyMode = EnemyMode.onPool;
         health = enemyTemplate.health;
         maxSpeed = enemyTemplate.maxSpeed;
         distanceToPlayer = enemyTemplate.distanceToPlayer;
+        timeOnTrack = enemyTemplate.timeOnTrack;
         projectile = enemyTemplate.projectile;
         cadence = enemyTemplate.cadence;
         range = enemyTemplate.range;
         drop = enemyTemplate.drop;
         dropAmount = enemyTemplate.dropAmount;
 
-        //GET TARGET POSITION
-        targetPosition = TrackManager.Instance.GetPositionAtDistance(GameManager.Instance.player.distanceTravelled + distanceToPlayer);
-
+        //GET POOL POSITION
+        poolPosition = TrackManager.Instance.objectPoolPosition;
     }
 
     void Update()
     {
         switch (enemyMode)
         {
+            case EnemyMode.onPool:
+                //OBJECT REMAINS ON POOL
+                rb.useGravity = false;
+                GetComponent<CapsuleCollider>().enabled = true;
+                health = enemyTemplate.health;
+                timeOnTrack = enemyTemplate.timeOnTrack;
+                transform.position = TrackManager.Instance.objectPoolPosition;
+                break;
+
             case EnemyMode.appearance:
-                //MOVE TO TARGET POSITION ROTATING WITH THE PATH
+                //RESET RB INERTIA
+                rb.velocity = Vector3.zero;
+                
+                //ROTATE
+                transform.rotation = GameManager.Instance.player.transform.rotation;
+
+                //CALCULATE TARGET POSITION
+                targetPosition = TrackManager.Instance.GetPositionAtDistance(GameManager.Instance.player.distanceTravelled + distanceToPlayer);
+                targetPosition += transform.right * xOffset + transform.up * yOffset;
+
+                //MOVE TO TARGET POSITION
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, maxSpeed * Time.deltaTime);
 
+                Debug.DrawLine(transform.position, targetPosition);
+
                 if((transform.position - targetPosition).magnitude < 1)
-                {
-                    distanceOnPath = TrackManager.Instance.GetClosestDistanceOnPath(transform.position);
+                {         
                     enemyMode = EnemyMode.onTrack;
+                    distanceOnPath = GameManager.Instance.player.distanceTravelled + enemyTemplate.distanceToPlayer;
                 }
                 break;
 
@@ -71,29 +97,48 @@ public class EnemyBehaviour : MonoBehaviour
                 //SET SPEED
                 speed = Mathf.Clamp(GameManager.Instance.player.currentSpeed, 0, maxSpeed);
 
+                //GET FORWARD VECTOR
+                transform.forward = TrackManager.Instance.GetDirectionAtDistance(distanceOnPath);
+
                 //INCREASE DISTANCE ON PATH
                 distanceOnPath += speed * Time.deltaTime;
-
-                //GET FORWARD VECTOR
-                Vector3 direction = TrackManager.Instance.GetDirectionAtDistance(distanceOnPath);
-                transform.forward = direction.normalized;
-
+                
                 //MOVE ENEMY
-                transform.position += direction * speed * Time.deltaTime;
+                transform.position += transform.forward * speed * Time.deltaTime;
+
+                //SHOOT   
+                cadence -= Time.deltaTime;
+                if (cadence < 0)
+                {
+                    if (Mathf.Abs(distanceOnPath - GameManager.Instance.player.distanceTravelled) < range)
+                    {
+                        Shoot();
+                    }
+                }
+
+                //CHECK HEALTH
+                if (health <= 0)
+                    Explode();
+
+                //DISAPPEAR OVER TIME
+                timeOnTrack -= Time.deltaTime;
+                if (timeOnTrack < 0)
+                    enemyMode = EnemyMode.disappearance;
+                break;
+
+            case EnemyMode.disappearance:
+                //MOVE TO TARGET POSITION
+                transform.position = Vector3.MoveTowards(transform.position, poolPosition, maxSpeed * Time.deltaTime);
+                if ((transform.position == poolPosition))
+                    enemyMode = EnemyMode.onPool;               
+                break;
+
+            case EnemyMode.eliminated:
+                eliminatedTime -= Time.deltaTime;
+                if (eliminatedTime < 0)
+                    enemyMode = EnemyMode.onPool;
                 break;
         }
-
-        //DETECT PLAYER
-        if (Mathf.Abs(distanceOnPath - GameManager.Instance.player.distanceTravelled) < range)
-        {
-            cadence -= Time.deltaTime;
-            if (cadence < 0)
-                Shoot();          
-        }
-
-        //CHECK HEALTH
-        if (health <= 0)
-            Explode();
     }
 
     void Shoot()
@@ -110,11 +155,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Explode()
     {
-        rb.constraints = RigidbodyConstraints.None;
         rb.AddExplosionForce(50, transform.position, 5);
         rb.useGravity = true;
         GetComponent<CapsuleCollider>().enabled = false;
-        this.enabled = false;
+        enemyMode = EnemyMode.eliminated;
         EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
     }
 }

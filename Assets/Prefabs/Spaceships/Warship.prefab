@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4894075088379580397
 Transform:
   m_ObjectHideFlags: 0
@@ -28,9 +28,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4421708149764529366}
-  m_LocalRotation: {x: 0.06094943, y: -0.4297863, z: 0.07951453, w: 0.8973552}
+  m_LocalRotation: {x: 0.060949754, y: -0.42978686, z: 0.079516605, w: 0.8973547}
   m_LocalPosition: {x: 254.0965, y: -62.641502, z: 242.09045}
-  m_LocalScale: {x: 0.6686399, y: 0.66863996, z: 0.66863996}
+  m_LocalScale: {x: 0.38200969, y: 0.3820097, z: 0.3820097}
   m_Children:
   - {fileID: 5068241347865514679}
   m_Father: {fileID: 0}
@@ -109,7 +109,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4421708149764529366}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 3.4800656
   m_Height: 21.503178
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyTemplate: {fileID: 11400000, guid: 81f7ac55a2544d249a66c02b4accec14, type: 2}
+  enemyMode: 0
   shotSpawn: {fileID: 5068241347865514679}
 --- !u!1 &5068241347865514672
 GameObject:
@@ -138,7 +139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5068241347865514679}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Shot Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

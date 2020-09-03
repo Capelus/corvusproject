@@ -269,13 +269,16 @@ public class PlayerBehaviour : MonoBehaviour
 
         //------------------------------------------------------------------------------------------- MOVEMENT
 
-        //GET FORWARD VECTOR
-        forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
-        transform.forward = forwardDirection.normalized;
-
         //MOVE
         if (canMove && playerInput.inputEnabled)
-                Move();       
+                Move();
+
+        else
+        {
+            //GET FORWARD VECTOR
+            forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
+            transform.forward = forwardDirection.normalized;
+        }
         //----------------------------------------------------------------------------------------------------
 
 
@@ -351,7 +354,9 @@ public class PlayerBehaviour : MonoBehaviour
         transform.position = movementDirection;
 
         //ROTATE
-        transform.rotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
+        Quaternion targetRotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
+        var step = 150 * Time.deltaTime;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
 
         //TILT
         animator.SetFloat("Tilt X", playerInput.smoothedMovement.x);
