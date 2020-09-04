@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public CameraBehaviour camera;
     public PlayerInput playerInput;
     public RaceManager raceManager;
-
+    public UIManager uiManager;
     //SINGLETON
     public static GameManager Instance;
     private void Awake()

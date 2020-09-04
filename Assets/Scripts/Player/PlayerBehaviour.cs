@@ -404,6 +404,11 @@ public class PlayerBehaviour : MonoBehaviour
                 Knockback(30);
                 animator.SetBool("Impact", true);
                 break;
+
+            case "Finish":
+                Debug.Log("Lap");
+                GameManager.Instance.raceManager.LapChecker();
+                break;
         }
     }
 
