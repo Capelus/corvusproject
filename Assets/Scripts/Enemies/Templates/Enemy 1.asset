@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Enemy 1
   m_EditorClassIdentifier: 
   shipPrefab: {fileID: 0}
-  health: 100
+  health: 50
+  maxSpeed: 130
+  distanceToPlayer: 40
+  timeOnTrack: 5
   projectile: {fileID: 269988879153526050, guid: 3f0806a139adfeb43a6886ccc855f801,
     type: 3}
   cadence: 1

@@ -8,12 +8,11 @@ using UnityEngine.VFX;
 public class GameManager : MonoBehaviour
 {
     //PUBLIC INTEREST REFERENCES
+    [HideInInspector] public PlayerBehaviour player;
+    [HideInInspector] public CameraBehaviour playerCamera;
+    [HideInInspector] public PlayerInput playerInput;
+    [HideInInspector] public RaceManager raceManager;
 
-    public PlayerBehaviour player;
-    public CameraBehaviour camera;
-    public PlayerInput playerInput;
-    public RaceManager raceManager;
-    public UIManager uiManager;
     //SINGLETON
     public static GameManager Instance;
     private void Awake()

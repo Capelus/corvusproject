@@ -35,6 +35,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public float distanceTravelled = 0;
 
     [HideInInspector] public bool canMove;
+    bool boosted = false;
     float stunTime = 0;
     //-------------------------------------------------
 
@@ -103,7 +104,7 @@ public class PlayerBehaviour : MonoBehaviour
 
 
     //--------------------------------------------- OTHER
-    Animator animator;
+    [HideInInspector] public Animator animator;
     //---------------------------------------------------
 
     private void Awake()
@@ -130,7 +131,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
-
         //---------------------------------------------------------------------------------------------- NITRO
         if (playerInput.accelerate && playerInput.nitro && l_energy > 0)
         {
@@ -198,19 +198,22 @@ public class PlayerBehaviour : MonoBehaviour
 
         else
         {
-            //UN-BOOST
-            l_maxSpeed = movementParameters.maxSpeed;
-            l_acceleration = movementParameters.acceleration;
+            if (!boosted)
+            {
+                //UN-BOOST
+                l_maxSpeed = movementParameters.maxSpeed;
+                l_acceleration = movementParameters.acceleration;
 
-            //RESTORE PARTICLES EFFECT
-            EffectsManager.Instance.effects.warpSpeed = 0;
-            EffectsManager.Instance.effects.nebulaActive = false;
+                //RESTORE PARTICLES EFFECT
+                EffectsManager.Instance.effects.warpSpeed = 0;
+                EffectsManager.Instance.effects.nebulaActive = false;
 
-            foreach (GameObject j in nitroParameters.jets)
-                j.GetComponent<ParticleSystemRenderer>().material.color = Color.white;
+                //RESTORE CAMERA EFFECT
+                cam.ChangeState(CameraState.moving);
 
-            //RESTORE CAMERA EFFECT
-            cam.ChangeState(CameraState.moving);
+                foreach (GameObject j in nitroParameters.jets)
+                    j.GetComponent<ParticleSystemRenderer>().material.color = Color.white;
+            }
         }
         //----------------------------------------------------------------------------------------------------
 
@@ -269,13 +272,16 @@ public class PlayerBehaviour : MonoBehaviour
 
         //------------------------------------------------------------------------------------------- MOVEMENT
 
-        //GET FORWARD VECTOR
-        forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
-        transform.forward = forwardDirection.normalized;
-
         //MOVE
         if (canMove && playerInput.inputEnabled)
-                Move();       
+                Move();
+
+        else
+        {
+            //GET FORWARD VECTOR
+            forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
+            transform.forward = forwardDirection.normalized;
+        }
         //----------------------------------------------------------------------------------------------------
 
 
@@ -313,7 +319,7 @@ public class PlayerBehaviour : MonoBehaviour
                 while (Mathf.Abs(currentSpeed - l_maxSpeed) > Mathf.Epsilon)
                 {
                     if (currentSpeed < l_maxSpeed) currentSpeed += l_acceleration * Time.deltaTime;
-                    else currentSpeed -= l_acceleration * Time.deltaTime;
+                    else currentSpeed -= l_acceleration * 2 * Time.deltaTime;
                     break;
                 }
             }
@@ -329,7 +335,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         //CLAMP SPEED
-        currentSpeed = Mathf.Clamp(currentSpeed, -2, l_maxSpeed);
+        currentSpeed = Mathf.Clamp(currentSpeed, 5, 1000);
 
         //INCREMENT DISTANCE TRAVELLED
         distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
@@ -351,11 +357,37 @@ public class PlayerBehaviour : MonoBehaviour
         transform.position = movementDirection;
 
         //ROTATE
-        transform.rotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
+        Quaternion targetRotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
+        var step = 150 * Time.deltaTime;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
 
         //TILT
         animator.SetFloat("Tilt X", playerInput.smoothedMovement.x);
         animator.SetFloat("Tilt Y", playerInput.smoothedMovement.y);
+    }
+
+    public void Boost(float time, float speedBoost, float accelerationBoost, CameraState camState)
+    {
+        StartCoroutine(TemporalBoost(time, speedBoost + l_maxSpeed, accelerationBoost + l_acceleration, camState));
+    }
+
+    IEnumerator TemporalBoost(float time, float newSpeed, float newAcceleration, CameraState camState)
+    {
+        boosted = true;
+    
+        while (time > 0)
+        {        
+            time -= Time.unscaledDeltaTime;
+            l_maxSpeed = newSpeed;
+            l_acceleration = newAcceleration;
+            cam.ChangeState(camState);
+
+            yield return null;
+        }
+
+        l_maxSpeed = movementParameters.maxSpeed;
+        l_acceleration = movementParameters.acceleration;
+        boosted = false;
     }
 
     private void OnTriggerEnter(Collider other)

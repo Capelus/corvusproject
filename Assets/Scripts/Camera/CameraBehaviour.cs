@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro, ring_skillcheck }
-public enum CameraMode { railMode, followMode, railSmoothMode, skillCheckMode }
+public enum CameraMode { railMode, followMode, railSmoothMode, railSmoothModeUP, skillCheckMode }
 
 public class CameraBehaviour : MonoBehaviour
 {
@@ -43,7 +43,7 @@ public class CameraBehaviour : MonoBehaviour
     {
         //REFERENCES
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
-        GameManager.Instance.camera = this;
+        GameManager.Instance.playerCamera = this;
         cam = GetComponent<Camera>();
     }
 
@@ -76,27 +76,27 @@ public class CameraBehaviour : MonoBehaviour
                 break;
 
             case CameraState.low_nitro:
-                desiredDistanceToTarget = 5;
+                desiredDistanceToTarget = 4;
                 desiredfieldOfView = 95;
 
                 //CAMERA SHAKE
-                desiredShakeAmount = 0.02f;
+                desiredShakeAmount = 0.002f;
                 break;
 
             case CameraState.mid_nitro:
-                desiredDistanceToTarget = 4;
-                desiredfieldOfView = 110;
+                desiredDistanceToTarget = 2;
+                desiredfieldOfView = 120;
 
                 //CAMERA SHAKE
-                desiredShakeAmount = 0.05f;
+                desiredShakeAmount = 0.005f;
                 break;
 
             case CameraState.high_nitro:
-                desiredDistanceToTarget = 3;
-                desiredfieldOfView = 140;
+                desiredDistanceToTarget = 1;
+                desiredfieldOfView = 150;
 
                 //CAMERA SHAKE
-                desiredShakeAmount = 0.1f;
+                desiredShakeAmount = 0.01f;
                 break;
 
             case CameraState.ring_skillcheck:
@@ -128,6 +128,21 @@ public class CameraBehaviour : MonoBehaviour
 
                 cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
                 transform.forward = Vector3.Lerp(transform.forward, (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized,t);
+
+                break;
+
+            case CameraMode.railSmoothModeUP:
+
+                t += damp * Time.deltaTime;
+
+                cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
+
+                hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 1.5f, t);
+                vOffset = Mathf.Lerp(vOffset, (player.verticalMove + 2f) / 1.5f, t);
+
+                cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up* vOffset, t);
+
+                transform.forward = Vector3.Lerp(transform.forward, (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized, t);
 
                 break;
 

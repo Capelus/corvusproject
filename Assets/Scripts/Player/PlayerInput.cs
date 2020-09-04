@@ -32,8 +32,7 @@ public class PlayerInput : MonoBehaviour
     }
 
     public Vector2 smoothedMovement
-    {
-        
+    {      
         get
             {
             float inputX = Input.GetAxis("Horizontal");
