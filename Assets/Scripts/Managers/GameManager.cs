@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public PlayerBehaviour player;
     [HideInInspector] public CameraBehaviour playerCamera;
     [HideInInspector] public PlayerInput playerInput;
-    [HideInInspector] public RaceManager raceManager;
 
     //SINGLETON
     public static GameManager Instance;

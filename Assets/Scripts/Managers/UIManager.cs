@@ -39,7 +39,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-
         Instance = this;     
         player = GameManager.Instance.player;
 
@@ -64,30 +63,29 @@ public class UIManager : MonoBehaviour
         UI.energyBarLow.value = player.l_energy;
         UI.energyBarMid.value = player.l_energy;
         UI.energyBarHigh.value = player.l_energy;
-        UIW.countDown.text = GameManager.Instance.raceManager.countDown.ToString("f0");
+        UIW.countDown.text = RaceManager.Instance.countDown.ToString("f0");
       
 
         //COUNTDOWN--------------------------------------------
-        if (GameManager.Instance.raceManager.countDown <= 1.0f)
+        if (RaceManager.Instance.countDown <= 1.0f)
         {
             player.GetComponent<PlayerInput>().inputEnabled = true;
             UIW.countDown.text = "GO!";
 
         }
-        if (GameManager.Instance.raceManager.countDown <= 0.0f)
+        if (RaceManager.Instance.countDown <= 0.0f)
         {
             UIW.countDown.text = "";
         }
 
         //RACE TIMER--------------------------------------------------------
-        UI.raceTimer.text = GameManager.Instance.raceManager.convertedTime;
+        UI.raceTimer.text = RaceManager.Instance.convertedTime;
 
     }
 
     public void UpdateTimeChart(string lastLapTime)
     {
         Debug.Log("hello");
-        UI.timeChart[GameManager.Instance.raceManager.lapCount].text = lastLapTime;
-
+        UI.timeChart[RaceManager.Instance.lapCount].text = lastLapTime;
     }
 }

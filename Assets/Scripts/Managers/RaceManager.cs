@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class RaceManager : MonoBehaviour
 {
+    public static RaceManager Instance;
+
     public float countDown = 0;
     public float raceTimer;
     [HideInInspector] public bool raceStarted;
@@ -24,7 +26,7 @@ public class RaceManager : MonoBehaviour
     
     private void Start()
     {
-        GameManager.Instance.raceManager = this;
+        Instance = this;
         countDown = 3.50f;
         raceStarted = false;
         raceTimer = 0.0f;

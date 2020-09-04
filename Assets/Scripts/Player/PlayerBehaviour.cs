@@ -439,7 +439,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             case "Finish":
                 Debug.Log("Lap");
-                GameManager.Instance.raceManager.LapChecker();
+                RaceManager.Instance.LapChecker();
                 break;
         }
     }
