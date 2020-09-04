@@ -43,7 +43,7 @@ public class CameraBehaviour : MonoBehaviour
     {
         //REFERENCES
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
-        GameManager.Instance.camera = this;
+        GameManager.Instance.playerCamera = this;
         cam = GetComponent<Camera>();
     }
 

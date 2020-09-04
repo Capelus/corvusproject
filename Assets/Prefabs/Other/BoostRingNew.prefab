@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4300481195612364572}
   - component: {fileID: 7819278455779357072}
   - component: {fileID: 286611666617441732}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2961415086896349058}
   - component: {fileID: 3610183916425567829}
   - component: {fileID: 3610183916425567828}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BoostRingNew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,9 +111,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3610183916425567831}
-  m_LocalRotation: {x: -0.50000006, y: -0.50000006, z: -0.5, w: 0.5}
+  m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.093876, y: 5.904851, z: 4.093876}
+  m_LocalScale: {x: 4.0938754, y: 5.904851, z: 4.0938754}
   m_Children:
   - {fileID: 4300481195612364572}
   m_Father: {fileID: 0}
@@ -180,15 +180,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7109c0f380c52aa4096d339afcacd418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 500
-  skillcheckRotationSpeed: 50
-  skillcheckDuration: 15
+  ringRotationSpeed: 2
+  skillcheckDuration: 1
   slowTimeFactor: 6
   cooldownTime: 2
   boostParameters:
     failBoost: -40
-    greatBoost: 40
-    perfectBoost: 80
+    greatBoost: 80
+    perfectBoost: 150
 --- !u!136 &3610183916425567828
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -214,7 +213,7 @@ GameObject:
   - component: {fileID: 2613770896128228493}
   - component: {fileID: 1005146799746795309}
   - component: {fileID: 4510384499113390347}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Perfect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +261,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4847f7d08e07f5140a5b6b90fb83fea3, type: 2}
+  - {fileID: 2100000, guid: 65586f2fde3974c4e9469dfe6cf89338, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -295,7 +294,7 @@ GameObject:
   - component: {fileID: 8941437370230344514}
   - component: {fileID: 4432510683893024663}
   - component: {fileID: 8951328033243304705}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Great
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +342,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad2372e4da088734e918a2bb450608d5, type: 2}
+  - {fileID: 2100000, guid: 65586f2fde3974c4e9469dfe6cf89338, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -376,7 +375,7 @@ GameObject:
   - component: {fileID: 2463731065549595307}
   - component: {fileID: 7787330241416085186}
   - component: {fileID: 6257676342222899942}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Fail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +423,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d9a77dfbfd8afcb46bdd080790fa571c, type: 2}
+  - {fileID: 2100000, guid: 65586f2fde3974c4e9469dfe6cf89338, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

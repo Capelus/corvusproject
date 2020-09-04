@@ -8,10 +8,10 @@ using UnityEngine.VFX;
 public class GameManager : MonoBehaviour
 {
     //PUBLIC INTEREST REFERENCES
-    public PlayerBehaviour player;
-    public CameraBehaviour camera;
-    public PlayerInput playerInput;
-    public RaceManager raceManager;
+    [HideInInspector] public PlayerBehaviour player;
+    [HideInInspector] public CameraBehaviour playerCamera;
+    [HideInInspector] public PlayerInput playerInput;
+    [HideInInspector] public RaceManager raceManager;
 
     //SINGLETON
     public static GameManager Instance;

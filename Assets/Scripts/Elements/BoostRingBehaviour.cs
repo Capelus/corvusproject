@@ -8,9 +8,9 @@ public class BoostRingBehaviour : MonoBehaviour
     GameObject ring;
     CapsuleCollider trigger;
 
-    public float rotationSpeed = 50;
-    public float skillcheckRotationSpeed = 50;
-    public float skillcheckDuration = 5;
+    GameObject skillcheck;
+    public float ringRotationSpeed = 2;
+    public float skillcheckDuration = 2;
     public float slowTimeFactor = 4;
     public float cooldownTime = 2;
     float l_cooldownTime = 0;
@@ -20,29 +20,28 @@ public class BoostRingBehaviour : MonoBehaviour
     public class BoostParameters
     {
         public float failBoost;
+        public float failBoostTime = 0.2f;
         public float greatBoost;
+        public float greatBoostTime = 1;
         public float perfectBoost;
+        public float perfectBoostTime = 1.5f;
     }
     public BoostParameters boostParameters;
 
-    float ringDistance;
     float previousSpeed;
-    float boost = 0;
-
-    float zAngle;
-
     bool coroutineStarted = false;
 
     private void Start()
     {
         ring = transform.GetChild(0).gameObject;
         trigger = GetComponent<CapsuleCollider>();
+        skillcheck = UIManager.Instance.UI.skillcheck;
     }
 
     private void Update()
     {
         //ROTATE
-        ring.transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+        ring.transform.Rotate(0, ringRotationSpeed * Time.deltaTime, 0);
 
         l_cooldownTime -= Time.unscaledDeltaTime;
         if (l_cooldownTime < 0 && !trigger.enabled)
@@ -54,40 +53,40 @@ public class BoostRingBehaviour : MonoBehaviour
     {
         coroutineStarted = true;
 
+        //WAIT FOR ROLL
         while (!GameManager.Instance.playerInput.roll)
         {
-            ring.transform.Rotate(0, skillcheckRotationSpeed * Time.unscaledDeltaTime, 0);
             yield return null;
         }
 
-        zAngle = ring.transform.rotation.normalized.eulerAngles.z;
+        //RESTORE PREVIOUS SPEED
+        GameManager.Instance.player.currentSpeed = previousSpeed;
 
-        //GIVE BOOST
-        if (zAngle > 100 && zAngle < 120 || zAngle > 220 && zAngle < 240 || zAngle > 340 && zAngle < 360) //PERFECT
+        //BOOST
+        switch (skillcheck.GetComponent<SkillcheckBehaviour>().skillcheckState)
         {
-            Debug.Log("PERFECT");
-            boost = boostParameters.perfectBoost;
-        }
+            case 0: //BAD
+                Debug.Log("BAD");
+                GameManager.Instance.player.Boost(boostParameters.failBoostTime, boostParameters.failBoost, 0, CameraState.moving);
+                GameManager.Instance.player.animator.SetBool("Impact", true);
+                break;
 
-        else if (zAngle > 60 && zAngle < 100 || zAngle > 180 && zAngle < 220 || zAngle > 300 && zAngle < 340) //GREAT
-        {
-            Debug.Log("GREAT");
-            boost = boostParameters.greatBoost;
-        }
+            case 1: //GOOD
+                Debug.Log("GOOD");
+                GameManager.Instance.player.Boost(boostParameters.greatBoostTime, boostParameters.greatBoost, 20, CameraState.low_nitro);
+                break;
 
-        else //BAD
-        {
-            Debug.Log("BAD");
-            boost = Mathf.Clamp(boostParameters.failBoost,0,boost);
+            case 2: //PERFECT
+                Debug.Log("PERFECT");
+                GameManager.Instance.player.Boost(boostParameters.perfectBoostTime, boostParameters.perfectBoost, 30, CameraState.mid_nitro);
+                break;
         }
-
-        Debug.Log(zAngle);
 
         //RESTORE EVERYTHING
+        UIManager.Instance.UI.skillcheck.SetActive(false);
         GameManager.Instance.RestoreTime();
-        GameManager.Instance.player.currentSpeed = previousSpeed + boost;
-        GameManager.Instance.camera.cameraMode = CameraMode.railSmoothModeUP;
-        GameManager.Instance.camera.cameraState = CameraState.moving;
+        GameManager.Instance.playerCamera.cameraMode = CameraMode.railSmoothModeUP;
+        GameManager.Instance.playerCamera.cameraState = CameraState.moving;
         trigger.enabled = false;
         l_cooldownTime = cooldownTime;
 
@@ -99,12 +98,13 @@ public class BoostRingBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player") && !coroutineStarted)
         {
+            UIManager.Instance.UI.skillcheck.SetActive(true);
             GameManager.Instance.SlowTime(slowTimeFactor);
-            GameManager.Instance.camera.cameraMode = CameraMode.skillCheckMode;
-            GameManager.Instance.camera.cameraState = CameraState.ring_skillcheck;
+            GameManager.Instance.playerCamera.cameraMode = CameraMode.skillCheckMode;
+            GameManager.Instance.playerCamera.cameraState = CameraState.ring_skillcheck;
 
             previousSpeed = GameManager.Instance.player.currentSpeed;
-            ringDistance = Vector3.Distance(transform.position, GameManager.Instance.player.transform.position);
+            float ringDistance = Vector3.Distance(transform.position, GameManager.Instance.player.transform.position);
 
             GameManager.Instance.player.currentSpeed = ringDistance / skillcheckDuration;
 
@@ -117,11 +117,15 @@ public class BoostRingBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            //PUNISH
+            GameManager.Instance.player.currentSpeed = Mathf.Clamp(previousSpeed + boostParameters.failBoost, 0, previousSpeed);
+            GameManager.Instance.player.animator.SetBool("Impact", true);
+
             //RESTORE EVERYTHING
+            UIManager.Instance.UI.skillcheck.SetActive(false);
             GameManager.Instance.RestoreTime();
-            GameManager.Instance.player.currentSpeed = previousSpeed;
-            GameManager.Instance.camera.cameraMode = CameraMode.railSmoothModeUP;
-            GameManager.Instance.camera.cameraState = CameraState.moving;
+            GameManager.Instance.playerCamera.cameraMode = CameraMode.railSmoothModeUP;
+            GameManager.Instance.playerCamera.cameraState = CameraState.moving;
 
             trigger.enabled = false;
             l_cooldownTime = cooldownTime;

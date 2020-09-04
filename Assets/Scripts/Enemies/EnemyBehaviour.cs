@@ -91,6 +91,10 @@ public class EnemyBehaviour : MonoBehaviour
                     enemyMode = EnemyMode.onTrack;
                     distanceOnPath = GameManager.Instance.player.distanceTravelled + enemyTemplate.distanceToPlayer;
                 }
+
+                //CHECK HEALTH
+                if (health <= 0)
+                    Explode();
                 break;
 
             case EnemyMode.onTrack:

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-
-
+    //INSTANCE
+    public static UIManager Instance;
 
     //REFERENCES
     PlayerBehaviour player;
@@ -32,13 +32,14 @@ public class UIManager : MonoBehaviour
         public Slider energyBarMid;
         public Slider energyBarHigh;
         public Text raceTimer;
+        public GameObject skillcheck;
     }
     public UIElements UI;
 
     private void Start()
     {
+        Instance = this;
         player = GameManager.Instance.player;
-
 
         UI.energyBarLow.minValue = 0;
         UI.energyBarMid.minValue = (player.energyParameters.maxEnergy / 3);
@@ -61,7 +62,6 @@ public class UIManager : MonoBehaviour
         {
             player.GetComponent<PlayerInput>().inputEnabled = true;
             UIW.countDown.text = "GO!";
-
         }
         if (GameManager.Instance.raceManager.countDown == 0.0f)
         {
@@ -70,6 +70,5 @@ public class UIManager : MonoBehaviour
 
         //UI.raceTimer.text = GameManager.Instance.raceManager.minutes.ToString("f0") + ":" + GameManager.Instance.raceManager.seconds.ToString("f0") + ":" + GameManager.Instance.raceManager.milliseconds.ToString();
         UI.raceTimer.text = GameManager.Instance.raceManager.convertedTime;
-
     }
 }
