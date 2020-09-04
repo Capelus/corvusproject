@@ -100,8 +100,6 @@ public class BoostRingBehaviour : MonoBehaviour
         {
             UIManager.Instance.UI.skillcheck.SetActive(true);
             GameManager.Instance.SlowTime(slowTimeFactor);
-            GameManager.Instance.playerCamera.cameraMode = CameraMode.skillCheckMode;
-            GameManager.Instance.playerCamera.cameraState = CameraState.ring_skillcheck;
 
             previousSpeed = GameManager.Instance.player.currentSpeed;
             float ringDistance = Vector3.Distance(transform.position, GameManager.Instance.player.transform.position);
