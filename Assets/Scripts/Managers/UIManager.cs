@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
 
-
+    public static UIManager Instance;
 
     //REFERENCES
     PlayerBehaviour player;
@@ -33,13 +33,14 @@ public class UIManager : MonoBehaviour
         public Slider energyBarHigh;
         public Text raceTimer;
         public Text[] timeChart;
+        public GameObject skillcheck;
     }
     public UIElements UI;
 
     private void Start()
     {
-        GameManager.Instance.uiManager = this;
-        
+
+        Instance = this;     
         player = GameManager.Instance.player;
 
         UI.timeChart = new Text[8];

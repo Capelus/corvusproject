@@ -60,7 +60,7 @@ public class RaceManager : MonoBehaviour
     public void LapChecker()
     {
         lapLog.lapConvertedTime = FormatTime(lapLog.rawTime);
-        GameManager.Instance.uiManager.UpdateTimeChart(lapLog.lapConvertedTime);
+        UIManager.Instance.UpdateTimeChart(lapLog.lapConvertedTime);
         lapCount++;
         Debug.Log(lapLog.lapConvertedTime);
     }
