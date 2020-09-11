@@ -86,7 +86,7 @@ public class BoostRingBehaviour : MonoBehaviour
         UIManager.Instance.UI.skillcheck.SetActive(false);
         GameManager.Instance.RestoreTime();
         GameManager.Instance.playerCamera.cameraMode = CameraMode.railSmoothModeUP;
-        GameManager.Instance.playerCamera.cameraState = CameraState.moving;
+        GameManager.Instance.playerCamera.ChangeState(CameraState.moving);
         trigger.enabled = false;
         l_cooldownTime = cooldownTime;
 
@@ -106,6 +106,8 @@ public class BoostRingBehaviour : MonoBehaviour
 
             GameManager.Instance.player.currentSpeed = ringDistance / skillcheckDuration;
 
+            GameManager.Instance.playerCamera.ChangeState(CameraState.ring_skillcheck);
+
             StartCoroutine("SkillCheck");
         }
     }
@@ -123,7 +125,7 @@ public class BoostRingBehaviour : MonoBehaviour
             UIManager.Instance.UI.skillcheck.SetActive(false);
             GameManager.Instance.RestoreTime();
             GameManager.Instance.playerCamera.cameraMode = CameraMode.railSmoothModeUP;
-            GameManager.Instance.playerCamera.cameraState = CameraState.moving;
+            GameManager.Instance.playerCamera.ChangeState(CameraState.moving);
 
             trigger.enabled = false;
             l_cooldownTime = cooldownTime;
