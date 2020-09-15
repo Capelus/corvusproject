@@ -105,7 +105,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     //--------------------------------------------- OTHER
     [HideInInspector] public Animator animator;
-    //---------------------------------------------------
+
+    //---------------------------------------------------LAPCHECKER
+    bool endedLap;
 
     private void Awake()
     {
@@ -439,12 +441,25 @@ public class PlayerBehaviour : MonoBehaviour
 
             case "Finish":
                 Debug.Log("Lap");
+                if (!endedLap)
+                {
                 RaceManager.Instance.LapChecker();
+                }
+                endedLap = true;
                 break;
         }
     }
+    private void OnCollisionExit(Collision collision)
+    {
+        switch (collision.transform.tag)
+        {
+            case "Finish":
+                endedLap = false;
+                break;
+        }
 
-    public void RechargeEnergy(float amount)
+    }
+        public void RechargeEnergy(float amount)
     {
         l_energy += amount;
     }

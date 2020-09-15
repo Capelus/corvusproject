@@ -14,6 +14,7 @@ public class RaceManager : MonoBehaviour
     public float milliseconds, seconds, minutes;
     public string convertedTime;
     public int lapCount;
+    public float bestLap;
 
     [System.Serializable]
     public class Lap
@@ -30,7 +31,7 @@ public class RaceManager : MonoBehaviour
         countDown = 3.50f;
         raceStarted = false;
         raceTimer = 0.0f;
-        
+        bestLap = 9999999.0f;
         lapCount = 0;
     }
     void Update()
@@ -62,8 +63,12 @@ public class RaceManager : MonoBehaviour
     public void LapChecker()
     {
         lapLog.lapConvertedTime = FormatTime(lapLog.rawTime);
+        
         UIManager.Instance.UpdateTimeChart(lapLog.lapConvertedTime);
+        
         lapCount++;
+        lapLog.rawTime = 0;
+        raceTimer = 0;
         Debug.Log(lapLog.lapConvertedTime);
     }
 }

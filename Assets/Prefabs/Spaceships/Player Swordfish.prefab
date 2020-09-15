@@ -627,7 +627,7 @@ MonoBehaviour:
   movementParameters:
     maxSpeed: 120
     acceleration: 40
-    handlingSpeed: 20
+    handlingSpeed: 30
     tiltAngle: 15
     maxWidth: 10
     maxHeight: 6
@@ -645,8 +645,8 @@ MonoBehaviour:
   l_energy: 0
   nitroParameters:
     blueNitroMultiplier: 1.5
-    yellowNitroMultiplier: 2
-    redNitroMultiplier: 3
+    yellowNitroMultiplier: 1.8
+    redNitroMultiplier: 2.2
     jets:
     - {fileID: 2500953770398452841}
     - {fileID: 3159449553556810469}

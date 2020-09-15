@@ -44,9 +44,16 @@ public class UIManager : MonoBehaviour
 
         UI.timeChart = new Text[8];
         UI.timeChart[0] = GameObject.Find("Lap 1").GetComponent<UnityEngine.UI.Text>();
+        UI.timeChart[1] = GameObject.Find("Lap 2").GetComponent<UnityEngine.UI.Text>();
+        UI.timeChart[2] = GameObject.Find("Lap 3").GetComponent<UnityEngine.UI.Text>();
+        UI.timeChart[3] = GameObject.Find("Lap 4").GetComponent<UnityEngine.UI.Text>();
+        UI.timeChart[4] = GameObject.Find("Lap 5").GetComponent<UnityEngine.UI.Text>();
+        UI.timeChart[5] = GameObject.Find("Lap 6").GetComponent<UnityEngine.UI.Text>();
+        UI.timeChart[6] = GameObject.Find("Lap 7").GetComponent<UnityEngine.UI.Text>();
+        UI.timeChart[7] = GameObject.Find("Lap 8").GetComponent<UnityEngine.UI.Text>();
 
 
-              UI.energyBarLow.minValue = 0;
+        UI.energyBarLow.minValue = 0;
         UI.energyBarMid.minValue = (player.energyParameters.maxEnergy / 3);
         UI.energyBarHigh.minValue = (player.energyParameters.maxEnergy / 3) * 2;
         UIW.countDown.text = "GET READY";
@@ -80,12 +87,10 @@ public class UIManager : MonoBehaviour
 
         //RACE TIMER--------------------------------------------------------
         UI.raceTimer.text = RaceManager.Instance.convertedTime;
-
     }
 
     public void UpdateTimeChart(string lastLapTime)
     {
-        Debug.Log("hello");
         UI.timeChart[RaceManager.Instance.lapCount].text = lastLapTime;
     }
 }
