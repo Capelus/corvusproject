@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+
 public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro, ring_skillcheck }
 public enum CameraMode { railMode, followMode, railSmoothMode, railSmoothModeUP, skillCheckMode }
 
@@ -10,9 +13,10 @@ public class CameraBehaviour : MonoBehaviour
     public CameraState cameraState;
     public CameraMode cameraMode;
 
-    Camera cam;
     PlayerBehaviour player;
-
+    Camera cam;
+    public Volume postpro;
+    Vignette _Vignette;
     float t = 0;
 
     //CORE PARAMETERS
@@ -21,6 +25,7 @@ public class CameraBehaviour : MonoBehaviour
     float desiredDistanceToTarget;
     float desiredfieldOfView;
     float desiredShakeAmount;
+    float desiredVignetteIntensity = 0.2f;
     float damp = 1.6f;
 
     //------------------------------------ EXTRA SETTINGS
@@ -45,16 +50,23 @@ public class CameraBehaviour : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
         GameManager.Instance.playerCamera = this;
         cam = GetComponent<Camera>();
+
+        postpro.profile.TryGet<Vignette>(out _Vignette);
+
+        Debug.Log(_Vignette.intensity);
     }
 
     void Update()
     {
         //CAMERAS UPDATE
-        t += 2 * Time.deltaTime;
+        t += 2 * Time.unscaledDeltaTime;
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, t); //FOV
         distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, t); //DISTANCE TO SPACESHIP
 
         transform.localPosition += Random.insideUnitSphere * desiredShakeAmount; //CAMERA SHAKE    
+
+        float vignetteIntensity = Mathf.Lerp(_Vignette.intensity.value, desiredVignetteIntensity, t); //VIGNETTE
+        _Vignette.intensity.value = vignetteIntensity;
 
         //STATE MACHINE
         switch (cameraState)
@@ -62,6 +74,7 @@ public class CameraBehaviour : MonoBehaviour
             case CameraState.idle:
                 desiredDistanceToTarget = 5;
                 desiredfieldOfView = 75;
+                desiredVignetteIntensity = 0.2f;
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0;
@@ -70,6 +83,7 @@ public class CameraBehaviour : MonoBehaviour
             case CameraState.moving:
                 desiredDistanceToTarget = 6;
                 desiredfieldOfView = 80;
+                desiredVignetteIntensity = 0.2f;
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0;
@@ -78,6 +92,7 @@ public class CameraBehaviour : MonoBehaviour
             case CameraState.low_nitro:
                 desiredDistanceToTarget = 4;
                 desiredfieldOfView = 95;
+                desiredVignetteIntensity = 0.2f;
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0.002f;
@@ -86,6 +101,7 @@ public class CameraBehaviour : MonoBehaviour
             case CameraState.mid_nitro:
                 desiredDistanceToTarget = 2;
                 desiredfieldOfView = 120;
+                desiredVignetteIntensity = 0.2f;
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0.005f;
@@ -94,14 +110,14 @@ public class CameraBehaviour : MonoBehaviour
             case CameraState.high_nitro:
                 desiredDistanceToTarget = 1;
                 desiredfieldOfView = 150;
+                desiredVignetteIntensity = 0.2f;
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0.01f;
                 break;
 
             case CameraState.ring_skillcheck:
-                desiredDistanceToTarget = 8;
-                desiredfieldOfView = 140;
+                desiredVignetteIntensity = 0.8f;
                 break;
         }
 

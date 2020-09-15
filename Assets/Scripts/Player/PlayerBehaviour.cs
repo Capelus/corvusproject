@@ -200,7 +200,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         else
         {
-            if (!boosted)
+            if (!boosted && cam.cameraState != CameraState.ring_skillcheck)
             {
                 //UN-BOOST
                 l_maxSpeed = movementParameters.maxSpeed;
