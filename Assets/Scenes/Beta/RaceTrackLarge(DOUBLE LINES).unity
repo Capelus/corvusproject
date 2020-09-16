@@ -30923,6 +30923,7 @@ MonoBehaviour:
   player: {fileID: 0}
   playerCamera: {fileID: 0}
   playerInput: {fileID: 0}
+  playerSpecs: {fileID: 0}
 --- !u!4 &2114749614
 Transform:
   m_ObjectHideFlags: 0
@@ -31641,6 +31642,12 @@ PrefabInstance:
       propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: playerSpecs
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d2c98c2147afdf4aa9441a4227da9c0,
+        type: 2}
     - target: {fileID: 247232084478899198, guid: 813d5001534106742a217734f5345281,
         type: 3}
       propertyPath: m_Name

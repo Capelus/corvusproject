@@ -14,6 +14,10 @@ public class PlayerBehaviour : MonoBehaviour
     //HEALTH
     public float health = 100;
 
+    //SPACESHIP PARAMETERS
+    public Spaceship playerSpecs;
+    ///
+
     //----------------------------- MOVEMENT PARAMETERS  
     //PUBLIC ON INSPECTOR
     [System.Serializable]
@@ -37,6 +41,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public bool canMove;
     bool boosted = false;
     float stunTime = 0;
+    float overSpeed = 0;
     //-------------------------------------------------
 
 
@@ -116,12 +121,20 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Start()
     {
-        //GET TIER FROM MENU
-        movementParameters.maxSpeed = Menu.Instance.maxSpeed;
-        movementParameters.acceleration = Menu.Instance.acceleration;
-        movementParameters.handlingSpeed = Menu.Instance.handlingSpeed;
-        //GET REFERENCES
-        playerInput = GetComponent<PlayerInput>();
+        //GET TIER FROM MENU IF PLAYERSPECS ON GAME MANAGER IS NOT NULL
+        if (GameManager.Instance.playerSpecs != null)
+            playerSpecs = GameManager.Instance.playerSpecs;
+
+        //INITIALIZE SPACESHIP PARAMETERS
+        if (playerSpecs != null)
+        {
+            movementParameters.maxSpeed = playerSpecs.speedValue;
+            movementParameters.acceleration = playerSpecs.accelerationvalue;
+            movementParameters.handlingSpeed = playerSpecs.handlingValue;
+        }
+
+    //GET REFERENCES
+    playerInput = GetComponent<PlayerInput>();
         cam = Camera.main.GetComponent<CameraBehaviour>();
         animator = GetComponent<Animator>();
 
@@ -147,6 +160,7 @@ public class PlayerBehaviour : MonoBehaviour
                     //BOOST
                     l_maxSpeed = movementParameters.maxSpeed * nitroParameters.blueNitroMultiplier;
                     l_acceleration = movementParameters.acceleration * nitroParameters.blueNitroMultiplier;
+                   
 
                     //PARTICLES
                     EffectsManager.Instance.effects.warpSpeed = 0.3f;
@@ -164,6 +178,7 @@ public class PlayerBehaviour : MonoBehaviour
                     //BOOST
                     l_maxSpeed = movementParameters.maxSpeed * nitroParameters.yellowNitroMultiplier;
                     l_acceleration = movementParameters.acceleration * nitroParameters.yellowNitroMultiplier;
+                 
 
                     //PARTICLES
                     EffectsManager.Instance.effects.warpSpeed = 0.6f;
@@ -183,6 +198,7 @@ public class PlayerBehaviour : MonoBehaviour
                     //BOOST
                     l_maxSpeed = movementParameters.maxSpeed * nitroParameters.redNitroMultiplier;
                     l_acceleration = movementParameters.acceleration * nitroParameters.redNitroMultiplier;
+                  
 
                     //PARTICLES
                     EffectsManager.Instance.effects.warpSpeed = 1f;
@@ -206,7 +222,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (!boosted && cam.cameraState != CameraState.ring_skillcheck)
             {
-                //UN-BOOST
+                //UNBOOST
                 l_maxSpeed = movementParameters.maxSpeed;
                 l_acceleration = movementParameters.acceleration;
 
@@ -227,6 +243,9 @@ public class PlayerBehaviour : MonoBehaviour
         //---------------------------------------------------------------------------------------- BARREL ROLL
         if (playerInput.roll)
         {
+            //SET ANIMATOR
+            animator.SetBool("Brake", false);
+
             //LEFT
             if (playerInput.rawMovement.x < 0)
                 animator.SetBool("BarrelRoll_Left", true);
@@ -316,27 +335,69 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Move()
     {
-        //ACCELERATION
+        //FORWARD MOVEMENT
         stunTime -= Time.unscaledDeltaTime;
         if (stunTime <= 0)
         {
-            if (playerInput.accelerate)
+            //BRAKE
+            if (playerInput.brake)
             {
-                while (Mathf.Abs(currentSpeed - l_maxSpeed) > Mathf.Epsilon)
-                {
-                    if (currentSpeed < l_maxSpeed) currentSpeed += l_acceleration * Time.deltaTime;
-                    else currentSpeed -= l_acceleration * 2 * Time.deltaTime;
-                    break;
-                }
+                //BRAKE
+                currentSpeed -= l_acceleration * 3 * Time.deltaTime;
+                
+                //CHANGE CAMERA
+                cam.ChangeState(CameraState.braking);
+
+                //SET ANIMATOR
+                animator.SetBool("Brake", true);
             }
 
+            //ACCELERATE
+            else if (playerInput.accelerate)
+            {
+                l_acceleration *= playerInput.accelerationValue;
+
+                while (Mathf.Abs(currentSpeed - l_maxSpeed + overSpeed) > Mathf.Epsilon)
+                {
+                    if (currentSpeed < l_maxSpeed - 30) currentSpeed += l_acceleration * Time.deltaTime;
+
+                    //GRADUALLY DECREASE ACCELERATION WHEN REACHING SPEED LIMIT
+                    else if (currentSpeed < l_maxSpeed - 10 && currentSpeed > l_maxSpeed - 30) currentSpeed += l_acceleration / 4f * Time.deltaTime;
+                    else if (currentSpeed < l_maxSpeed - 5 && currentSpeed > l_maxSpeed - 10) currentSpeed += l_acceleration / 6f * Time.deltaTime;
+
+                    //SLIGHTLY SPEED UP OVER LIMIT
+                    else if (currentSpeed < l_maxSpeed + overSpeed)
+                    {
+                        currentSpeed += 0.3f * Time.deltaTime;
+                        overSpeed += 0.3f * Time.deltaTime;
+                    }
+
+                    //DECELERATE
+                    else
+                    {
+                        overSpeed = 0;
+                        currentSpeed -= l_acceleration / 2 * Time.deltaTime;
+                    }
+
+                    break;
+                }
+
+                //SET ANIMATOR
+                animator.SetBool("Brake", false);
+            }
+
+            //IDLE
             else
             {
                 //DECELERATE
                 currentSpeed -= l_acceleration * Time.deltaTime;
+                overSpeed = 0;
 
                 //CAMERA EFFECT
                 cam.ChangeState(CameraState.idle);
+
+                //SET ANIMATOR
+                animator.SetBool("Brake", false);
             }
         }
 

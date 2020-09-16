@@ -10,18 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 732ce129d7450814c8322f5680ab65cb, type: 3}
-  m_Name: Spaceship
+  m_Name: TIER S
   m_EditorClassIdentifier: 
-  spaceshipMesh: {fileID: 0}
-  rb: {fileID: 0}
-  speedValue: 0
-  accelerationvalue: 0
-  sizeValue: 0
-  resistanceValue: 0
-  handlingValue: 0
-  projectileValue: 0
-  powerValue: 0
-  cadenceValue: 0
+  speedValue: 180
+  accelerationvalue: 45
+  handlingValue: 18
+  projectile: {fileID: 269988879153526050, guid: 218686552ecf9f242bec07f7b39a1035,
+    type: 3}
+  cadenceValue: 0.2
   boostValue: 0
   intakeValue: 0
   speedLevel: 0

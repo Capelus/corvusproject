@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: b6a3f8bca2c865243929bac258c89b96, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -186,7 +186,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 65
+    m_MaxSize: 239
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -238,8 +238,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -566, y: 0.00000080732}
-  m_SizeDelta: {x: 119.66, y: 418.78}
+  m_AnchoredPosition: {x: -469, y: 0.00000080732}
+  m_SizeDelta: {x: 109.50749, y: 418.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &134591649
 MonoBehaviour:
@@ -284,13 +284,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 385732790}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: ChangeScene
+      - m_Target: {fileID: 1177332261}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadRace
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 134591649}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_ObjectArgument: {fileID: 11400000, guid: 2372d606dd2c05b468b14aa400f80ecc,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: Spaceship, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -370,8 +371,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118, y: 0.00000080732}
-  m_SizeDelta: {x: 119.66, y: 418.78}
+  m_AnchoredPosition: {x: -75, y: 0.00000080732}
+  m_SizeDelta: {x: 109.50749, y: 418.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &181478694
 MonoBehaviour:
@@ -416,13 +417,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 385732790}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: ChangeScene
+      - m_Target: {fileID: 1177332261}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadRace
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 181478694}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_ObjectArgument: {fileID: 11400000, guid: fb5762c153b7c9e4c9d0f5050c004dd1,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: Spaceship, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -556,7 +558,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &303561717
 GameObject:
@@ -588,17 +590,17 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.7, y: 1.3993955, z: 1}
   m_Children:
-  - {fileID: 1342857980}
   - {fileID: 1871261325}
   - {fileID: 1630162515}
   - {fileID: 519666505}
+  - {fileID: 1342857980}
   m_Father: {fileID: 823890243}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 448.9, y: 0.00000080732}
-  m_SizeDelta: {x: 192.5, y: 418.78}
+  m_AnchoredPosition: {x: 394.6, y: 0.00000080732}
+  m_SizeDelta: {x: 199.02808, y: 418.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &303561719
 MonoBehaviour:
@@ -643,13 +645,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 385732790}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 2
+      - m_Target: {fileID: 1177332261}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadRaceCustomTier
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 303561719}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -745,10 +747,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 500
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -776,7 +778,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &385732789
 MonoBehaviour:
@@ -816,7 +818,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 385732785}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39482afe3ac42c3408811cdfa5e36432, type: 3}
   m_Name: 
@@ -942,12 +944,12 @@ RectTransform:
   - {fileID: 467703215}
   - {fileID: 631162895}
   m_Father: {fileID: 303561718}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35, y: -39}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 48.84, y: -39}
+  m_SizeDelta: {x: 111.43375, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &519666506
 MonoBehaviour:
@@ -1163,7 +1165,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -153, y: 5.9}
+  m_AnchoredPosition: {x: -164.8, y: 5.9}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &631162896
@@ -1244,8 +1246,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 113.8, y: 0.00000080732}
-  m_SizeDelta: {x: 119.66, y: 418.78}
+  m_AnchoredPosition: {x: 121, y: 0.00000080732}
+  m_SizeDelta: {x: 109.50749, y: 418.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &807745469
 MonoBehaviour:
@@ -1290,13 +1292,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 385732790}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: ChangeScene
+      - m_Target: {fileID: 1177332261}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadRace
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 807745469}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_ObjectArgument: {fileID: 11400000, guid: 8d2c98c2147afdf4aa9441a4227da9c0,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: Spaceship, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1433,7 +1436,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 385732787}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 97.6
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1596,87 +1599,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1037844610}
   m_CullTransparentMesh: 0
---- !u!1 &1138775683
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1138775686}
-  - component: {fileID: 1138775685}
-  - component: {fileID: 1138775684}
-  m_Layer: 11
-  m_Name: Skysphere
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!23 &1138775684
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138775683}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: daac56ea10f17c34bbc7c6a54267a0cb, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1138775685
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138775683}
-  m_Mesh: {fileID: -6486895136001059732, guid: ff8359c93767a6645bfa706647b8139a, type: 3}
---- !u!4 &1138775686
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138775683}
-  m_LocalRotation: {x: 0.50705916, y: 0.49283975, z: -0.49283975, w: 0.50705916}
-  m_LocalPosition: {x: -179.52492, y: -31.59562, z: -13.150431}
-  m_LocalScale: {x: 13.60787, y: 13.60787, z: 13.60787}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -90}
 --- !u!1 &1154222914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,6 +1686,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1154222914}
   m_CullTransparentMesh: 0
+--- !u!1 &1177332260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1177332262}
+  - component: {fileID: 1177332261}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1177332261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177332260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2171428f4fb06479d436cd9399c1b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  playerCamera: {fileID: 0}
+  playerInput: {fileID: 0}
+  playerSpecs: {fileID: 0}
+--- !u!4 &1177332262
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177332260}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1315319086
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,7 +1850,7 @@ RectTransform:
   m_LocalScale: {x: 0.33542, y: 0.33542, z: 0.33542}
   m_Children: []
   m_Father: {fileID: 303561718}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1966,7 +1935,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -182, y: 5.9}
+  m_AnchoredPosition: {x: -207.8, y: 5.9}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1404159599
@@ -2002,7 +1971,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Acceleration
+  m_Text: Max Acceleration
 --- !u!222 &1404159600
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2024,7 +1993,7 @@ GameObject:
   - component: {fileID: 1630162517}
   - component: {fileID: 1630162516}
   m_Layer: 5
-  m_Name: accelerationIF
+  m_Name: maxAccelerationIF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2044,12 +2013,12 @@ RectTransform:
   - {fileID: 1811677678}
   - {fileID: 1404159598}
   m_Father: {fileID: 303561718}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35, y: 1.2}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 48.84, y: 1.2}
+  m_SizeDelta: {x: 111.43375, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1630162516
 MonoBehaviour:
@@ -2351,12 +2320,12 @@ RectTransform:
   - {fileID: 551883739}
   - {fileID: 79972270}
   m_Father: {fileID: 303561718}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35, y: 40.4}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 48.84, y: 40.4}
+  m_SizeDelta: {x: 111.43375, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1871261326
 MonoBehaviour:
@@ -2495,8 +2464,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -342, y: 0.00000080732}
-  m_SizeDelta: {x: 119.66, y: 418.78}
+  m_AnchoredPosition: {x: -273, y: 0.00000080732}
+  m_SizeDelta: {x: 109.50749, y: 418.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2077766573
 MonoBehaviour:
@@ -2541,13 +2510,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 385732790}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: ChangeScene
+      - m_Target: {fileID: 1177332261}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadRace
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2077766573}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_ObjectArgument: {fileID: 11400000, guid: ad01ad5211e3f3a4f9cd2692c9bc4e8a,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: Spaceship, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

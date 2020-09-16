@@ -9,9 +9,9 @@ public class Menu : MonoBehaviour
 {
     public static Menu Instance;
     public Text maxSpeedvalue, accValue, handlingValue;
+   
     //BUTTON LIST
     Button TierC, TierB, TierA, TierS;
-
 
     //PARAMETERS TEST FOR DEBUGGING
     public float maxSpeed;
@@ -20,6 +20,7 @@ public class Menu : MonoBehaviour
     public int tiltAngle;
     public float maxWidth;
     public float maxHeight;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,9 +67,11 @@ public class Menu : MonoBehaviour
                 acceleration = float.Parse(accValue.text.ToString());
                 handlingSpeed = float.Parse(handlingValue.text.ToString());               
                 break;
+
             default:
                 break;
         }
+
         SceneManager.LoadScene(1);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public enum CameraState { idle, moving, low_nitro, mid_nitro, high_nitro, ring_skillcheck }
+public enum CameraState { idle, moving, braking, low_nitro, mid_nitro, high_nitro, ring_skillcheck }
 public enum CameraMode { railMode, followMode, railSmoothMode, railSmoothModeUP, skillCheckMode }
 
 public class CameraBehaviour : MonoBehaviour
@@ -87,6 +87,12 @@ public class CameraBehaviour : MonoBehaviour
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0;
+                break;
+
+            case CameraState.braking:
+                desiredDistanceToTarget = 4;
+                desiredfieldOfView = 75;
+                desiredVignetteIntensity = 0.2f;
                 break;
 
             case CameraState.low_nitro:

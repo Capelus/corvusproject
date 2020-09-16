@@ -60,6 +60,24 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    public float accelerationValue
+    {
+        get
+        {
+            return Input.GetAxis("Accelerate");
+        }
+    }
+
+    //BRAKE
+    public bool brake
+    {
+        get
+        {
+            if (Input.GetAxis("Accelerate") < 0) return true;
+            return false;
+        }
+    }
+
     //BARREL ROLL
     public bool roll
     {

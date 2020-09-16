@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+    //PLAYER SPACESHIP SPECS
+    [HideInInspector] public Spaceship playerSpecs;
+
     void Update()
     {
         //PROTO DEBUG
@@ -39,5 +42,20 @@ public class GameManager : MonoBehaviour
     public void RestoreTime()
     {
         Time.timeScale = 1;
+    }
+
+    public void LoadRace(Spaceship specs) //EN EL FUTURO ESTA FUNCIÓN PEDIRÁ CIRCUITO Y DEMÁS COSAS
+    {
+        playerSpecs = specs;
+        SceneManager.LoadScene("RaceTrackLarge(DOUBLE LINES)");
+    }
+
+    public void LoadRaceCustomTier() //DEBUG
+    {
+        playerSpecs = new Spaceship();
+        playerSpecs.speedValue = float.Parse(GameObject.Find("maxSpeedIF").GetComponent<InputField>().text);
+        playerSpecs.accelerationvalue = float.Parse(GameObject.Find("accelerationIF").GetComponent<InputField>().text);
+        playerSpecs.handlingValue = float.Parse(GameObject.Find("handlingSpeedIF").GetComponent<InputField>().text);
+        playerSpecs.cadenceValue = 0.2f; //HARDCODED DE MOMENTO
     }
 }
