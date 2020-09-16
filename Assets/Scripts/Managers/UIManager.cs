@@ -60,7 +60,6 @@ public class UIManager : MonoBehaviour
         UI.energyBarLow.maxValue = (player.energyParameters.maxEnergy / 3);
         UI.energyBarMid.maxValue = (player.energyParameters.maxEnergy / 3) * 2;
         UI.energyBarHigh.maxValue = player.energyParameters.maxEnergy;
-        //UI.timeChart[0].text = "hello";
     }
 
     private void Update()

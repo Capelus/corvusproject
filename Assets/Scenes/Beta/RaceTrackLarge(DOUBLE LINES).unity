@@ -9678,7 +9678,7 @@ Transform:
   m_GameObject: {fileID: 1129556709}
   m_LocalRotation: {x: -0, y: 0.4778558, z: -0, w: 0.8784383}
   m_LocalPosition: {x: 5390.64, y: -18.9, z: -1058.1}
-  m_LocalScale: {x: 1.4281436, y: 11.599573, z: 19.152842}
+  m_LocalScale: {x: 64.54357, y: 11.599573, z: 19.152842}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
@@ -28213,6 +28213,7 @@ MonoBehaviour:
   minutes: 0
   convertedTime: 
   lapCount: 0
+  bestLap: 0
   lapLog:
     rawTime: 0
     lapConvertedTime: 

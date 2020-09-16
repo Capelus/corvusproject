@@ -70,5 +70,6 @@ public class RaceManager : MonoBehaviour
         lapLog.rawTime = 0;
         raceTimer = 0;
         Debug.Log(lapLog.lapConvertedTime);
+        
     }
 }

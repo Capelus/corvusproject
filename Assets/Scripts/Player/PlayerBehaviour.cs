@@ -19,7 +19,7 @@ public class PlayerBehaviour : MonoBehaviour
     [System.Serializable]
     public class MovementParameters
     {
-        public float maxSpeed = 150;
+        public float maxSpeed = 120;
         public float acceleration = 40;
         public float handlingSpeed = 15;
         public int tiltAngle = 15;
@@ -116,6 +116,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Start()
     {
+        //GET TIER FROM MENU
+        movementParameters.maxSpeed = Menu.Instance.maxSpeed;
+        movementParameters.acceleration = Menu.Instance.acceleration;
+        movementParameters.handlingSpeed = Menu.Instance.handlingSpeed;
         //GET REFERENCES
         playerInput = GetComponent<PlayerInput>();
         cam = Camera.main.GetComponent<CameraBehaviour>();
