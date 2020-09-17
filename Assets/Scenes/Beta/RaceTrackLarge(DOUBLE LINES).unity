@@ -375,7 +375,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31514880}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -713,7 +713,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 87173039}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -876,7 +876,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111554293}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -987,7 +987,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 117461079}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -1178,7 +1178,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 131383398}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -1355,7 +1355,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 143808255}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -1436,7 +1436,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 147163109}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -1517,7 +1517,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 152644988}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -1598,7 +1598,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 162358388}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -1679,7 +1679,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 186555024}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -1760,7 +1760,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 189317762}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -2252,7 +2252,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233411944}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -2574,7 +2574,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 276082048}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -2879,7 +2879,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 316457036}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -3179,7 +3179,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 368590585}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -3352,7 +3352,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370274176}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -3724,7 +3724,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424549430}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -3914,7 +3914,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 484396491}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -3995,7 +3995,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 507455482}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -4076,7 +4076,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513804647}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -4157,7 +4157,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516260778}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -4238,7 +4238,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519873070}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -4331,7 +4331,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 588685000}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -4508,7 +4508,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 607712373}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -4684,7 +4684,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 612758471}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -5064,7 +5064,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648074859}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -5181,7 +5181,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666735058}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -5317,27 +5317,27 @@ PrefabInstance:
     - target: {fileID: 2475808014274206210, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.2680353
+      value: 0.11211231
       objectReference: {fileID: 0}
     - target: {fileID: 2475808014274206210, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.2680353
+      value: 2.074886
       objectReference: {fileID: 0}
     - target: {fileID: 2475808014274206210, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.2680353
+      value: 2.074886
       objectReference: {fileID: 0}
     - target: {fileID: 2475808014274206210, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -563.8
+      value: -804.9
       objectReference: {fileID: 0}
     - target: {fileID: 2475808014274206210, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2475808014274206210, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
@@ -5412,27 +5412,27 @@ PrefabInstance:
     - target: {fileID: 2475808014610340121, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.2680353
+      value: 0.11211231
       objectReference: {fileID: 0}
     - target: {fileID: 2475808014610340121, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.2680353
+      value: 2.074886
       objectReference: {fileID: 0}
     - target: {fileID: 2475808014610340121, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.2680353
+      value: 2.074886
       objectReference: {fileID: 0}
     - target: {fileID: 2475808014610340121, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -563.8
+      value: -873.4
       objectReference: {fileID: 0}
     - target: {fileID: 2475808014610340121, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2475808014610340121, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
@@ -5562,27 +5562,27 @@ PrefabInstance:
     - target: {fileID: 2475808015314248711, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.2680353
+      value: 0.11211231
       objectReference: {fileID: 0}
     - target: {fileID: 2475808015314248711, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.2680353
+      value: 2.074886
       objectReference: {fileID: 0}
     - target: {fileID: 2475808015314248711, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.2680353
+      value: 2.074886
       objectReference: {fileID: 0}
     - target: {fileID: 2475808015314248711, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -563.8
+      value: -736.5
       objectReference: {fileID: 0}
     - target: {fileID: 2475808015314248711, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2475808015314248711, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
@@ -5973,7 +5973,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 696322469}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -6150,7 +6150,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 710524846}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -6312,7 +6312,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 736937513}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -6468,7 +6468,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 755417540}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -6644,7 +6644,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 777299083}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -6826,7 +6826,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 822409649}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -6907,7 +6907,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 829417752}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -6988,7 +6988,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 844148494}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7069,7 +7069,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846314801}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7162,7 +7162,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879203345}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7243,7 +7243,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 880970248}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7324,7 +7324,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 885667243}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7405,7 +7405,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 886795567}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7486,7 +7486,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 890280569}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7567,7 +7567,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915157926}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7648,7 +7648,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915736340}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7729,7 +7729,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920843305}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7851,6 +7851,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921444735}
   m_Mesh: {fileID: -8300534728327356576, guid: b73978ec8544b8549a93db373ce6510d, type: 3}
+--- !u!1 &921791779 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3159449553556810469, guid: 813d5001534106742a217734f5345281,
+    type: 3}
+  m_PrefabInstance: {fileID: 3008997138979973035}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &927363591
 GameObject:
   m_ObjectHideFlags: 0
@@ -7891,7 +7897,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 927363591}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -7972,7 +7978,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 944805941}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -8053,7 +8059,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 952497523}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -8134,7 +8140,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 965713227}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -8392,7 +8398,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998198138}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -8568,7 +8574,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002488835}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -8649,7 +8655,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021855324}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -8813,7 +8819,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1038904802}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -8894,7 +8900,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1039152117}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -8975,7 +8981,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1041363052}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -9165,7 +9171,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1046800807}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -9246,7 +9252,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051236854}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -9436,7 +9442,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1086237628}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -9517,7 +9523,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098714430}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -9598,7 +9604,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1113755510}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -9729,7 +9735,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138755737}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -9810,7 +9816,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145951652}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -9891,7 +9897,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146386587}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -9978,7 +9984,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176738774}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -10065,7 +10071,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1196847784}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -10317,7 +10323,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1224888472}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -10398,7 +10404,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1228769015}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -10671,7 +10677,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1263137953}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -11215,7 +11221,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310046116}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -11296,7 +11302,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324918799}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -11377,7 +11383,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1331696357}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -11464,7 +11470,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1348425874}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -11545,7 +11551,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353202043}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -11626,7 +11632,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371678487}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -11802,7 +11808,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1395065490}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -11883,7 +11889,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406685803}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -24555,7 +24561,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1409939003}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -24636,7 +24642,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413486909}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -24717,7 +24723,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415874901}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -24798,7 +24804,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1447377094}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -24971,7 +24977,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1464284023}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -25052,7 +25058,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1475406986}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -25133,7 +25139,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486519575}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -25561,7 +25567,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1518748965}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -25642,7 +25648,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524751874}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26024,7 +26030,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590605693}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26065,6 +26071,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590605693}
   m_Mesh: {fileID: -6150326042995890324, guid: 7e912e0cf6d29ea44afbe93a83d43565, type: 3}
+--- !u!1 &1600173713 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2500953770398452841, guid: 813d5001534106742a217734f5345281,
+    type: 3}
+  m_PrefabInstance: {fileID: 3008997138979973035}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1614790234
 GameObject:
   m_ObjectHideFlags: 0
@@ -26105,7 +26117,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1614790234}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26186,7 +26198,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1630325698}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26363,7 +26375,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638617170}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26513,7 +26525,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643924815}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26594,7 +26606,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1651006589}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26681,7 +26693,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662379296}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26762,7 +26774,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1672541886}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26849,7 +26861,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685667766}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -26962,7 +26974,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1701130008}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -27043,7 +27055,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1707916403}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -27130,7 +27142,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1741077424}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -27511,7 +27523,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758891150}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -27592,7 +27604,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1760451019}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -28115,7 +28127,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822570614}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -28361,7 +28373,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1858389437}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -28966,7 +28978,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963512997}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -29047,7 +29059,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1964289442}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -29167,7 +29179,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1973397624}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -29344,7 +29356,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978895113}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -29776,7 +29788,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2046814908}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -30126,7 +30138,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2069727883}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -30345,7 +30357,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.04
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -30495,7 +30507,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2104480114}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -30850,7 +30862,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113547207}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -30979,7 +30991,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2115715760}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -31060,7 +31072,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2124476556}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -31147,7 +31159,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131352136}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -31389,7 +31401,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2140541603}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -31470,7 +31482,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145271488}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -31644,10 +31656,320 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
         type: 3}
+      propertyPath: testCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: jets.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
       propertyPath: playerSpecs
       value: 
       objectReference: {fileID: 11400000, guid: 8d2c98c2147afdf4aa9441a4227da9c0,
         type: 2}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[0].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[0].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[1].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[1].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[0].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[1].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: testCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[0].inSlope
+      value: -0.7258502
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[0].outSlope
+      value: -0.7258502
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[0].outWeight
+      value: 0.16604798
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[1].inSlope
+      value: -4.1384473
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[1].outSlope
+      value: -4.1384473
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[1].inWeight
+      value: 0.03895694
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.accelerationCurve.m_Curve.Array.data[1].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[0].inSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[0].outSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[1].inSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[1].outSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.brakeCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.data[1].value
+      value: 0.70000076
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.data[1].inSlope
+      value: -0.97654116
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.data[1].outSlope
+      value: -0.97654116
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.data[1].inWeight
+      value: 0.072936654
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.data[0].inSlope
+      value: -0.0022889636
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.data[0].outSlope
+      value: -0.0022889636
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.handlingCurve.m_Curve.Array.data[0].outWeight
+      value: 0.10556622
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: energyParameters.maxEnergy
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: jets.Array.data[0]
+      value: 
+      objectReference: {fileID: 1600173713}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: jets.Array.data[1]
+      value: 
+      objectReference: {fileID: 921791779}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: redNitro.cameraState
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: yellowNitro.cameraState
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: blueNitro.speedBoost
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: yellowNitro.speedBoost
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: redNitro.speedBoost
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: redNitro.accelerationBoost
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: yellowNitro.accelerationBoost
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: blueNitro.accelerationBoost
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 247232084478899198, guid: 813d5001534106742a217734f5345281,
         type: 3}
       propertyPath: m_Name

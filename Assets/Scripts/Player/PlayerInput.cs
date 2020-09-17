@@ -60,14 +60,6 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    public float accelerationValue
-    {
-        get
-        {
-            return Input.GetAxis("Accelerate");
-        }
-    }
-
     //BRAKE
     public bool brake
     {
@@ -78,16 +70,25 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    //THROTTLE
+    public float throttle
+    {
+        get
+        {
+            return Input.GetAxis("Accelerate");
+        }
+    }
+
     //BARREL ROLL
     public bool roll
     {
-        get { return Input.GetButton("Roll"); }
+        get { return Input.GetButtonDown("Roll"); }
     }
 
     //NITRO
     public bool nitro
     {
-        get { return Input.GetButton("Nitro"); }
+        get { return Input.GetButtonDown("Nitro"); }
     }
 
     //BLASTER
