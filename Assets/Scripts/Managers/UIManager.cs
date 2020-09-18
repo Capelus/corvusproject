@@ -19,8 +19,6 @@ public class UIManager : MonoBehaviour
     {
         //LIST OF UIW ELEMENTS
         public Text countDown;
-        public Image redZoneQTE;
-        public Image boostZone;
     }
     public UIWarmUp UIW;
 
@@ -63,10 +61,6 @@ public class UIManager : MonoBehaviour
         UI.energyBarLow.maxValue = (player.energyParameters.maxEnergy / 3);
         UI.energyBarMid.maxValue = (player.energyParameters.maxEnergy / 3) * 2;
         UI.energyBarHigh.maxValue = player.energyParameters.maxEnergy;
-
-
-        //INITIALIZE WARM UP QTE
-        UIW.boostZone.transform.position = new Vector3(UIW.redZoneQTE.transform.localPosition.x, UIW.redZoneQTE.transform.localPosition.y, UIW.redZoneQTE.transform.localPosition.z+1);
     }
 
     private void Update()
