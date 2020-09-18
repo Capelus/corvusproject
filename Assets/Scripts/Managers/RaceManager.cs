@@ -16,6 +16,8 @@ public class RaceManager : MonoBehaviour
     public int lapCount;
     public float bestLap;
     public bool countDownReady = false;
+    bool boosted;
+
     [System.Serializable]
     public class Lap
     {
@@ -28,7 +30,7 @@ public class RaceManager : MonoBehaviour
     private void Start()
     {
         Instance = this;
-        countDown = 3.10f;
+        countDown = 3.4f;
         raceStarted = false;
         raceTimer = 0.0f;
         bestLap = 9999999.0f;
@@ -37,36 +39,41 @@ public class RaceManager : MonoBehaviour
     void Update()
     {
         //COUNTDOWN------------------------------------
-        if (countDown > 0 && countDownReady) countDown -= Time.deltaTime;
-        if (countDown < 1)
+        //if (countDown > 0 && countDownReady) countDown -= Time.deltaTime;
+        //if (countDown < 1)
+        //{             
+        //}
+
+        if (countDownReady)
         {
-            raceStarted = true;
-            lapLog.rawTime += Time.deltaTime;
-            
+            countDown -= Time.deltaTime;
+            if (countDown < 1)
+            {
+                raceStarted = true;
+                lapLog.rawTime += Time.deltaTime;
+
+                if (UIManager.Instance.UIW.warmUpQTE.successQTE && !boosted)
+                {
+                    boosted = true;
+                    GameManager.Instance.player.Boost(2, 40, 30, CameraState.mid_nitro);
+                }
+
+                UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);
+                UIManager.Instance.UIW.warmUpQTE.successQTE = false;
+                UIManager.Instance.UIW.warmUpQTE.enabled = false;
+            }
         }
+
         if (raceStarted)
         {
-            raceTimer += Time.deltaTime;
-            if (UIManager.Instance.UIW.warmUpQTE.enabled)
-            {
-                if (UIManager.Instance.UIW.warmUpQTE.successQTE)
-                {
-                    GameManager.Instance.player.Boost(1, 20, 3, CameraState.mid_nitro);
-                }
-                else
-                {
-
-                }
-            }
-            UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);
+            raceTimer += Time.deltaTime;         
         }
+
         convertedTime = FormatTime(raceTimer);
     }
-    
-    string FormatTime(float totalRaceTime)
-    {
 
-       
+    string FormatTime(float totalRaceTime)
+    {  
         int minutes  = (int)totalRaceTime / 60;
         int seconds = (int)totalRaceTime % 60;
         float milliseconds = totalRaceTime * 1000;
