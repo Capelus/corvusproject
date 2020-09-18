@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 public enum CameraState { idle, moving, braking, low_nitro, mid_nitro, high_nitro, ring_skillcheck }
-public enum CameraMode { railMode, followMode, railSmoothMode, railSmoothModeUP, skillCheckMode }
+public enum CameraMode { railMode, followMode, railSmoothMode, railSmoothModeUP, railSmoothModeInverted, railSmoothModeLookAt, skillCheckMode }
 
 public class CameraBehaviour : MonoBehaviour
 {
@@ -26,7 +26,7 @@ public class CameraBehaviour : MonoBehaviour
     float desiredfieldOfView;
     float desiredShakeAmount;
     float desiredVignetteIntensity = 0.2f;
-    float damp = 1.6f;
+    public float damp = 1.6f;
 
     //------------------------------------ EXTRA SETTINGS
     //PUBLIC ON INSPECTOR
@@ -35,6 +35,7 @@ public class CameraBehaviour : MonoBehaviour
     {
         public float sightBeyond = 20;
         public float lookAtSpeed = 6;
+        public bool smooth2DFollow;
     }
 
     public Settings cameraSettings;
@@ -146,7 +147,8 @@ public class CameraBehaviour : MonoBehaviour
                 hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 2, t);
                 vOffset = Mathf.Lerp(vOffset, player.verticalMove / 2, t);
 
-                cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
+                cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up * vOffset, t);
+
                 transform.forward = Vector3.Lerp(transform.forward, (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized,t);
 
                 break;
@@ -160,9 +162,56 @@ public class CameraBehaviour : MonoBehaviour
                 hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 1.5f, t);
                 vOffset = Mathf.Lerp(vOffset, (player.verticalMove + 2f) / 1.5f, t);
 
-                cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up* vOffset, t);
+                if (cameraSettings.smooth2DFollow)
+                    cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up * vOffset, t);
+
+                else cam.transform.position = cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos, t);
 
                 transform.forward = Vector3.Lerp(transform.forward, (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized, t);
+
+                break;
+
+            case CameraMode.railSmoothModeInverted:
+
+                t += damp * Time.deltaTime;
+
+                cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
+
+                hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / 10, t);
+                vOffset = Mathf.Lerp(vOffset, -player.verticalMove / 10, t);
+
+                //cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
+
+                if (cameraSettings.smooth2DFollow)
+                    cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up * vOffset, t);
+
+                else cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos, t);
+
+                Vector3 lookAt = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized;
+                lookAt += (transform.right * -hOffset / 3) + (transform.up * -vOffset / 3);
+
+                transform.forward = Vector3.Lerp(transform.forward, lookAt, t);
+
+                break;
+
+            case CameraMode.railSmoothModeLookAt:
+
+                t += damp * Time.deltaTime;
+
+                cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
+
+                hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 10f, t);
+                vOffset = Mathf.Lerp(vOffset, (player.verticalMove) / 10f, t);
+
+                if(cameraSettings.smooth2DFollow)
+                    cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up * vOffset, t);
+
+                else cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos, t);
+
+                Vector3 lookAtUP = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized;
+                lookAtUP += (transform.right * +hOffset / 3) + (transform.up * +vOffset / 3);
+
+                transform.forward = Vector3.Lerp(transform.forward, lookAtUP, t);
 
                 break;
 
