@@ -15,7 +15,7 @@ public class RaceManager : MonoBehaviour
     public string convertedTime;
     public int lapCount;
     public float bestLap;
-
+    public bool countDownReady = false;
     [System.Serializable]
     public class Lap
     {
@@ -28,7 +28,7 @@ public class RaceManager : MonoBehaviour
     private void Start()
     {
         Instance = this;
-        countDown = 3.50f;
+        countDown = 3.10f;
         raceStarted = false;
         raceTimer = 0.0f;
         bestLap = 9999999.0f;
@@ -37,14 +37,29 @@ public class RaceManager : MonoBehaviour
     void Update()
     {
         //COUNTDOWN------------------------------------
-        if (countDown > 0) countDown -= Time.deltaTime;
+        if (countDown > 0 && countDownReady) countDown -= Time.deltaTime;
         if (countDown < 1)
         {
             raceStarted = true;
             lapLog.rawTime += Time.deltaTime;
             
         }
-        if(raceStarted) raceTimer += Time.deltaTime;
+        if (raceStarted)
+        {
+            raceTimer += Time.deltaTime;
+            if (UIManager.Instance.UIW.warmUpQTE.enabled)
+            {
+                if (UIManager.Instance.UIW.warmUpQTE.successQTE)
+                {
+                    GameManager.Instance.player.Boost(1, 20, 3, CameraState.mid_nitro);
+                }
+                else
+                {
+
+                }
+            }
+            UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);
+        }
         convertedTime = FormatTime(raceTimer);
     }
     

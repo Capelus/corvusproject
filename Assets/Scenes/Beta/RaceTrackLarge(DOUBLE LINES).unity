@@ -3020,6 +3020,7 @@ MonoBehaviour:
   checkMark: {fileID: 982637811}
   boostZoneWidth: 0
   checkMarkSpeed: 0
+  successQTE: 0
 --- !u!1 &338442027
 GameObject:
   m_ObjectHideFlags: 0
@@ -5496,6 +5497,11 @@ PrefabInstance:
       propertyPath: UIW.boostZone
       value: 
       objectReference: {fileID: 1345554392}
+    - target: {fileID: 2475808015731484958, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+        type: 3}
+      propertyPath: UIW.warmUpQTE
+      value: 
+      objectReference: {fileID: 320534594}
     - target: {fileID: 2475808015731484959, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5620,6 +5626,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475808016283343297, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+        type: 3}
+      propertyPath: m_Text
+      value: GET READY
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15f40a3f4c666d6499600befb4b3c0c9, type: 3}
@@ -28221,6 +28232,7 @@ MonoBehaviour:
   convertedTime: 
   lapCount: 0
   bestLap: 0
+  countDownReady: 0
   lapLog:
     rawTime: 0
     lapConvertedTime: 

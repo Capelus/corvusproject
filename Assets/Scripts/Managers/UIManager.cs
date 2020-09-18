@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     {
         //LIST OF UIW ELEMENTS
         public Text countDown;
+        public WarmBehaviourQTE warmUpQTE;
     }
     public UIWarmUp UIW;
 
@@ -70,7 +71,10 @@ public class UIManager : MonoBehaviour
         UI.energyBarLow.value = player.l_energy;
         UI.energyBarMid.value = player.l_energy;
         UI.energyBarHigh.value = player.l_energy;
+        if (RaceManager.Instance.countDownReady)
+        {
         UIW.countDown.text = RaceManager.Instance.countDown.ToString("f0");
+        }
       
 
         //COUNTDOWN--------------------------------------------
