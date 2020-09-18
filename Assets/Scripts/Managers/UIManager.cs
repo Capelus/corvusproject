@@ -19,7 +19,8 @@ public class UIManager : MonoBehaviour
     {
         //LIST OF UIW ELEMENTS
         public Text countDown;
-
+        public Image redZoneQTE;
+        public Image boostZone;
     }
     public UIWarmUp UIW;
 
@@ -42,6 +43,7 @@ public class UIManager : MonoBehaviour
         Instance = this;     
         player = GameManager.Instance.player;
 
+        //INITIALIZE TIME CHART
         UI.timeChart = new Text[8];
         UI.timeChart[0] = GameObject.Find("Lap 1").GetComponent<UnityEngine.UI.Text>();
         UI.timeChart[1] = GameObject.Find("Lap 2").GetComponent<UnityEngine.UI.Text>();
@@ -53,6 +55,7 @@ public class UIManager : MonoBehaviour
         UI.timeChart[7] = GameObject.Find("Lap 8").GetComponent<UnityEngine.UI.Text>();
 
 
+        //INITIALIZE ENERGY BAR
         UI.energyBarLow.minValue = 0;
         UI.energyBarMid.minValue = (player.energyParameters.maxEnergy / 3);
         UI.energyBarHigh.minValue = (player.energyParameters.maxEnergy / 3) * 2;
@@ -60,6 +63,10 @@ public class UIManager : MonoBehaviour
         UI.energyBarLow.maxValue = (player.energyParameters.maxEnergy / 3);
         UI.energyBarMid.maxValue = (player.energyParameters.maxEnergy / 3) * 2;
         UI.energyBarHigh.maxValue = player.energyParameters.maxEnergy;
+
+
+        //INITIALIZE WARM UP QTE
+        UIW.boostZone.transform.position = new Vector3(UIW.redZoneQTE.transform.localPosition.x, UIW.redZoneQTE.transform.localPosition.y, UIW.redZoneQTE.transform.localPosition.z+1);
     }
 
     private void Update()
