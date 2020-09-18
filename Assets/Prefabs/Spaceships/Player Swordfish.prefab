@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 256802269}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: 0, w: -0.7071068}
-  m_LocalPosition: {x: -3.977003, y: 0.6399994, z: 0.030000001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 587025864085072196}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: -270, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &256802270
 Camera:
   m_ObjectHideFlags: 0
@@ -415,11 +415,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraState: 0
-  cameraMode: 3
+  cameraMode: 5
   postpro: {fileID: 653260036}
+  damp: 6
   cameraSettings:
-    sightBeyond: 80
+    sightBeyond: 50
     lookAtSpeed: 1
+    smooth2DFollow: 0
 --- !u!1 &1793864940
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,7 +735,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  playerSpecs: {fileID: 11400000, guid: 8d2c98c2147afdf4aa9441a4227da9c0, type: 2}
+  playerSpecs: {fileID: 11400000, guid: 008d7ff1a2575594a8d7db22246972e4, type: 2}
   movementParameters:
     maxSpeed: 120
     maxAcceleration: 40
@@ -822,7 +824,7 @@ MonoBehaviour:
   canMove: 0
   energyParameters:
     maxEnergy: 300
-    initialEnergy: 100
+    initialEnergy: 101
   l_energy: 0
   blueNitro:
     boostTime: 2

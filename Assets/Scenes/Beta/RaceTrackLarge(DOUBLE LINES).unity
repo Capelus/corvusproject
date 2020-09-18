@@ -1908,7 +1908,7 @@ MonoBehaviour:
       - 331.4264
       globalNormalsAngle: 90
       flipNormals: 0
-    vertexPathUpToDate: 1
+    vertexPathUpToDate: 0
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -31378,11 +31378,6 @@ PrefabInstance:
     - target: {fileID: 1878604512, guid: 813d5001534106742a217734f5345281, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
-        type: 3}
-      propertyPath: energyParameters.initialEnergy
-      value: 101
       objectReference: {fileID: 0}
     - target: {fileID: 247232084478899198, guid: 813d5001534106742a217734f5345281,
         type: 3}
