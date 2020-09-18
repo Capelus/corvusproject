@@ -34,7 +34,10 @@ public class WarmBehaviourQTE : MonoBehaviour
         }
         else if (checkMark.localPosition.x > 0)
         {
-            checkMark.localPosition = new Vector2(checkMark.localPosition.x -0.25f,0);
+            float decelerationValue = 0;
+            decelerationValue += Time.deltaTime;
+            checkMark.localPosition = new Vector2(checkMark.localPosition.x *decelerationValue,0);
+
         }
         
     }

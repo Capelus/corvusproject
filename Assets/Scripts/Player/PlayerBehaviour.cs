@@ -59,6 +59,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     //LOCAL
     [HideInInspector] public float l_maxSpeed, l_acceleration, currentSpeed, horizontalMove, verticalMove, distanceTravelled = 0;
+    public float initialDistance;
     [HideInInspector] public Vector3 forwardDirection = Vector3.left;
     [HideInInspector] public bool canMove;
 
@@ -166,7 +167,8 @@ public class PlayerBehaviour : MonoBehaviour
         l_energy = energyParameters.initialEnergy;
 
         //SET INITIAL POSITION
-        transform.position = TrackManager.Instance.GetPositionAtDistance(0);// + transform.up * -3;
+        transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance);// + transform.up * -3;
+        distanceTravelled = initialDistance;
         canMove = true;
     }
 
