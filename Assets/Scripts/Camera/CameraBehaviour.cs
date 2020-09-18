@@ -71,7 +71,7 @@ public class CameraBehaviour : MonoBehaviour
         switch (cameraState)
         {
             case CameraState.idle:
-                desiredDistanceToTarget = 5;
+                desiredDistanceToTarget = 6;
                 desiredfieldOfView = 75;
                 desiredVignetteIntensity = 0.2f;
 
@@ -209,7 +209,7 @@ public class CameraBehaviour : MonoBehaviour
                 else cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos, t);
 
                 Vector3 lookAtUP = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized;
-                lookAtUP += (transform.right * +hOffset / 3) + (transform.up * +vOffset / 3);
+                lookAtUP += (transform.right * +hOffset / 5) + (transform.up * +vOffset / 5);
 
                 transform.forward = Vector3.Lerp(transform.forward, lookAtUP, t);
 

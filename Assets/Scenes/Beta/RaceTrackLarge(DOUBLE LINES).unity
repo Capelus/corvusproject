@@ -31645,6 +31645,22 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: playerSpecs
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d2c98c2147afdf4aa9441a4227da9c0,
+        type: 2}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.maxWidth
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 247232084478899196, guid: 813d5001534106742a217734f5345281,
+        type: 3}
+      propertyPath: movementParameters.maxHeight
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 247232084478899198, guid: 813d5001534106742a217734f5345281,
         type: 3}
       propertyPath: m_Name

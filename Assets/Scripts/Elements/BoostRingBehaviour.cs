@@ -48,7 +48,7 @@ public class BoostRingBehaviour : MonoBehaviour
             trigger.enabled = true;
     }
 
-    //SKILLCHECK COROUTINE
+    //SKILLCHECK COROUTINE -- UNUSED
     IEnumerator SkillCheck()
     {
         coroutineStarted = true;
@@ -98,38 +98,41 @@ public class BoostRingBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player") && !coroutineStarted)
         {
-            UIManager.Instance.UI.skillcheck.SetActive(true);
-            GameManager.Instance.SlowTime(slowTimeFactor);
+            GameManager.Instance.player.Boost(boostParameters.perfectBoostTime, boostParameters.perfectBoost, 30, CameraState.mid_nitro);
+            l_cooldownTime = cooldownTime;
 
-            previousSpeed = GameManager.Instance.player.currentSpeed;
-            float ringDistance = Vector3.Distance(transform.position, GameManager.Instance.player.transform.position);
+            //UIManager.Instance.UI.skillcheck.SetActive(true);
+            //GameManager.Instance.SlowTime(slowTimeFactor);
 
-            GameManager.Instance.player.currentSpeed = ringDistance / skillcheckDuration;
+            //previousSpeed = GameManager.Instance.player.currentSpeed;
+            //float ringDistance = Vector3.Distance(transform.position, GameManager.Instance.player.transform.position);
 
-            GameManager.Instance.playerCamera.ChangeState(CameraState.ring_skillcheck);
+            //GameManager.Instance.player.currentSpeed = ringDistance / skillcheckDuration;
 
-            StartCoroutine("SkillCheck");
+            //GameManager.Instance.playerCamera.ChangeState(CameraState.ring_skillcheck);
+
+            //StartCoroutine("SkillCheck");
         }
     }
 
     //EXIT
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            //PUNISH
-            GameManager.Instance.player.currentSpeed = Mathf.Clamp(previousSpeed + boostParameters.failBoost, 0, previousSpeed);
-            GameManager.Instance.player.animator.SetBool("Impact", true);
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        //PUNISH
+    //        GameManager.Instance.player.currentSpeed = Mathf.Clamp(previousSpeed + boostParameters.failBoost, 0, previousSpeed);
+    //        GameManager.Instance.player.animator.SetBool("Impact", true);
 
-            //RESTORE EVERYTHING
-            UIManager.Instance.UI.skillcheck.SetActive(false);
-            GameManager.Instance.RestoreTime();
-            GameManager.Instance.playerCamera.cameraMode = CameraMode.railSmoothModeUP;
-            GameManager.Instance.playerCamera.ChangeState(CameraState.moving);
+    //        //RESTORE EVERYTHING
+    //        UIManager.Instance.UI.skillcheck.SetActive(false);
+    //        GameManager.Instance.RestoreTime();
+    //        GameManager.Instance.playerCamera.cameraMode = CameraMode.railSmoothModeUP;
+    //        GameManager.Instance.playerCamera.ChangeState(CameraState.moving);
 
-            trigger.enabled = false;
-            l_cooldownTime = cooldownTime;
-            StopCoroutine("SkillCheck");
-        }
-    }
+    //        trigger.enabled = false;
+    //        l_cooldownTime = cooldownTime;
+    //        StopCoroutine("SkillCheck");
+    //    }
+    //}
 }

@@ -186,8 +186,11 @@ MonoBehaviour:
   cooldownTime: 2
   boostParameters:
     failBoost: -40
+    failBoostTime: 0.2
     greatBoost: 80
+    greatBoostTime: 1
     perfectBoost: 150
+    perfectBoostTime: 1.5
 --- !u!136 &3610183916425567828
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -199,9 +202,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 1.06
-  m_Height: 3.1671364
+  m_Height: 1.4698113
   m_Direction: 1
-  m_Center: {x: 0.00000011647572, y: 0.5412389, z: -0.018948738}
+  m_Center: {x: 0.00000011466351, y: 0.036257897, z: -0.01894874}
 --- !u!1 &4899514784243957544
 GameObject:
   m_ObjectHideFlags: 0
