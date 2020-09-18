@@ -12,20 +12,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732ce129d7450814c8322f5680ab65cb, type: 3}
   m_Name: TIER C
   m_EditorClassIdentifier: 
-  speedValue: 100
-  accelerationvalue: 30
+  maxSpeedValue: 100
+  maxAccelerationvalue: 20
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.7258502
+      outSlope: -0.7258502
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.16604798
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -4.1384473
+      outSlope: -4.1384473
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.03895694
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  brakeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   handlingValue: 10
+  handlingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.0022889636
+      outSlope: -0.0022889636
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.10556622
+    - serializedVersion: 3
+      time: 1
+      value: 0.70000076
+      inSlope: -0.97654116
+      outSlope: -0.97654116
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.072936654
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   projectile: {fileID: 269988879153526050, guid: 218686552ecf9f242bec07f7b39a1035,
     type: 3}
   cadenceValue: 0.2
-  boostValue: 0
-  intakeValue: 0
-  speedLevel: 0
-  accelerationLevel: 0
-  resistanceLevel: 0
-  handlingLevel: 0
-  blasterType: 0
-  powerLevel: 0
-  cadenceLevel: 0
-  boostLevel: 0
-  intakeLevel: 0

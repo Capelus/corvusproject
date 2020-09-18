@@ -52,8 +52,6 @@ public class CameraBehaviour : MonoBehaviour
         cam = GetComponent<Camera>();
 
         postpro.profile.TryGet<Vignette>(out _Vignette);
-
-        Debug.Log(_Vignette.intensity);
     }
 
     void Update()

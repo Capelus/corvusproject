@@ -732,12 +732,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ea0c04f6e879b4d90e4cc53b0f9be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
+  animator: {fileID: 0}
+  playerSpecs: {fileID: 11400000, guid: 8d2c98c2147afdf4aa9441a4227da9c0, type: 2}
   movementParameters:
     maxSpeed: 120
-    acceleration: 40
-    handlingSpeed: 30
-    tiltAngle: 15
+    maxAcceleration: 40
+    accelerationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -0.7258502
+        outSlope: -0.7258502
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.16604798
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -4.1384473
+        outSlope: -4.1384473
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.03895694
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    brakeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -1
+        outSlope: -1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -1
+        outSlope: -1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    maxHandlingSpeed: 15
+    handlingCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -0.0022889636
+        outSlope: -0.0022889636
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.10556622
+      - serializedVersion: 3
+        time: 1
+        value: 0.70000076
+        inSlope: -0.97654116
+        outSlope: -0.97654116
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.072936654
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     maxWidth: 10
     maxHeight: 6
   l_maxSpeed: 0
@@ -745,21 +817,31 @@ MonoBehaviour:
   currentSpeed: 0
   horizontalMove: 0
   verticalMove: 0
-  forwardDirection: {x: -1, y: 0, z: 0}
   distanceTravelled: 0
+  forwardDirection: {x: -1, y: 0, z: 0}
   canMove: 0
   energyParameters:
     maxEnergy: 300
     initialEnergy: 100
   l_energy: 0
-  nitroParameters:
-    blueNitroMultiplier: 1.5
-    yellowNitroMultiplier: 1.8
-    redNitroMultiplier: 2.2
-    jets:
-    - {fileID: 2500953770398452841}
-    - {fileID: 3159449553556810469}
-    energyCost: 30
+  blueNitro:
+    boostTime: 2
+    speedBoost: 50
+    accelerationBoost: 15
+    cameraState: 3
+  yellowNitro:
+    boostTime: 2
+    speedBoost: 100
+    accelerationBoost: 30
+    cameraState: 4
+  redNitro:
+    boostTime: 2
+    speedBoost: 200
+    accelerationBoost: 50
+    cameraState: 5
+  jets:
+  - {fileID: 2500953770398452841}
+  - {fileID: 3159449553556810469}
   blasterParameters:
     shotSpawn1: {fileID: 1130176546598726811}
     shotSpawn2: {fileID: 1130176546214144760}
@@ -768,10 +850,6 @@ MonoBehaviour:
     energyCost: 2
   l_cadence: 0
   shotSwitch: 0
-  extraSettings:
-    allowHorizontalMovement: 1
-    invertVerticalAxis: 0
-  animator: {fileID: 0}
 --- !u!95 &2013664975700788186
 Animator:
   serializedVersion: 3

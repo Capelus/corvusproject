@@ -9,10 +9,8 @@ public class PlayerBehaviour : MonoBehaviour
     //-------------------------------------- REFERENCES
     PlayerInput playerInput;
     CameraBehaviour cam;
+    [HideInInspector] public Animator animator;
     //-------------------------------------------------
-
-    //HEALTH
-    public float health = 100;
 
     //SPACESHIP PARAMETERS
     public Spaceship playerSpecs;
@@ -23,22 +21,47 @@ public class PlayerBehaviour : MonoBehaviour
     [System.Serializable]
     public class MovementParameters
     {
-        public float maxSpeed = 120;
-        public float acceleration = 40;
-        public float handlingSpeed = 15;
-        public int tiltAngle = 15;
+        [Header("Velocity")] //--------------------------------
 
-        public float maxWidth = 5;
-        public float maxHeight = 5;
+            [Tooltip("The maximum velocity of the spaceship.")]
+                public float maxSpeed = 120;
+
+        [Header("Acceleration")] //----------------------------
+
+        [Tooltip("The maximum acceleration of the spaceship.")]
+                public float maxAcceleration = 40;
+
+            [Tooltip("The curve defining the spaceship's acceleration. (Over velocity)")]
+                public AnimationCurve accelerationCurve;
+
+            [Tooltip("The curve defining the spaceship's deceleration. (Over velocity)")]
+                public AnimationCurve brakeCurve;
+
+        [Header("Handling")] //--------------------------------
+
+            [Tooltip("The maximum velocity the spaceship can move horizontally and vertically")]
+                public float maxHandlingSpeed = 15;
+
+            [Tooltip("The curve defining the spaceship's handling. (Over velocity)")]
+                public AnimationCurve handlingCurve;
+
+        [Header("Screen Limits")] //---------------------------
+
+        [Tooltip("The width the spaceship can move along.")]
+            public float maxWidth = 5;
+
+        [Tooltip("The height the spaceship can move along.")]
+            public float maxHeight = 5;
     }
+
+    [Header("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")]
     public MovementParameters movementParameters;
 
     //LOCAL
-    [HideInInspector] public float l_maxSpeed, l_acceleration, currentSpeed, horizontalMove, verticalMove;
+    [HideInInspector] public float l_maxSpeed, l_acceleration, currentSpeed, horizontalMove, verticalMove, distanceTravelled = 0;
     [HideInInspector] public Vector3 forwardDirection = Vector3.left;
-    [HideInInspector] public float distanceTravelled = 0;
-
     [HideInInspector] public bool canMove;
+
     bool boosted = false;
     float stunTime = 0;
     float overSpeed = 0;
@@ -53,6 +76,8 @@ public class PlayerBehaviour : MonoBehaviour
         public float maxEnergy = 300;
         public float initialEnergy = 0;
     }
+
+    [Header("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")]
     public EnergyParameters energyParameters;
 
     //LOCAL
@@ -65,15 +90,18 @@ public class PlayerBehaviour : MonoBehaviour
     [System.Serializable]
     public class NitroParameters
     {
-        public float blueNitroMultiplier = 2;
-        public float yellowNitroMultiplier = 3;
-        public float redNitroMultiplier = 5;
-
-        public GameObject[] jets;
-
-        public float energyCost = 5;
+        public float boostTime = 2;
+        public float speedBoost = 2;
+        public float accelerationBoost = 2;
+        public CameraState cameraState = CameraState.low_nitro;
     }
-    public NitroParameters nitroParameters;
+
+    [Header("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")]
+    public NitroParameters blueNitro;
+    public NitroParameters yellowNitro;
+    public NitroParameters redNitro;
+
+    public GameObject[] jets;
     //-------------------------------------------------
 
 
@@ -88,6 +116,8 @@ public class PlayerBehaviour : MonoBehaviour
 
         public float energyCost = 1;
     }
+
+    [Header("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")]
     public BlasterParameters blasterParameters;
 
     //LOCAL
@@ -95,23 +125,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public bool shotSwitch = false;
     //---------------------------------------------------
 
-
-    //------------------------------------ EXTRA SETTINGS
-    //PUBLIC ON INSPECTOR
-    [System.Serializable]
-    public class ExtraSettings
-    {
-        public bool allowHorizontalMovement = true;
-        public bool invertVerticalAxis;
-    }
-    public ExtraSettings extraSettings;
-    //---------------------------------------------------
-
-
-    //--------------------------------------------- OTHER
-    [HideInInspector] public Animator animator;
-
-    //---------------------------------------------------LAPCHECKER
+    //---------------------------------------- LAPCHECKER
     bool endedLap;
 
     private void Awake()
@@ -128,13 +142,21 @@ public class PlayerBehaviour : MonoBehaviour
         //INITIALIZE SPACESHIP PARAMETERS
         if (playerSpecs != null)
         {
-            movementParameters.maxSpeed = playerSpecs.speedValue;
-            movementParameters.acceleration = playerSpecs.accelerationvalue;
-            movementParameters.handlingSpeed = playerSpecs.handlingValue;
+            //MOVEMENT
+            movementParameters.maxSpeed = playerSpecs.maxSpeedValue;
+            movementParameters.maxAcceleration = playerSpecs.maxAccelerationvalue;
+            movementParameters.accelerationCurve = playerSpecs.accelerationCurve;
+            movementParameters.brakeCurve = playerSpecs.brakeCurve;
+            movementParameters.maxHandlingSpeed = playerSpecs.handlingValue;
+            movementParameters.handlingCurve = playerSpecs.handlingCurve;
+
+            //BLASTERS
+            blasterParameters.shot = playerSpecs.projectile;
+            blasterParameters.cadence = playerSpecs.cadenceValue;
         }
 
-    //GET REFERENCES
-    playerInput = GetComponent<PlayerInput>();
+        //GET REFERENCES
+        playerInput = GetComponent<PlayerInput>();
         cam = Camera.main.GetComponent<CameraBehaviour>();
         animator = GetComponent<Animator>();
 
@@ -151,34 +173,30 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         //---------------------------------------------------------------------------------------------- NITRO
-        if (playerInput.accelerate && playerInput.nitro && l_energy > 0)
+        if (playerInput.accelerate && playerInput.nitro && l_energy > energyParameters.maxEnergy / 3 - 1)
         {
             switch (l_energy)
             {
                 //BLUE
                 case float e when (l_energy < energyParameters.maxEnergy / 3):
+
                     //BOOST
-                    l_maxSpeed = movementParameters.maxSpeed * nitroParameters.blueNitroMultiplier;
-                    l_acceleration = movementParameters.acceleration * nitroParameters.blueNitroMultiplier;
-                   
+                    Boost(blueNitro.boostTime, blueNitro.speedBoost, blueNitro.accelerationBoost, blueNitro.cameraState);
 
                     //PARTICLES
                     EffectsManager.Instance.effects.warpSpeed = 0.3f;
                     EffectsManager.Instance.effects.nebulaActive = false;
 
-                    foreach (GameObject j in nitroParameters.jets)
+                    foreach (GameObject j in jets)
                         j.GetComponent<ParticleSystemRenderer>().material.color = Color.cyan;
 
-                    //CAMERA EFFECT
-                    cam.ChangeState(CameraState.low_nitro);
                     break;
 
                 //YELLOW
-                case float e when (l_energy > energyParameters.maxEnergy / 3 && l_energy < energyParameters.maxEnergy / 3 * 2):
+                case float e when (l_energy > energyParameters.maxEnergy / 3 && l_energy < energyParameters.maxEnergy / 3 * 2 - 1):
+
                     //BOOST
-                    l_maxSpeed = movementParameters.maxSpeed * nitroParameters.yellowNitroMultiplier;
-                    l_acceleration = movementParameters.acceleration * nitroParameters.yellowNitroMultiplier;
-                 
+                    Boost(yellowNitro.boostTime, yellowNitro.speedBoost, yellowNitro.accelerationBoost, yellowNitro.cameraState);
 
                     //PARTICLES
                     EffectsManager.Instance.effects.warpSpeed = 0.6f;
@@ -186,19 +204,16 @@ public class PlayerBehaviour : MonoBehaviour
                     EffectsManager.Instance.effects.nebulaDissolve = 1;
                     EffectsManager.Instance.effects.nebulaSpeed = 0.3f;
 
-                    foreach (GameObject j in nitroParameters.jets)
+                    foreach (GameObject j in jets)
                         j.GetComponent<ParticleSystemRenderer>().material.color = Color.yellow;
 
-                    //CAMERA EFFECT
-                    cam.ChangeState(CameraState.mid_nitro);
                     break;
 
                 //RED
                 case float e when (l_energy > energyParameters.maxEnergy / 3 * 2):
+
                     //BOOST
-                    l_maxSpeed = movementParameters.maxSpeed * nitroParameters.redNitroMultiplier;
-                    l_acceleration = movementParameters.acceleration * nitroParameters.redNitroMultiplier;
-                  
+                    Boost(redNitro.boostTime, redNitro.speedBoost, redNitro.accelerationBoost, redNitro.cameraState);
 
                     //PARTICLES
                     EffectsManager.Instance.effects.warpSpeed = 1f;
@@ -206,16 +221,14 @@ public class PlayerBehaviour : MonoBehaviour
                     EffectsManager.Instance.effects.nebulaDissolve = 0.3f;
                     EffectsManager.Instance.effects.nebulaSpeed = 1;
 
-                    foreach (GameObject j in nitroParameters.jets)
+                    foreach (GameObject j in jets)
                         j.GetComponent<ParticleSystemRenderer>().material.color = Color.red;
 
-                    //CAMERA EFFECT
-                    cam.ChangeState(CameraState.high_nitro);
                     break;
             }
 
             //ENERGY DRAIN
-            l_energy -= nitroParameters.energyCost * Time.deltaTime;
+            l_energy -= energyParameters.maxEnergy / 3 - 1;
         }
 
         else
@@ -224,7 +237,7 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 //UNBOOST
                 l_maxSpeed = movementParameters.maxSpeed;
-                l_acceleration = movementParameters.acceleration;
+                l_acceleration = movementParameters.maxAcceleration;
 
                 //RESTORE PARTICLES EFFECT
                 EffectsManager.Instance.effects.warpSpeed = 0;
@@ -233,7 +246,7 @@ public class PlayerBehaviour : MonoBehaviour
                 //RESTORE CAMERA EFFECT
                 cam.ChangeState(CameraState.moving);
 
-                foreach (GameObject j in nitroParameters.jets)
+                foreach (GameObject j in jets)
                     j.GetComponent<ParticleSystemRenderer>().material.color = Color.white;
             }
         }
@@ -314,9 +327,6 @@ public class PlayerBehaviour : MonoBehaviour
         //CLAMP ENERGY
         l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);
 
-        //CHECK HEALTH
-        if (health <= 0)
-            Explode();
         //----------------------------------------------------------------------------------------------------
 
 
@@ -342,6 +352,9 @@ public class PlayerBehaviour : MonoBehaviour
             //BRAKE
             if (playerInput.brake)
             {
+                //CALCULATE BRAKE VALUE ON CURVE
+                l_acceleration *= (movementParameters.brakeCurve.Evaluate(currentSpeed / l_maxSpeed + overSpeed) * -playerInput.throttle);
+
                 //BRAKE
                 currentSpeed -= l_acceleration * 3 * Time.deltaTime;
                 
@@ -355,7 +368,7 @@ public class PlayerBehaviour : MonoBehaviour
             //ACCELERATE
             else if (playerInput.accelerate)
             {
-                l_acceleration *= playerInput.accelerationValue;
+                l_acceleration *= (movementParameters.accelerationCurve.Evaluate(currentSpeed / l_maxSpeed + overSpeed) * playerInput.throttle);
 
                 while (Mathf.Abs(currentSpeed - l_maxSpeed + overSpeed) > Mathf.Epsilon)
                 {
@@ -408,8 +421,8 @@ public class PlayerBehaviour : MonoBehaviour
         distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
 
         //CALCULATE 2D MOVEMENT
-        horizontalMove += playerInput.rawMovement.x * movementParameters.handlingSpeed * Time.deltaTime;
-        verticalMove += playerInput.rawMovement.y * movementParameters.handlingSpeed * Time.deltaTime;
+        horizontalMove += playerInput.rawMovement.x * movementParameters.maxHandlingSpeed * Time.deltaTime;
+        verticalMove += playerInput.rawMovement.y * movementParameters.maxHandlingSpeed * Time.deltaTime;
 
         //CLAMP ON LIMITS
         horizontalMove = Mathf.Clamp(horizontalMove, -movementParameters.maxWidth, movementParameters.maxWidth);
@@ -441,19 +454,16 @@ public class PlayerBehaviour : MonoBehaviour
     IEnumerator TemporalBoost(float time, float newSpeed, float newAcceleration, CameraState camState)
     {
         boosted = true;
-    
-        while (time > 0)
-        {        
-            time -= Time.unscaledDeltaTime;
-            l_maxSpeed = newSpeed;
-            l_acceleration = newAcceleration;
-            cam.ChangeState(camState);
+         
+        time -= Time.unscaledDeltaTime;
+        l_maxSpeed = newSpeed;
+        l_acceleration = newAcceleration;
+        cam.ChangeState(camState);
 
-            yield return null;
-        }
+        yield return new WaitForSeconds(time);
 
         l_maxSpeed = movementParameters.maxSpeed;
-        l_acceleration = movementParameters.acceleration;
+        l_acceleration = movementParameters.maxAcceleration;
         boosted = false;
     }
 
@@ -524,14 +534,14 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
     }
-        public void RechargeEnergy(float amount)
+    public void RechargeEnergy(float amount)
     {
         l_energy += amount;
     }
 
     public void TakeDamage(float amount)
     {
-        health -= amount;
+        //health -= amount;
     }
 
     public void Knockback(float amount)
