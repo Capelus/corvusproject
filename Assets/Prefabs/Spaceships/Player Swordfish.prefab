@@ -423,6 +423,7 @@ MonoBehaviour:
     sightBeyond: 50
     lookAtSpeed: 1
     smooth2DFollow: 1
+    tiltWithTrack: 0
 --- !u!1 &1793864940
 GameObject:
   m_ObjectHideFlags: 0
@@ -820,7 +821,7 @@ MonoBehaviour:
   horizontalMove: 0
   verticalMove: 0
   distanceTravelled: 0
-  initialDistance: 0
+  initialDistance: 10
   forwardDirection: {x: -1, y: 0, z: 0}
   canMove: 0
   energyParameters:
