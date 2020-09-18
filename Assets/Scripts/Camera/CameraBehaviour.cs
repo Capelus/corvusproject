@@ -36,6 +36,7 @@ public class CameraBehaviour : MonoBehaviour
         public float sightBeyond = 20;
         public float lookAtSpeed = 6;
         public bool smooth2DFollow;
+        public bool tiltWithTrack;
     }
 
     public Settings cameraSettings;
@@ -58,7 +59,7 @@ public class CameraBehaviour : MonoBehaviour
     void Update()
     {
         //CAMERAS UPDATE
-        t += 2 * Time.unscaledDeltaTime;
+        t += Time.unscaledDeltaTime;
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, t); //FOV
         distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, t); //DISTANCE TO SPACESHIP
 
@@ -230,6 +231,15 @@ public class CameraBehaviour : MonoBehaviour
                 transform.LookAt(player.transform.position);
 
                 break;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (cameraSettings.tiltWithTrack)
+        {
+            Quaternion rot = new Quaternion(transform.rotation.x, transform.rotation.y, player.transform.rotation.z, transform.rotation.w);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 20 * Time.deltaTime);
         }
     }
 
