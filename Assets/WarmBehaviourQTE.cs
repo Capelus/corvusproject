@@ -27,7 +27,6 @@ public class WarmBehaviourQTE : MonoBehaviour
         
         successZone.x = boostZone.localPosition.x;
         successZone.y = boostZone.localPosition.x + boostZone.rect.width;
-        Debug.Log(successZone);
     }
 
     // Update is called once per frame

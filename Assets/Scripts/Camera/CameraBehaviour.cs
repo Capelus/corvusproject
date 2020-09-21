@@ -49,7 +49,7 @@ public class CameraBehaviour : MonoBehaviour
     void Start()
     {
         //REFERENCES
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+        player = GameManager.Instance.player;
         GameManager.Instance.playerCamera = this;
         cam = GetComponent<Camera>();
 

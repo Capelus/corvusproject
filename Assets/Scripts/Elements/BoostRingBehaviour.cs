@@ -28,7 +28,6 @@ public class BoostRingBehaviour : MonoBehaviour
     }
     public BoostParameters boostParameters;
 
-    float previousSpeed;
     bool coroutineStarted = false;
 
     private void Start()
@@ -58,9 +57,6 @@ public class BoostRingBehaviour : MonoBehaviour
         {
             yield return null;
         }
-
-        //RESTORE PREVIOUS SPEED
-        GameManager.Instance.player.currentSpeed = previousSpeed;
 
         //BOOST
         switch (skillcheck.GetComponent<SkillcheckBehaviour>().skillcheckState)

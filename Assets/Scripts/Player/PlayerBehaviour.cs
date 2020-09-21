@@ -63,7 +63,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public Vector3 forwardDirection = Vector3.left;
     [HideInInspector] public bool canMove;
 
-    bool boosted = false;
+    bool boosted;
     float stunTime = 0;
     float overSpeed = 0;
     //-------------------------------------------------
@@ -101,6 +101,7 @@ public class PlayerBehaviour : MonoBehaviour
     public NitroParameters blueNitro;
     public NitroParameters yellowNitro;
     public NitroParameters redNitro;
+    float l_boostTime;
 
     public GameObject[] jets;
     //-------------------------------------------------
@@ -158,7 +159,6 @@ public class PlayerBehaviour : MonoBehaviour
 
         //GET REFERENCES
         playerInput = GetComponent<PlayerInput>();
-        cam = Camera.main.GetComponent<CameraBehaviour>();
         animator = GetComponent<Animator>();
 
         //INITIALIZE LOCAL VARIABLES
@@ -174,6 +174,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+        //A VER
+        if (cam == null)
+            cam = GameManager.Instance.playerCamera;
+
         //---------------------------------------------------------------------------------------------- NITRO
         if (playerInput.accelerate && playerInput.nitro && l_energy > energyParameters.maxEnergy / 3 - 1)
         {
@@ -235,7 +239,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         else
         {
-            if (!boosted && cam.cameraState != CameraState.ring_skillcheck)
+            if (!boosted)
             {
                 //UNBOOST
                 l_maxSpeed = movementParameters.maxSpeed;
@@ -251,6 +255,16 @@ public class PlayerBehaviour : MonoBehaviour
                 foreach (GameObject j in jets)
                     j.GetComponent<ParticleSystemRenderer>().material.color = Color.white;
             }
+        }
+
+        if (boosted)
+        {
+
+
+            //COUNT BOOST TIME
+            l_boostTime -= Time.unscaledDeltaTime;
+            if (l_boostTime < 0)
+                boosted = false;
         }
         //----------------------------------------------------------------------------------------------------
 
@@ -314,7 +328,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         //MOVE
         if (canMove && playerInput.inputEnabled)
-                Move();
+            Move();
 
         else
         {
@@ -448,25 +462,15 @@ public class PlayerBehaviour : MonoBehaviour
         animator.SetFloat("Tilt Y", playerInput.smoothedMovement.y);
     }
 
-    public void Boost(float time, float speedBoost, float accelerationBoost, CameraState camState)
+    public void Boost(float duration, float speedBoost, float accelerationBoost, CameraState camState)
     {
-        StartCoroutine(TemporalBoost(time, speedBoost + l_maxSpeed, accelerationBoost + l_acceleration, camState));
-    }
-
-    IEnumerator TemporalBoost(float time, float newSpeed, float newAcceleration, CameraState camState)
-    {
-        boosted = true;
-         
-        time -= Time.unscaledDeltaTime;
-        l_maxSpeed = newSpeed;
-        l_acceleration = newAcceleration;
+        //SET BOOST VALUES
+        l_boostTime = duration;
+        l_maxSpeed += speedBoost;
+        l_acceleration += accelerationBoost;
         cam.ChangeState(camState);
 
-        yield return new WaitForSeconds(time);
-
-        l_maxSpeed = movementParameters.maxSpeed;
-        l_acceleration = movementParameters.maxAcceleration;
-        boosted = false;
+        boosted = true;
     }
 
     private void OnTriggerEnter(Collider other)
