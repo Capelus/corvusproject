@@ -65,18 +65,18 @@ public class BoostRingBehaviour : MonoBehaviour
         {
             case 0: //BAD
                 Debug.Log("BAD");
-                GameManager.Instance.player.OneShotBoost(boostParameters.failBoostTime, boostParameters.failBoost, CameraState.moving);
+                GameManager.Instance.player.OneShotBoost(boostParameters.failBoostTime, boostParameters.failBoost, false, CameraState.moving);
                 GameManager.Instance.player.animator.SetBool("Impact", true);
                 break;
 
             case 1: //GOOD
                 Debug.Log("GOOD");
-                GameManager.Instance.player.OneShotBoost(boostParameters.greatBoostTime, boostParameters.greatBoost, CameraState.low_nitro);
+                GameManager.Instance.player.OneShotBoost(boostParameters.greatBoostTime, boostParameters.greatBoost, false, CameraState.low_nitro);
                 break;
 
             case 2: //PERFECT
                 Debug.Log("PERFECT");
-                GameManager.Instance.player.OneShotBoost(boostParameters.perfectBoostTime, boostParameters.perfectBoost, CameraState.mid_nitro);
+                GameManager.Instance.player.OneShotBoost(boostParameters.perfectBoostTime, boostParameters.perfectBoost, false, CameraState.mid_nitro);
                 break;
         }
 
@@ -96,7 +96,7 @@ public class BoostRingBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player") && !coroutineStarted)
         {
-            GameManager.Instance.player.OneShotBoost(boostParameters.greatBoostTime, boostParameters.greatBoost, CameraState.low_nitro); 
+            GameManager.Instance.player.OneShotBoost(boostParameters.greatBoostTime, boostParameters.greatBoost, false, CameraState.low_nitro); 
             l_cooldownTime = cooldownTime;
 
             //UIManager.Instance.UI.skillcheck.SetActive(true);

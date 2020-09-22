@@ -55,7 +55,7 @@ public class RaceManager : MonoBehaviour
                 if (UIManager.Instance.UIW.warmUpQTE.successQTE && !boosted)
                 {
                     boosted = true;
-                    GameManager.Instance.player.OneShotBoost(2, 30, CameraState.mid_nitro);
+                    GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.mid_nitro);
                 }
 
                 UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);

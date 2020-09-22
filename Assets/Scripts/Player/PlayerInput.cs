@@ -73,10 +73,7 @@ public class PlayerInput : MonoBehaviour
     //THROTTLE
     public float throttle
     {
-        get
-        {
-            return Input.GetAxis("Accelerate");
-        }
+        get { return Input.GetAxis("Accelerate"); }
     }
 
     //BARREL ROLL
@@ -100,6 +97,7 @@ public class PlayerInput : MonoBehaviour
     {
         get { return Input.GetButtonUp("Nitro"); }
     }
+
     //BLASTER
     public bool blaster
     {

@@ -28,7 +28,7 @@ public class CameraBehaviour : MonoBehaviour
     float desiredShakeAmount;
     float desiredVignetteIntensity = 0.2f;
     public float stateDamp = 1.6f;
-    public float modeDamp = 0.6f;
+    public float modeDamp = 1f;
 
     //------------------------------------ EXTRA SETTINGS
     //PUBLIC ON INSPECTOR
@@ -62,12 +62,12 @@ public class CameraBehaviour : MonoBehaviour
     {
         //CAMERAS UPDATE
         d += modeDamp * Time.unscaledDeltaTime;
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, t); //FOV
-        distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, t); //DISTANCE TO SPACESHIP
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, d); //FOV
+        distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, d); //DISTANCE TO SPACESHIP
 
         transform.localPosition += Random.insideUnitSphere * desiredShakeAmount; //CAMERA SHAKE    
 
-        float vignetteIntensity = Mathf.Lerp(_Vignette.intensity.value, desiredVignetteIntensity, t); //VIGNETTE
+        float vignetteIntensity = Mathf.Lerp(_Vignette.intensity.value, desiredVignetteIntensity, d); //VIGNETTE
         _Vignette.intensity.value = vignetteIntensity;
 
         //STATE MACHINE
@@ -153,12 +153,12 @@ public class CameraBehaviour : MonoBehaviour
                 break;
 
             case CameraState.boost:
-                desiredDistanceToTarget = 4;
-                desiredfieldOfView = 95;
+                desiredDistanceToTarget = 5;
+                desiredfieldOfView = 100;
                 desiredVignetteIntensity = 0.2f;
 
                 //CAMERA SHAKE
-                desiredShakeAmount = 0.002f;
+                desiredShakeAmount = 0.004f;
 
                 //PARTICLES
                 EffectsManager.Instance.effects.warpSpeed = 0.3f;
@@ -167,11 +167,11 @@ public class CameraBehaviour : MonoBehaviour
 
             case CameraState.superboost:
                 desiredDistanceToTarget = 3;
-                desiredfieldOfView = 120;
-                desiredVignetteIntensity = 0.2f;
+                desiredfieldOfView = 130;
+                desiredVignetteIntensity = 0.3f;
 
                 //CAMERA SHAKE
-                desiredShakeAmount = 0.005f;
+                desiredShakeAmount = 0.01f;
 
                 //EFFECTS
                 EffectsManager.Instance.effects.warpSpeed = 0.6f;
@@ -236,10 +236,8 @@ public class CameraBehaviour : MonoBehaviour
 
                 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
-                hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / 10, t);
-                vOffset = Mathf.Lerp(vOffset, -player.verticalMove / 10, t);
-
-                //cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
+                hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / 12, t);
+                vOffset = Mathf.Lerp(vOffset, -player.verticalMove / 12, t);
 
                 if (cameraSettings.smooth2DFollow)
                     cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up * vOffset, t);
@@ -247,9 +245,11 @@ public class CameraBehaviour : MonoBehaviour
                 else cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos, t);
 
                 Vector3 lookAt = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized;
-                lookAt += (transform.right * -hOffset / 3) + (transform.up * -vOffset / 3);
+                lookAt += (transform.right * -hOffset / 3) + (transform.up * -vOffset / 4);
 
                 transform.forward = Vector3.Lerp(transform.forward, lookAt, t);
+
+                //transform.LookAt(lookAt);
 
                 break;
 
@@ -296,7 +296,7 @@ public class CameraBehaviour : MonoBehaviour
     {
         if (cameraSettings.tiltWithTrack)
         {
-            Quaternion rot = new Quaternion(transform.rotation.x, transform.rotation.y, player.transform.rotation.z, transform.rotation.w);
+            Quaternion rot = new Quaternion(transform.rotation.x, transform.rotation.y, TrackManager.Instance.GetRotationAtDistance(player.distanceTravelled).z, transform.rotation.w);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 20 * Time.deltaTime);
         }
     }

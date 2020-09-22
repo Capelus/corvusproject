@@ -262,7 +262,7 @@ public class PlayerBehaviour : MonoBehaviour
                 }
 
                 //CHANGE CAMERA
-                if (cam.cameraState != CameraState.moving)
+                if (cam.cameraState != CameraState.moving && !boosted && !superboosted)
                     cam.ChangeState(CameraState.moving);
 
                 //SET ANIMATOR
@@ -352,7 +352,7 @@ public class PlayerBehaviour : MonoBehaviour
                     {
                         //SUPERBOOST
                         Debug.Log("SUPERBOOST");
-                        OneShotBoost(l_energy / jetParameters.superBoostConsumption, jetParameters.superBoostAcceleration, CameraState.superboost);
+                        OneShotBoost(l_energy / jetParameters.superBoostConsumption, jetParameters.superBoostAcceleration, true, CameraState.superboost);
                         l_energy = 0;
                     }
                 }
@@ -445,12 +445,12 @@ public class PlayerBehaviour : MonoBehaviour
             cam.ChangeState(camState);
     }
 
-    public void OneShotBoost(float duration, float accelerationBoost, CameraState camState)
+    public void OneShotBoost(float duration, float accelerationBoost, bool energyCost, CameraState camState)
     {
-        StartCoroutine(BoostCoroutine(duration, accelerationBoost, camState));
+        StartCoroutine(BoostCoroutine(duration, accelerationBoost, energyCost, camState));
     }
 
-    IEnumerator BoostCoroutine(float duration, float accelerationBoost, CameraState camState)
+    IEnumerator BoostCoroutine(float duration, float accelerationBoost, bool energyCost, CameraState camState)
     {
         superboosted = true;
         while (duration > 0)
@@ -459,13 +459,17 @@ public class PlayerBehaviour : MonoBehaviour
 
             currentSpeed += accelerationBoost * Time.deltaTime;
 
+            if(energyCost) l_energy -= jetParameters.superBoostConsumption * Time.deltaTime;
+
             if (cam.cameraState != camState)
                 cam.ChangeState(camState);
+
+            if (energyCost) l_energy = 0;
 
             yield return null;
         }
         superboosted = false;
-        cam.cameraState = CameraState.moving;
+        cam.ChangeState(CameraState.moving);
         yield break;
     }
 
