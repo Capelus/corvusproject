@@ -86,11 +86,20 @@ public class PlayerInput : MonoBehaviour
     }
 
     //NITRO
-    public bool nitro
+    public bool nitroHold
+    {
+        get { return Input.GetButton("Nitro"); }
+    }
+
+    public bool nitroPress
     {
         get { return Input.GetButtonDown("Nitro"); }
     }
 
+    public bool nitroRelease
+    {
+        get { return Input.GetButtonUp("Nitro"); }
+    }
     //BLASTER
     public bool blaster
     {

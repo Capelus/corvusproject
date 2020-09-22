@@ -156,7 +156,7 @@ public class PlayerMovement2 : MonoBehaviour
 
 
         //---------------------------------------------------------------------------------------------- NITRO
-        if (playerInput.accelerate && playerInput.nitro && l_energy > 0)
+        if (playerInput.accelerate && playerInput.nitroHold && l_energy > 0)
         {
             switch (l_energy)
             {

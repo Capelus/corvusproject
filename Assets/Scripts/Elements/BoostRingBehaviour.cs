@@ -43,8 +43,10 @@ public class BoostRingBehaviour : MonoBehaviour
         ring.transform.Rotate(0, ringRotationSpeed * Time.deltaTime, 0);
 
         l_cooldownTime -= Time.unscaledDeltaTime;
-        if (l_cooldownTime < 0 && !trigger.enabled)
+        if (l_cooldownTime < 0)
             trigger.enabled = true;
+
+        else trigger.enabled = false;
     }
 
     //SKILLCHECK COROUTINE -- UNUSED
@@ -63,18 +65,18 @@ public class BoostRingBehaviour : MonoBehaviour
         {
             case 0: //BAD
                 Debug.Log("BAD");
-                GameManager.Instance.player.Boost(boostParameters.failBoostTime, boostParameters.failBoost, 0, CameraState.moving);
+                GameManager.Instance.player.OneShotBoost(boostParameters.failBoostTime, boostParameters.failBoost, CameraState.moving);
                 GameManager.Instance.player.animator.SetBool("Impact", true);
                 break;
 
             case 1: //GOOD
                 Debug.Log("GOOD");
-                GameManager.Instance.player.Boost(boostParameters.greatBoostTime, boostParameters.greatBoost, 20, CameraState.low_nitro);
+                GameManager.Instance.player.OneShotBoost(boostParameters.greatBoostTime, boostParameters.greatBoost, CameraState.low_nitro);
                 break;
 
             case 2: //PERFECT
                 Debug.Log("PERFECT");
-                GameManager.Instance.player.Boost(boostParameters.perfectBoostTime, boostParameters.perfectBoost, 30, CameraState.mid_nitro);
+                GameManager.Instance.player.OneShotBoost(boostParameters.perfectBoostTime, boostParameters.perfectBoost, CameraState.mid_nitro);
                 break;
         }
 
@@ -82,7 +84,7 @@ public class BoostRingBehaviour : MonoBehaviour
         UIManager.Instance.UI.skillcheck.SetActive(false);
         GameManager.Instance.RestoreTime();
         GameManager.Instance.playerCamera.cameraMode = CameraMode.railSmoothModeUP;
-        GameManager.Instance.playerCamera.ChangeState(CameraState.moving);
+        GameManager.Instance.playerCamera.cameraState = CameraState.moving;
         trigger.enabled = false;
         l_cooldownTime = cooldownTime;
 
@@ -94,7 +96,7 @@ public class BoostRingBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player") && !coroutineStarted)
         {
-            GameManager.Instance.player.Boost(boostParameters.perfectBoostTime, boostParameters.perfectBoost, 30, CameraState.mid_nitro);
+            GameManager.Instance.player.OneShotBoost(boostParameters.greatBoostTime, boostParameters.greatBoost, CameraState.low_nitro); 
             l_cooldownTime = cooldownTime;
 
             //UIManager.Instance.UI.skillcheck.SetActive(true);

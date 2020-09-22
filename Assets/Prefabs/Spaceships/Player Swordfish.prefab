@@ -418,7 +418,8 @@ MonoBehaviour:
   cameraState: 0
   cameraMode: 5
   postpro: {fileID: 653260036}
-  damp: 6
+  stateDamp: 1.6
+  modeDamp: 0.6
   cameraSettings:
     sightBeyond: 50
     lookAtSpeed: 1
@@ -823,26 +824,18 @@ MonoBehaviour:
   distanceTravelled: 0
   initialDistance: 10
   forwardDirection: {x: -1, y: 0, z: 0}
-  canMove: 0
   energyParameters:
-    maxEnergy: 300
-    initialEnergy: 101
+    maxEnergy: 100
+    initialEnergy: 80
   l_energy: 0
-  blueNitro:
-    boostTime: 2
-    speedBoost: 50
-    accelerationBoost: 15
-    cameraState: 3
-  yellowNitro:
-    boostTime: 2
-    speedBoost: 100
-    accelerationBoost: 30
-    cameraState: 4
-  redNitro:
-    boostTime: 2
-    speedBoost: 200
-    accelerationBoost: 50
-    cameraState: 5
+  jetParameters:
+    boostAcceleration: 15
+    boostConsumption: 30
+    superBoostAcceleration: 40
+    superBoostConsumption: 60
+    cameraState: 6
+  boosted: 0
+  superboosted: 0
   jets:
   - {fileID: 2500953770398452841}
   - {fileID: 3159449553556810469}
