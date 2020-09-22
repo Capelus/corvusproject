@@ -91,6 +91,13 @@ public class PlayerInput : MonoBehaviour
         get { return Input.GetButtonDown("Nitro"); }
     }
 
+    //WARM UP QTE
+
+    public bool warmUp
+    {
+        get { return Input.GetButton("Nitro"); }
+    }
+
     //BLASTER
     public bool blaster
     {

@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
         //LIST OF UIW ELEMENTS
         public Text countDown;
         public WarmBehaviourQTE warmUpQTE;
+        public Image RTbutton;
     }
     public UIWarmUp UIW;
 
@@ -58,7 +59,7 @@ public class UIManager : MonoBehaviour
         UI.energyBarLow.minValue = 0;
         UI.energyBarMid.minValue = (player.energyParameters.maxEnergy / 3);
         UI.energyBarHigh.minValue = (player.energyParameters.maxEnergy / 3) * 2;
-        UIW.countDown.text = "GET READY";
+        UIW.countDown.text = "HOLD";
         UI.energyBarLow.maxValue = (player.energyParameters.maxEnergy / 3);
         UI.energyBarMid.maxValue = (player.energyParameters.maxEnergy / 3) * 2;
         UI.energyBarHigh.maxValue = player.energyParameters.maxEnergy;
@@ -73,7 +74,8 @@ public class UIManager : MonoBehaviour
         UI.energyBarHigh.value = player.l_energy;
         if (RaceManager.Instance.countDownReady)
         {
-        UIW.countDown.text = RaceManager.Instance.countDown.ToString("f0");
+            UIW.countDown.text = RaceManager.Instance.countDown.ToString("f0");
+            UIW.RTbutton.enabled = false;
         }
       
 
