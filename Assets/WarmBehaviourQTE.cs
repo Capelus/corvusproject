@@ -33,10 +33,10 @@ public class WarmBehaviourQTE : MonoBehaviour
     void Update()
     {
 
-        if (GameManager.Instance.playerInput.accelerate && checkMark.localPosition.x < 100)
+        if (GameManager.Instance.playerInput.warmUp && checkMark.localPosition.x < 100)
         {
             RaceManager.Instance.countDownReady = true;
-            checkMark.localPosition = new Vector2(checkMark.localPosition.x + 1 * GameManager.Instance.playerInput.throttle, 0);
+            checkMark.localPosition = new Vector2(checkMark.localPosition.x + 0.5f, 0);
             decelerationValue = 0;
         }
         else if (checkMark.localPosition.x > 0)
