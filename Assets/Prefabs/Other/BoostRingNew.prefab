@@ -180,17 +180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7109c0f380c52aa4096d339afcacd418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boostTime: 2
+  accelerationBoost: 25
+  cameraState: 4
   ringRotationSpeed: 2
-  skillcheckDuration: 1
-  slowTimeFactor: 6
   cooldownTime: 2
-  boostParameters:
-    failBoost: -40
-    failBoostTime: 0.2
-    greatBoost: 80
-    greatBoostTime: 1
-    perfectBoost: 150
-    perfectBoostTime: 1.5
 --- !u!136 &3610183916425567828
 CapsuleCollider:
   m_ObjectHideFlags: 0

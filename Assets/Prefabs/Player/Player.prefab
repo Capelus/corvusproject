@@ -609,8 +609,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8819578367204387789}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: 0, w: -0.7071068}
-  m_LocalPosition: {x: -3.977003, y: 0.6399994, z: 0.030000001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00001822412, y: -0.000000037716177, z: -6.00001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8819578366158019358}
@@ -618,7 +618,7 @@ Transform:
   - {fileID: 8819578365463761913}
   m_Father: {fileID: 8232834253654558556}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -270, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &8819578367204387776
 Camera:
   m_ObjectHideFlags: 0
@@ -714,16 +714,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aaa55d224f526c4fa76378ab0077b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraMode: 1
   cameraState: 0
-  cameraMode: 4
+  idle:
+    distanceToTarget: 6
+    fieldOfView: 75
+    shakeAmount: 0
+    vignetteIntensity: 0.2
+    warpSpeed: 0
+    nebulaActive: 0
+    nebulaDissolve: 0
+    nebulaSpeed: 0
+  moving:
+    distanceToTarget: 6
+    fieldOfView: 80
+    shakeAmount: 0
+    vignetteIntensity: 0.2
+    warpSpeed: 0
+    nebulaActive: 0
+    nebulaDissolve: 0
+    nebulaSpeed: 0
+  braking:
+    distanceToTarget: 4
+    fieldOfView: 70
+    shakeAmount: 0
+    vignetteIntensity: 0.2
+    warpSpeed: 0
+    nebulaActive: 0
+    nebulaDissolve: 0
+    nebulaSpeed: 0
+  boost:
+    distanceToTarget: 5
+    fieldOfView: 100
+    shakeAmount: 0.004
+    vignetteIntensity: 0.2
+    warpSpeed: 0.3
+    nebulaActive: 0
+    nebulaDissolve: 0
+    nebulaSpeed: 0
+  superboost:
+    distanceToTarget: 2.8
+    fieldOfView: 140
+    shakeAmount: 0.01
+    vignetteIntensity: 0.3
+    warpSpeed: 0.7
+    nebulaActive: 1
+    nebulaDissolve: 1
+    nebulaSpeed: 0.3
+  sightBeyond: 20
   postpro: {fileID: 8819578366158019356}
-  stateDamp: 1.6
-  modeDamp: 1
-  cameraSettings:
-    sightBeyond: 50
-    lookAtSpeed: 1
-    smooth2DFollow: 1
-    tiltWithTrack: 0
 --- !u!1001 &2519339969973688622
 PrefabInstance:
   m_ObjectHideFlags: 0

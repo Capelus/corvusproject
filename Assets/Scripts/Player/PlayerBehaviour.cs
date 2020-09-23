@@ -324,12 +324,6 @@ public class PlayerBehaviour : MonoBehaviour
         //INCREMENT DISTANCE TRAVELLED
         distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
 
-        ////CALCULATE BRAKE VALUE ON CURVE
-        //l_acceleration = (engineParameters.brakeCurve.Evaluate(currentSpeed / l_maxSpeed) * engineParameters.maxAcceleration * 4);
-
-        ////APPLY THROTTLE
-        //l_acceleration *= playerInput.throttle;
-
         //CALCULATE 2D MOVEMENT VALUE WITH HANDLING CURVE
         float handling = chassisParameters.maxHandlingSpeed * chassisParameters.handlingCurve.Evaluate(currentSpeed / l_maxSpeed);
         horizontalMove += playerInput.rawMovement.x * handling * Time.deltaTime;
@@ -386,7 +380,8 @@ public class PlayerBehaviour : MonoBehaviour
                     {
                         //SUPERBOOST
                         Debug.Log("SUPERBOOST");
-                        OneShotBoost(l_energy / jetParameters.superBoostConsumption, jetParameters.superBoostAcceleration, true, CameraState.superboost);
+                        OneShotBoost(l_energy / jetParameters.superBoostConsumption, 
+                            jetParameters.superBoostAcceleration, true, CameraState.superboost);
                         l_energy = 0;
                     }
                 }
@@ -450,7 +445,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void UpdateBlasters()
     {
-        if (playerInput.blaster && l_energy > 0)
+        if (playerInput.blaster)
         {
             l_cadence -= Time.deltaTime;
             if (l_cadence < 0)
