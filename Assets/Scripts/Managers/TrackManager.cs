@@ -14,6 +14,9 @@ public class TrackManager : MonoBehaviour
     public EndOfPathInstruction endOfPathInstruction;
 
     //PUBLIC INTEREST REFERENCES
+    [Header("Movement Limits")]
+    public Vector2 movementLimits = new Vector2(8,4);
+
     [HideInInspector] public Vector3 objectPoolPosition;
     [HideInInspector] public GameObject [] enemies;
     [HideInInspector] public GameObject [] shots;

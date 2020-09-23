@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     }
 
     //PLAYER SPACESHIP SPECS
-    [HideInInspector] public Spaceship playerSpecs;
+    [HideInInspector] public SpaceshipProfile playerProfile;
 
     void Update()
     {
@@ -44,19 +44,18 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void LoadRace(Spaceship specs) //EN EL FUTURO ESTA FUNCIÓN PEDIRÁ CIRCUITO Y DEMÁS COSAS
+    public void LoadRace(SpaceshipProfile specs) //EN EL FUTURO ESTA FUNCIÓN PEDIRÁ CIRCUITO Y DEMÁS COSAS
     {
-        playerSpecs = specs;
+        playerProfile = specs;
         SceneManager.LoadScene("RaceTrackLarge(DOUBLE LINES)");
     }
 
     public void LoadRaceCustomTier() //DEBUG
     {
-        playerSpecs = new Spaceship();
-        playerSpecs.maxSpeedValue = float.Parse(GameObject.Find("maxSpeedIF").GetComponent<InputField>().text);
-        playerSpecs.maxAccelerationvalue = float.Parse(GameObject.Find("accelerationIF").GetComponent<InputField>().text);
-        playerSpecs.handlingValue = float.Parse(GameObject.Find("handlingSpeedIF").GetComponent<InputField>().text);
-        playerSpecs.cadenceValue = 0.2f; //HARDCODED DE MOMENTO
-
+        playerProfile = new SpaceshipProfile();
+        playerProfile.engineProfile.maxSpeed = float.Parse(GameObject.Find("maxSpeedIF").GetComponent<InputField>().text);
+        playerProfile.engineProfile.maxAcceleration = float.Parse(GameObject.Find("accelerationIF").GetComponent<InputField>().text);
+        playerProfile.chassisProfile.handling = float.Parse(GameObject.Find("handlingSpeedIF").GetComponent<InputField>().text);
+        playerProfile.blasterProfile.cadence = 0.2f; //HARDCODED DE MOMENTO
     }
 }

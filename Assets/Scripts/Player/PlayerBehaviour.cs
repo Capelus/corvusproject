@@ -6,86 +6,53 @@ using UnityEngine.UI;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    //-------------------------------------- REFERENCES
+    //----------------------------------------------------- REFERENCES
     PlayerInput playerInput;
     CameraBehaviour cam;
     [HideInInspector] public Animator animator;
-    //-------------------------------------------------
+    //----------------------------------------------------------------
 
-    //SPACESHIP PARAMETERS
-    public Spaceship playerSpecs;
-    ///
+    //-------------------- SPACESHIP PROFILE -----------------------//
+    public SpaceshipProfile playerProfile;
+    //--------------------------------------------------------------//
 
-    //----------------------------- MOVEMENT PARAMETERS  
-    //PUBLIC ON INSPECTOR
+    //---------------------------------------------- ENGINE PARAMETERS  
     [System.Serializable]
-    public class MovementParameters
+    public class EngineParameters
     {
-        [Header("Velocity")] //--------------------------------
-
-            [Tooltip("The maximum velocity of the spaceship.")]
-                public float maxSpeed = 120;
-
-        [Header("Acceleration")] //----------------------------
-
-        [Tooltip("The maximum acceleration of the spaceship.")]
-                public float maxAcceleration = 40;
-
-            [Tooltip("The curve defining the spaceship's acceleration. (Over velocity)")]
-                public AnimationCurve accelerationCurve;
-
-            [Tooltip("The curve defining the spaceship's deceleration. (Over velocity)")]
-                public AnimationCurve brakeCurve;
-
-        [Header("Handling")] //--------------------------------
-
-            [Tooltip("The maximum velocity the spaceship can move horizontally and vertically")]
-                public float maxHandlingSpeed = 15;
-
-            [Tooltip("The curve defining the spaceship's handling. (Over velocity)")]
-                public AnimationCurve handlingCurve;
-
-        [Header("Screen Limits")] //---------------------------
-
-        [Tooltip("The width the spaceship can move along.")]
-            public float maxWidth = 5;
-
-        [Tooltip("The height the spaceship can move along.")]
-            public float maxHeight = 5;
+        public float maxSpeed = 120;
+        public float maxAcceleration = 40;
+        public AnimationCurve accelerationCurve;
+        public float maxBrake = 40;
+        public AnimationCurve brakeCurve;      
     }
 
-    [Header("MOVEMENT")]
-    public MovementParameters movementParameters;
+    [Header("ENGINE")]
+    public EngineParameters engineParameters;
 
     //LOCAL
-    [HideInInspector] public float l_maxSpeed, l_acceleration, currentSpeed, horizontalMove, verticalMove, distanceTravelled = 0;
-    public float initialDistance;
+    [HideInInspector] public float l_maxSpeed, l_acceleration, 
+    currentSpeed, horizontalMove, verticalMove, distanceTravelled = 0;
     [HideInInspector] public Vector3 forwardDirection = Vector3.left;
+    //----------------------------------------------------------------
 
-
-    float stunTime = 0;
-    //-------------------------------------------------
-
-
-    //------------------------------------------ ENERGY
-    //PUBLIC ON INSPECTOR
+    //--------------------------------------------- CHASSIS PARAMETERS 
     [System.Serializable]
-    public class EnergyParameters
+    public class ChasisParameters
     {
-        public float maxEnergy = 300;
-        public float initialEnergy = 0;
+        public float maxHandlingSpeed = 15;
+        public AnimationCurve handlingCurve;
+        public float knockback = 10;
     }
 
-    [Header("ENERGY")]
-    public EnergyParameters energyParameters;
+    [Header("CHASIS")]
+    public ChasisParameters chassisParameters;
 
     //LOCAL
-    [HideInInspector] public float l_energy;
-    //-------------------------------------------------
+    float stunTime = 0;
+    //----------------------------------------------------------------
 
-
-    //------------------------------------------- NITRO
-    //PUBLIC ON INSPECTOR
+    //------------------------------------------------- JET PARAMETERS
     [System.Serializable]
     public class JetParameters
     {
@@ -96,8 +63,6 @@ public class PlayerBehaviour : MonoBehaviour
         //SUPERBOOST
         public float superBoostAcceleration = 2;
         public float superBoostConsumption = 2;
-
-        public CameraState cameraState = CameraState.idle;
     }
 
     [Header("JETS")]
@@ -105,37 +70,52 @@ public class PlayerBehaviour : MonoBehaviour
 
     //LOCAL
     bool nitroInputPhase, nitroInputReleased;
-    float nitroInputInitialEnergy;
-    float nitroInputTime = 0.4f;
-    float l_nitroInputTime, superBoostTime;
+    float nitroInputInitialEnergy, l_nitroInputTime;
+
+    [Tooltip("The window time to perform a superboost (Double tap 'Jet Button')")]
+    public float superBoostInputTime = 0.4f;
+
     [HideInInspector] public bool boosted, superboosted;
 
-    public GameObject[] jets;
-    //-------------------------------------------------
+    [HideInInspector] public GameObject[] jets;
+    //----------------------------------------------------------------
 
-
-    //------------------------------------------ BLASTER
-    //PUBLIC ON INSPECTOR
+    //--------------------------------------------- BLASTER PARAMETERS 
     [System.Serializable]
     public class BlasterParameters
     {
-        public Transform shotSpawn1, shotSpawn2;
-        public GameObject shot;
+        public GameObject projectile;
         public float cadence = 0.2f;
-
-        public float energyCost = 1;
     }
 
-    [Header("BLASTERS")]
+    [Header("BLASTER")]
     public BlasterParameters blasterParameters;
 
     //LOCAL
-    [HideInInspector] public float l_cadence;
-    [HideInInspector] public bool shotSwitch = false;
-    //---------------------------------------------------
+    float l_cadence = 0.2f;
+    [HideInInspector] public Transform shotSpawn;
+    //----------------------------------------------------------------
 
-    //---------------------------------------- LAPCHECKER
+    //---------------------------------------------- ENERGY PARAMETERS
+    [System.Serializable]
+    public class EnergyParameters
+    {
+        public float maxEnergy = 300;
+        public float initialEnergy = 0;
+    }
+
+    [Header("ENERGY TANK")]
+    public EnergyParameters energyParameters;
+
+    //LOCAL
+    [HideInInspector] public float l_energy;
+    //----------------------------------------------------------------
+
+    //----------------------------------------------------- LAPCHECKER
     bool endedLap;
+
+    [Header("SETTINGS")]
+    public float initialDistance;
 
     private void Awake()
     {
@@ -146,37 +126,91 @@ public class PlayerBehaviour : MonoBehaviour
     {
         //GET REFERENCES
         playerInput = GetComponent<PlayerInput>();
-        animator = GetComponent<Animator>();
         cam = GameManager.Instance.playerCamera;
 
         //GET PARAMETERS FROM MENU IF PLAYERSPECS ON GAME MANAGER IS NOT NULL
-        if (GameManager.Instance.playerSpecs != null)
-            playerSpecs = GameManager.Instance.playerSpecs;
+        if (GameManager.Instance.playerProfile != null)
+            playerProfile = GameManager.Instance.playerProfile;
 
         //INITIALIZE SPACESHIP PARAMETERS
-        if (playerSpecs != null)
+        if (playerProfile != null)
         {
-            //MOVEMENT
-            movementParameters.maxSpeed = playerSpecs.maxSpeedValue;
-            movementParameters.maxAcceleration = playerSpecs.maxAccelerationvalue;
-            movementParameters.accelerationCurve = playerSpecs.accelerationCurve;
-            movementParameters.brakeCurve = playerSpecs.brakeCurve;
-            movementParameters.maxHandlingSpeed = playerSpecs.handlingValue;
-            movementParameters.handlingCurve = playerSpecs.handlingCurve;
+            //-----------------------------------------------------------------------
+            //----------------------------------------------------------- FROM ENGINE
+            if (playerProfile.engineProfile != null)
+            {
+                // SPEED
+                engineParameters.maxSpeed = playerProfile.engineProfile.maxSpeed;
 
-            //BLASTERS
-            blasterParameters.shot = playerSpecs.projectile;
-            blasterParameters.cadence = playerSpecs.cadenceValue;
+                // ACCELERATION
+                engineParameters.maxAcceleration = playerProfile.engineProfile.maxAcceleration;
+                engineParameters.accelerationCurve = playerProfile.engineProfile.accelerationCurve;
+
+                // BRAKE
+                engineParameters.maxBrake = playerProfile.engineProfile.maxBrake;
+                engineParameters.brakeCurve = playerProfile.engineProfile.brakeCurve;
+            }
+            else Debug.LogWarning("There is no Engine Profile on " + playerProfile.name + ". Loading default parameters...");
+
+            //-----------------------------------------------------------------------
+            //---------------------------------------------------------- FROM CHASSIS
+            if (playerProfile.chassisProfile != null)
+            {
+                // HANDLING
+                chassisParameters.maxHandlingSpeed = playerProfile.chassisProfile.handling;
+                chassisParameters.handlingCurve = playerProfile.chassisProfile.handlingCurve;
+
+                // RESISTANCE
+                chassisParameters.knockback = playerProfile.chassisProfile.knockback;
+            }
+            else Debug.LogWarning("There is no Chassis Profile on " + playerProfile.name + ". Loading default parameters...");
+
+            //-----------------------------------------------------------------------
+            //--------------------------------------------------------- FROM BLASTERS
+            if (playerProfile.blasterProfile != null)
+            {
+                // PROJECTILE
+                blasterParameters.projectile = playerProfile.blasterProfile.projectile;
+
+                // CADENCE
+                blasterParameters.cadence = playerProfile.blasterProfile.cadence;
+            }
+            else Debug.LogWarning("There is no Blaster Profile on " + playerProfile.name + ". Loading default parameters...");
+
+            //-----------------------------------------------------------------------
+            //------------------------------------------------------------- FROM JETS
+            if (playerProfile.jetProfile != null)
+            {
+                //BOOST
+                jetParameters.boostAcceleration = playerProfile.jetProfile.boost;
+                jetParameters.boostConsumption = playerProfile.jetProfile.boostIntake;
+
+                //SUPERBOOST
+                jetParameters.superBoostAcceleration = playerProfile.jetProfile.superBoost;
+                jetParameters.superBoostConsumption = playerProfile.jetProfile.superBoostIntake;
+            }
+            else Debug.LogWarning("There is no Jet Profile on " + playerProfile.name + ". Loading default parameters...");
+
+            //-----------------------------------------------------------------------
+            //------------------------------------------------------------- FROM TANK
+            if (playerProfile.tankProfile != null)
+            {
+                // ENERGY TANK CAPACITY
+                energyParameters.maxEnergy = playerProfile.tankProfile.capacity;
+            }
+            else Debug.LogWarning("There is no Tank Profile on " + playerProfile.name + ". Loading default parameters...");
         }
 
-        //INITIALIZE LOCAL VARIABLES
-        l_cadence = blasterParameters.cadence;
-        l_maxSpeed = movementParameters.maxSpeed;
+        else Debug.Log("There isn't any profile to load. Initializing with default parameters...");
+
+        //INITIALIZE LOCAL VARIABLES     
+        l_maxSpeed = engineParameters.maxSpeed;
         l_energy = energyParameters.initialEnergy;
-        l_nitroInputTime = nitroInputTime;
+        l_cadence = blasterParameters.cadence;
+        l_nitroInputTime = superBoostInputTime;
 
         //SET INITIAL POSITION
-        transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance);// + transform.up * -3;
+        transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance);
         distanceTravelled = initialDistance;
 
         //GET FORWARD VECTOR
@@ -210,7 +244,7 @@ public class PlayerBehaviour : MonoBehaviour
     private void LateUpdate()
     {
         //RESTORE ANIMATOR BOOLS
-        animator.SetBool("Impact", false);
+        animator.SetBool("Knockback", false);
     } 
 
     void UpdateMove()
@@ -223,7 +257,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (playerInput.brake)
             {
                 //CALCULATE BRAKE VALUE ON CURVE
-                l_acceleration = (movementParameters.brakeCurve.Evaluate(currentSpeed / l_maxSpeed) * movementParameters.maxAcceleration * 4);
+                l_acceleration = (engineParameters.brakeCurve.Evaluate(currentSpeed / l_maxSpeed) * engineParameters.maxBrake);
                
                 //APPLY THROTTLE
                 l_acceleration *= playerInput.throttle;
@@ -243,7 +277,7 @@ public class PlayerBehaviour : MonoBehaviour
             else if (playerInput.accelerate)
             {
                 //GET ACCELERATION VALUE FROM CURVE
-                l_acceleration = (movementParameters.accelerationCurve.Evaluate(currentSpeed / l_maxSpeed) * movementParameters.maxAcceleration);
+                l_acceleration = (engineParameters.accelerationCurve.Evaluate(currentSpeed / l_maxSpeed) * engineParameters.maxAcceleration);
 
                 //APPLY THROTTLE
                 l_acceleration *= playerInput.throttle;
@@ -258,7 +292,7 @@ public class PlayerBehaviour : MonoBehaviour
                 //REDUCE SPEED WHEN OVERLIMIT & NOT BOOSTED
                 if(currentSpeed > l_maxSpeed + (l_maxSpeed * 0.1f) && !boosted && !superboosted)
                 {
-                    currentSpeed -= movementParameters.maxAcceleration * Time.deltaTime;
+                    currentSpeed -= engineParameters.maxAcceleration * Time.deltaTime;
                 }
 
                 //CHANGE CAMERA
@@ -273,7 +307,7 @@ public class PlayerBehaviour : MonoBehaviour
             else
             {
                 //DECELERATE
-                currentSpeed -= movementParameters.maxAcceleration * Time.deltaTime;
+                currentSpeed -= engineParameters.maxAcceleration * Time.deltaTime;
 
                 //CAMERA EFFECT
                 if (cam.cameraState != CameraState.idle)
@@ -290,20 +324,20 @@ public class PlayerBehaviour : MonoBehaviour
         //INCREMENT DISTANCE TRAVELLED
         distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
 
-        //CALCULATE BRAKE VALUE ON CURVE
-        l_acceleration = (movementParameters.brakeCurve.Evaluate(currentSpeed / l_maxSpeed) * movementParameters.maxAcceleration * 4);
+        ////CALCULATE BRAKE VALUE ON CURVE
+        //l_acceleration = (engineParameters.brakeCurve.Evaluate(currentSpeed / l_maxSpeed) * engineParameters.maxAcceleration * 4);
 
-        //APPLY THROTTLE
-        l_acceleration *= playerInput.throttle;
+        ////APPLY THROTTLE
+        //l_acceleration *= playerInput.throttle;
 
         //CALCULATE 2D MOVEMENT VALUE WITH HANDLING CURVE
-        float handling = movementParameters.maxHandlingSpeed * movementParameters.handlingCurve.Evaluate(currentSpeed / l_maxSpeed);
+        float handling = chassisParameters.maxHandlingSpeed * chassisParameters.handlingCurve.Evaluate(currentSpeed / l_maxSpeed);
         horizontalMove += playerInput.rawMovement.x * handling * Time.deltaTime;
         verticalMove += playerInput.rawMovement.y * handling * Time.deltaTime;
 
         //CLAMP ON LIMITS
-        horizontalMove = Mathf.Clamp(horizontalMove, -movementParameters.maxWidth, movementParameters.maxWidth);
-        verticalMove = Mathf.Clamp(verticalMove, -movementParameters.maxHeight, movementParameters.maxHeight);
+        horizontalMove = Mathf.Clamp(horizontalMove, -TrackManager.Instance.movementLimits.x, TrackManager.Instance.movementLimits.x);
+        verticalMove = Mathf.Clamp(verticalMove, -TrackManager.Instance.movementLimits.y, TrackManager.Instance.movementLimits.y);
 
         //CALCULATE FINAL MOVEMENT
         Vector3 movementDirection = TrackManager.Instance.GetPositionAtDistance(distanceTravelled);
@@ -362,7 +396,7 @@ public class PlayerBehaviour : MonoBehaviour
             else
             {
                 nitroInputPhase = false;
-                l_nitroInputTime = nitroInputTime;
+                l_nitroInputTime = superBoostInputTime;
             }
         }
 
@@ -393,24 +427,24 @@ public class PlayerBehaviour : MonoBehaviour
 
             //LEFT
             if (playerInput.rawMovement.x < 0)
-                animator.SetBool("BarrelRoll_Left", true);
+                animator.SetBool("Roll_Left", true);
 
             //RIGHT
             else if (playerInput.rawMovement.x > 0)
-                animator.SetBool("BarrelRoll_Right", true);
+                animator.SetBool("Roll_Right", true);
 
             //STRAIGHT
             else
             {
-                if (Random.value < 0.5f) animator.SetBool("BarrelRoll_Left", true);
-                else animator.SetBool("BarrelRoll_Right", true);
+                if (Random.value < 0.5f) animator.SetBool("Roll_Left", true);
+                else animator.SetBool("Roll_Right", true);
             }
         }
 
         else
         {
-            animator.SetBool("BarrelRoll_Left", false);
-            animator.SetBool("BarrelRoll_Right", false);
+            animator.SetBool("Roll_Left", false);
+            animator.SetBool("Roll_Right", false);
         }
     }
 
@@ -421,19 +455,10 @@ public class PlayerBehaviour : MonoBehaviour
             l_cadence -= Time.deltaTime;
             if (l_cadence < 0)
             {
-                GameObject s;
-
-                if (shotSwitch)
-                    s = Instantiate(blasterParameters.shot, blasterParameters.shotSpawn2.position, blasterParameters.shotSpawn2.rotation);
-
-                else
-                    s = Instantiate(blasterParameters.shot, blasterParameters.shotSpawn1.position, blasterParameters.shotSpawn1.rotation);
-
+                GameObject s = Instantiate(blasterParameters.projectile, shotSpawn.position, shotSpawn.rotation);
                 s.tag = "Player";
                 s.GetComponent<ProjectileParameters>().initialSpeed = currentSpeed;
                 l_cadence = blasterParameters.cadence;
-                shotSwitch = !shotSwitch;
-                l_energy -= blasterParameters.energyCost;
             }
         }
     }
@@ -483,11 +508,12 @@ public class PlayerBehaviour : MonoBehaviour
         //health -= amount;
     }
 
-    public void Knockback(float amount)
+    public void Knockback()
     {
-        currentSpeed -= amount;
+        currentSpeed -= chassisParameters.knockback;
         stunTime = 0.5f;
         EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
+        animator.SetBool("Knockback", true);
     }
 
     public void Explode()
@@ -529,18 +555,15 @@ public class PlayerBehaviour : MonoBehaviour
         {
             //--------------------------------------------- OBSTACLE
             case "Obstacle":
-                Knockback(30);
-                animator.SetBool("Impact", true);
+                Knockback();
                 break;
 
             case "HardObstacle":
-                Knockback(currentSpeed + 20);
-                animator.SetBool("Impact", true);
+                Knockback();
                 break;
 
             case "Enemy":
-                Knockback(30);
-                animator.SetBool("Impact", true);
+                Knockback();
                 break;
 
             case "Finish":
