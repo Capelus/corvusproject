@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public PlayerBehaviour player;
     [HideInInspector] public CameraBehaviour playerCamera;
     [HideInInspector] public PlayerInput playerInput;
+    [HideInInspector] public string previousScene;
 
     //SINGLETON
     public static GameManager Instance;
@@ -57,5 +58,12 @@ public class GameManager : MonoBehaviour
         playerProfile.engineProfile.maxAcceleration = float.Parse(GameObject.Find("accelerationIF").GetComponent<InputField>().text);
         playerProfile.chassisProfile.handling = float.Parse(GameObject.Find("handlingSpeedIF").GetComponent<InputField>().text);
         playerProfile.blasterProfile.cadence = 0.2f; //HARDCODED DE MOMENTO
+    }
+
+    public void DebuggingChangeScene(string sceneName)
+    {
+        previousScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(sceneName);
+
     }
 }
