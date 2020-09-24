@@ -29,9 +29,9 @@ public class UIManager : MonoBehaviour
     {
         //LIST OF UI ELEMENTS
         public Text speedometer;
-        public Slider energyBarLow;
-        public Slider energyBarMid;
-        public Slider energyBarHigh;
+        public Slider energyBarSlider;
+        public Image energyBar;
+        public Image AButton;
         public Text raceTimer;
         public Text[] timeChart;
         public GameObject skillcheck;
@@ -56,26 +56,36 @@ public class UIManager : MonoBehaviour
 
 
         //INITIALIZE ENERGY BAR
-        UI.energyBarLow.minValue = 0;
-        UI.energyBarMid.minValue = (player.energyParameters.maxEnergy / 3);
-        UI.energyBarHigh.minValue = (player.energyParameters.maxEnergy / 3) * 2;
+        UI.energyBarSlider.minValue = 0;
+        UI.energyBarSlider.maxValue = player.energyParameters.maxEnergy;
+
         UIW.countDown.text = "HOLD";
-        UI.energyBarLow.maxValue = (player.energyParameters.maxEnergy / 3);
-        UI.energyBarMid.maxValue = (player.energyParameters.maxEnergy / 3) * 2;
-        UI.energyBarHigh.maxValue = player.energyParameters.maxEnergy;
     }
 
     private void Update()
     {
         //UPDATE UI
         UI.speedometer.text = Mathf.FloorToInt(player.currentSpeed).ToString();
-        UI.energyBarLow.value = player.l_energy;
-        UI.energyBarMid.value = player.l_energy;
-        UI.energyBarHigh.value = player.l_energy;
+        UI.energyBarSlider.value = player.l_energy;
+
+        UI.energyBar.fillAmount = player.l_energy / player.energyParameters.maxEnergy;
+
+        if (player.l_energy > player.energyParameters.maxEnergy - 1)
+        {
+            //GLOW OUTLINE
+            UI.energyBar.GetComponent<Outline>().effectColor = new Color(1, 1, 1, Mathf.Sin(30 * Time.deltaTime));
+            UI.AButton.color = new Color(1, 1, 1, 1);
+        }
+
+        else
+        {
+            UI.energyBar.GetComponent<Outline>().effectColor = new Color(1, 1, 1, 0);
+            UI.AButton.color = new Color(1, 1, 1, 0);
+        }
         if (RaceManager.Instance.countDownReady)
         {
             UIW.countDown.text = RaceManager.Instance.countDown.ToString("f0");
-            UIW.RTbutton.enabled = false;
+            //UIW.RTbutton.enabled = false;
         }
       
 

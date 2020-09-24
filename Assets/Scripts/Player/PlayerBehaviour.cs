@@ -54,18 +54,16 @@ public class PlayerBehaviour : MonoBehaviour
             public float maxHeight = 5;
     }
 
-    [Header("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")]
+    [Header("MOVEMENT")]
     public MovementParameters movementParameters;
 
     //LOCAL
     [HideInInspector] public float l_maxSpeed, l_acceleration, currentSpeed, horizontalMove, verticalMove, distanceTravelled = 0;
     public float initialDistance;
     [HideInInspector] public Vector3 forwardDirection = Vector3.left;
-    [HideInInspector] public bool canMove;
 
-    bool boosted;
+
     float stunTime = 0;
-    float overSpeed = 0;
     //-------------------------------------------------
 
 
@@ -78,7 +76,7 @@ public class PlayerBehaviour : MonoBehaviour
         public float initialEnergy = 0;
     }
 
-    [Header("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")]
+    [Header("ENERGY")]
     public EnergyParameters energyParameters;
 
     //LOCAL
@@ -89,19 +87,28 @@ public class PlayerBehaviour : MonoBehaviour
     //------------------------------------------- NITRO
     //PUBLIC ON INSPECTOR
     [System.Serializable]
-    public class NitroParameters
+    public class JetParameters
     {
-        public float boostTime = 2;
-        public float speedBoost = 2;
-        public float accelerationBoost = 2;
-        public CameraState cameraState = CameraState.low_nitro;
+        //NORMAL BOOST
+        public float boostAcceleration = 2;
+        public float boostConsumption = 2;
+        
+        //SUPERBOOST
+        public float superBoostAcceleration = 2;
+        public float superBoostConsumption = 2;
+
+        public CameraState cameraState = CameraState.idle;
     }
 
-    [Header("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")]
-    public NitroParameters blueNitro;
-    public NitroParameters yellowNitro;
-    public NitroParameters redNitro;
-    float l_boostTime;
+    [Header("JETS")]
+    public JetParameters jetParameters;
+
+    //LOCAL
+    bool nitroInputPhase, nitroInputReleased;
+    float nitroInputInitialEnergy;
+    float nitroInputTime = 0.4f;
+    float l_nitroInputTime, superBoostTime;
+    [HideInInspector] public bool boosted, superboosted;
 
     public GameObject[] jets;
     //-------------------------------------------------
@@ -119,7 +126,7 @@ public class PlayerBehaviour : MonoBehaviour
         public float energyCost = 1;
     }
 
-    [Header("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")]
+    [Header("BLASTERS")]
     public BlasterParameters blasterParameters;
 
     //LOCAL
@@ -137,7 +144,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Start()
     {
-        //GET TIER FROM MENU IF PLAYERSPECS ON GAME MANAGER IS NOT NULL
+        //GET REFERENCES
+        playerInput = GetComponent<PlayerInput>();
+        animator = GetComponent<Animator>();
+        cam = GameManager.Instance.playerCamera;
+
+        //GET PARAMETERS FROM MENU IF PLAYERSPECS ON GAME MANAGER IS NOT NULL
         if (GameManager.Instance.playerSpecs != null)
             playerSpecs = GameManager.Instance.playerSpecs;
 
@@ -157,119 +169,223 @@ public class PlayerBehaviour : MonoBehaviour
             blasterParameters.cadence = playerSpecs.cadenceValue;
         }
 
-        //GET REFERENCES
-        playerInput = GetComponent<PlayerInput>();
-        animator = GetComponent<Animator>();
-
         //INITIALIZE LOCAL VARIABLES
         l_cadence = blasterParameters.cadence;
         l_maxSpeed = movementParameters.maxSpeed;
         l_energy = energyParameters.initialEnergy;
+        l_nitroInputTime = nitroInputTime;
 
         //SET INITIAL POSITION
         transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance);// + transform.up * -3;
         distanceTravelled = initialDistance;
-        canMove = true;
+
+        //GET FORWARD VECTOR
+        forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
+        transform.forward = forwardDirection.normalized;
     }
 
     void Update()
     {
-        //A VER
-        if (cam == null)
-            cam = GameManager.Instance.playerCamera;
+        //MOVEMENT
+        if (playerInput.inputEnabled) UpdateMove();
+        
+        //NITRO 
+        UpdateNitro();
 
-        //---------------------------------------------------------------------------------------------- NITRO
-        if (playerInput.accelerate && playerInput.nitro && l_energy > energyParameters.maxEnergy / 3 - 1)
+        //BARREL ROLL
+        UpdateRoll();
+
+        //BLASTERS
+        UpdateBlasters(); 
+        
+        //CLAMP ENERGY
+        l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);
+
+        //--------------- DEBUG
+            //RECHARGE ENERGY
+            if (playerInput.rechargeEnergy)
+                RechargeEnergy(30 * Time.deltaTime);
+    }
+
+    private void LateUpdate()
+    {
+        //RESTORE ANIMATOR BOOLS
+        animator.SetBool("Impact", false);
+    } 
+
+    void UpdateMove()
+    {
+        //FORWARD MOVEMENT
+        stunTime -= Time.unscaledDeltaTime;
+        if (stunTime <= 0)
         {
-            switch (l_energy)
+            //BRAKE
+            if (playerInput.brake)
             {
-                //BLUE
-                case float e when (l_energy < energyParameters.maxEnergy / 3):
+                //CALCULATE BRAKE VALUE ON CURVE
+                l_acceleration = (movementParameters.brakeCurve.Evaluate(currentSpeed / l_maxSpeed) * movementParameters.maxAcceleration * 4);
+               
+                //APPLY THROTTLE
+                l_acceleration *= playerInput.throttle;
+                
+                //BRAKE
+                currentSpeed += l_acceleration * Time.deltaTime;
 
-                    //BOOST
-                    Boost(blueNitro.boostTime, blueNitro.speedBoost, blueNitro.accelerationBoost, blueNitro.cameraState);
+                //CHANGE CAMERA
+                if (cam.cameraState != CameraState.braking)
+                    cam.ChangeState(CameraState.braking);
 
-                    //PARTICLES
-                    EffectsManager.Instance.effects.warpSpeed = 0.3f;
-                    EffectsManager.Instance.effects.nebulaActive = false;
-
-                    foreach (GameObject j in jets)
-                        j.GetComponent<ParticleSystemRenderer>().material.color = Color.cyan;
-
-                    break;
-
-                //YELLOW
-                case float e when (l_energy > energyParameters.maxEnergy / 3 && l_energy < energyParameters.maxEnergy / 3 * 2 - 1):
-
-                    //BOOST
-                    Boost(yellowNitro.boostTime, yellowNitro.speedBoost, yellowNitro.accelerationBoost, yellowNitro.cameraState);
-
-                    //PARTICLES
-                    EffectsManager.Instance.effects.warpSpeed = 0.6f;
-                    EffectsManager.Instance.effects.nebulaActive = true;
-                    EffectsManager.Instance.effects.nebulaDissolve = 1;
-                    EffectsManager.Instance.effects.nebulaSpeed = 0.3f;
-
-                    foreach (GameObject j in jets)
-                        j.GetComponent<ParticleSystemRenderer>().material.color = Color.yellow;
-
-                    break;
-
-                //RED
-                case float e when (l_energy > energyParameters.maxEnergy / 3 * 2):
-
-                    //BOOST
-                    Boost(redNitro.boostTime, redNitro.speedBoost, redNitro.accelerationBoost, redNitro.cameraState);
-
-                    //PARTICLES
-                    EffectsManager.Instance.effects.warpSpeed = 1f;
-                    EffectsManager.Instance.effects.nebulaActive = true;
-                    EffectsManager.Instance.effects.nebulaDissolve = 0.3f;
-                    EffectsManager.Instance.effects.nebulaSpeed = 1;
-
-                    foreach (GameObject j in jets)
-                        j.GetComponent<ParticleSystemRenderer>().material.color = Color.red;
-
-                    break;
+                //SET ANIMATOR
+                animator.SetBool("Brake", true);
             }
 
-            //ENERGY DRAIN
-            l_energy -= energyParameters.maxEnergy / 3 - 1;
-        }
-
-        else
-        {
-            if (!boosted)
+            //ACCELERATE
+            else if (playerInput.accelerate)
             {
-                //UNBOOST
-                l_maxSpeed = movementParameters.maxSpeed;
-                l_acceleration = movementParameters.maxAcceleration;
+                //GET ACCELERATION VALUE FROM CURVE
+                l_acceleration = (movementParameters.accelerationCurve.Evaluate(currentSpeed / l_maxSpeed) * movementParameters.maxAcceleration);
 
-                //RESTORE PARTICLES EFFECT
-                EffectsManager.Instance.effects.warpSpeed = 0;
-                EffectsManager.Instance.effects.nebulaActive = false;
+                //APPLY THROTTLE
+                l_acceleration *= playerInput.throttle;
 
-                //RESTORE CAMERA EFFECT
-                cam.ChangeState(CameraState.moving);
+                //INCREASE SPEED
+                while (Mathf.Abs(currentSpeed - l_maxSpeed) > Mathf.Epsilon)
+                {
+                    currentSpeed += l_acceleration * Time.deltaTime;
+                    break;
+                }
 
-                foreach (GameObject j in jets)
-                    j.GetComponent<ParticleSystemRenderer>().material.color = Color.white;
+                //REDUCE SPEED WHEN OVERLIMIT & NOT BOOSTED
+                if(currentSpeed > l_maxSpeed + (l_maxSpeed * 0.1f) && !boosted && !superboosted)
+                {
+                    currentSpeed -= movementParameters.maxAcceleration * Time.deltaTime;
+                }
+
+                //CHANGE CAMERA
+                if (cam.cameraState != CameraState.moving && !boosted && !superboosted)
+                    cam.ChangeState(CameraState.moving);
+
+                //SET ANIMATOR
+                animator.SetBool("Brake", false);
+            }
+
+            //IDLE
+            else
+            {
+                //DECELERATE
+                currentSpeed -= movementParameters.maxAcceleration * Time.deltaTime;
+
+                //CAMERA EFFECT
+                if (cam.cameraState != CameraState.idle)
+                    cam.ChangeState(CameraState.idle);
+
+                //SET ANIMATOR
+                animator.SetBool("Brake", false);
             }
         }
 
-        if (boosted)
+        //CLAMP SPEED
+        currentSpeed = Mathf.Clamp(currentSpeed, 5, 500);
+
+        //INCREMENT DISTANCE TRAVELLED
+        distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
+
+        //CALCULATE BRAKE VALUE ON CURVE
+        l_acceleration = (movementParameters.brakeCurve.Evaluate(currentSpeed / l_maxSpeed) * movementParameters.maxAcceleration * 4);
+
+        //APPLY THROTTLE
+        l_acceleration *= playerInput.throttle;
+
+        //CALCULATE 2D MOVEMENT VALUE WITH HANDLING CURVE
+        float handling = movementParameters.maxHandlingSpeed * movementParameters.handlingCurve.Evaluate(currentSpeed / l_maxSpeed);
+        horizontalMove += playerInput.rawMovement.x * handling * Time.deltaTime;
+        verticalMove += playerInput.rawMovement.y * handling * Time.deltaTime;
+
+        //CLAMP ON LIMITS
+        horizontalMove = Mathf.Clamp(horizontalMove, -movementParameters.maxWidth, movementParameters.maxWidth);
+        verticalMove = Mathf.Clamp(verticalMove, -movementParameters.maxHeight, movementParameters.maxHeight);
+
+        //CALCULATE FINAL MOVEMENT
+        Vector3 movementDirection = TrackManager.Instance.GetPositionAtDistance(distanceTravelled);
+        movementDirection += transform.right * horizontalMove;
+        movementDirection += transform.up * verticalMove;
+
+        //MOVE
+        transform.position = movementDirection;
+
+        //ROTATE
+        Quaternion targetRotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
+        var step = 150 * Time.deltaTime;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+
+        //TILT
+        animator.SetFloat("Tilt X", playerInput.smoothedMovement.x);
+        animator.SetFloat("Tilt Y", playerInput.smoothedMovement.y);
+    }
+
+    void UpdateNitro()
+    {
+        //DETECT PLAYER'S FIRST INPUT
+        if (playerInput.nitroPress && !nitroInputPhase)
         {
-
-
-            //COUNT BOOST TIME
-            l_boostTime -= Time.unscaledDeltaTime;
-            if (l_boostTime < 0)
-                boosted = false;
+            nitroInputPhase = true;
+            nitroInputReleased = false;
+            nitroInputInitialEnergy = l_energy;
         }
-        //----------------------------------------------------------------------------------------------------
 
+        //INPUT PHASE
+        if (nitroInputPhase)
+        {
+            //DID THE PLAYER RELEASE THE INPUT?
+            if (playerInput.nitroRelease)
+                nitroInputReleased = true;
 
-        //---------------------------------------------------------------------------------------- BARREL ROLL
+            //INPUT TIMER
+            l_nitroInputTime -= Time.unscaledDeltaTime;
+            if (l_nitroInputTime > 0)
+            {
+                //IF THIS IS NOT THE FIRST FRAME INPUT...
+                if (nitroInputReleased)
+                {
+                    //DETECT SECOND INPUT FOR SUPER BOOST IF NITRO CHARGE IS FULL
+                    if (playerInput.nitroPress && nitroInputInitialEnergy == energyParameters.maxEnergy)
+                    {
+                        //SUPERBOOST
+                        Debug.Log("SUPERBOOST");
+                        OneShotBoost(l_energy / jetParameters.superBoostConsumption, jetParameters.superBoostAcceleration, true, CameraState.superboost);
+                        l_energy = 0;
+                    }
+                }
+            }
+
+            //IF INPUT TIME ENDS, END INPUT PHASE
+            else
+            {
+                nitroInputPhase = false;
+                l_nitroInputTime = nitroInputTime;
+            }
+        }
+
+        //IS PLAYER HOLDING?
+        if (playerInput.nitroHold)
+        {
+            //IF THERE IS ENERGY...
+            if (l_energy > 0)
+            {
+                //BOOST
+                Boost(jetParameters.boostAcceleration, CameraState.boost);
+                l_energy -= jetParameters.boostConsumption * Time.deltaTime;
+                boosted = true;
+            }
+
+            else boosted = false;
+        }
+
+        else boosted = false;
+    }
+
+    void UpdateRoll()
+    {
         if (playerInput.roll)
         {
             //SET ANIMATOR
@@ -296,10 +412,10 @@ public class PlayerBehaviour : MonoBehaviour
             animator.SetBool("BarrelRoll_Left", false);
             animator.SetBool("BarrelRoll_Right", false);
         }
-        //----------------------------------------------------------------------------------------------------
+    }
 
-
-        //-------------------------------------------------------------------------------------------- BLASTER
+    void UpdateBlasters()
+    {
         if (playerInput.blaster && l_energy > 0)
         {
             l_cadence -= Time.deltaTime;
@@ -320,157 +436,64 @@ public class PlayerBehaviour : MonoBehaviour
                 l_energy -= blasterParameters.energyCost;
             }
         }
+    }
 
-        //----------------------------------------------------------------------------------------------------
+    public void Boost(float accelerationBoost, CameraState camState)
+    {       
+        currentSpeed += accelerationBoost * Time.deltaTime;
+        if (cam.cameraState != camState)
+            cam.ChangeState(camState);
+    }
 
+    public void OneShotBoost(float duration, float accelerationBoost, bool energyCost, CameraState camState)
+    {
+        StartCoroutine(BoostCoroutine(duration, accelerationBoost, energyCost, camState));
+    }
 
-        //------------------------------------------------------------------------------------------- MOVEMENT
-
-        //MOVE
-        if (canMove && playerInput.inputEnabled)
-            Move();
-
-        else
+    IEnumerator BoostCoroutine(float duration, float accelerationBoost, bool energyCost, CameraState camState)
+    {
+        superboosted = true;
+        while (duration > 0)
         {
-            //GET FORWARD VECTOR
-            forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
-            transform.forward = forwardDirection.normalized;
+            duration -= Time.deltaTime;
+
+            currentSpeed += accelerationBoost * Time.deltaTime;
+
+            if(energyCost) l_energy -= jetParameters.superBoostConsumption * Time.deltaTime;
+
+            if (cam.cameraState != camState)
+                cam.ChangeState(camState);
+
+            if (energyCost) l_energy = 0;
+
+            yield return null;
         }
-        //----------------------------------------------------------------------------------------------------
-
-
-        //---------------------------------------------------------------------------------------------- OTHER     
-        //CLAMP ENERGY
-        l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);
-
-        //----------------------------------------------------------------------------------------------------
-
-
-        //---------------------------------------------------------------------------------------------- DEBUG
-        //RECHARGE ENERGY
-        if (playerInput.rechargeEnergy)
-            RechargeEnergy(1);
-        //----------------------------------------------------------------------------------------------------
+        superboosted = false;
+        cam.ChangeState(CameraState.moving);
+        yield break;
     }
 
-    private void LateUpdate()
+    public void RechargeEnergy(float amount)
     {
-        //RESTORE ANIMATOR BOOLS
-        animator.SetBool("Impact", false);
+        l_energy += amount;
     }
 
-    void Move()
+    public void TakeDamage(float amount)
     {
-        //FORWARD MOVEMENT
-        stunTime -= Time.unscaledDeltaTime;
-        if (stunTime <= 0)
-        {
-            //BRAKE
-            if (playerInput.brake)
-            {
-                //CALCULATE BRAKE VALUE ON CURVE
-                l_acceleration *= (movementParameters.brakeCurve.Evaluate(currentSpeed / l_maxSpeed + overSpeed) * -playerInput.throttle);
-
-                //BRAKE
-                currentSpeed -= l_acceleration * 3 * Time.deltaTime;
-                
-                //CHANGE CAMERA
-                cam.ChangeState(CameraState.braking);
-
-                //SET ANIMATOR
-                animator.SetBool("Brake", true);
-            }
-
-            //ACCELERATE
-            else if (playerInput.accelerate)
-            {
-                l_acceleration *= (movementParameters.accelerationCurve.Evaluate(currentSpeed / l_maxSpeed + overSpeed) * playerInput.throttle);
-
-                while (Mathf.Abs(currentSpeed - l_maxSpeed + overSpeed) > Mathf.Epsilon)
-                {
-                    if (currentSpeed < l_maxSpeed - 30) currentSpeed += l_acceleration * Time.deltaTime;
-
-                    //GRADUALLY DECREASE ACCELERATION WHEN REACHING SPEED LIMIT
-                    else if (currentSpeed < l_maxSpeed - 10 && currentSpeed > l_maxSpeed - 30) currentSpeed += l_acceleration / 4f * Time.deltaTime;
-                    else if (currentSpeed < l_maxSpeed - 5 && currentSpeed > l_maxSpeed - 10) currentSpeed += l_acceleration / 6f * Time.deltaTime;
-
-                    //SLIGHTLY SPEED UP OVER LIMIT
-                    else if (currentSpeed < l_maxSpeed + overSpeed)
-                    {
-                        currentSpeed += 0.3f * Time.deltaTime;
-                        overSpeed += 0.3f * Time.deltaTime;
-                    }
-
-                    //DECELERATE
-                    else
-                    {
-                        overSpeed = 0;
-                        currentSpeed -= l_acceleration / 2 * Time.deltaTime;
-                    }
-
-                    break;
-                }
-
-                //SET ANIMATOR
-                animator.SetBool("Brake", false);
-            }
-
-            //IDLE
-            else
-            {
-                //DECELERATE
-                currentSpeed -= l_acceleration * Time.deltaTime;
-                overSpeed = 0;
-
-                //CAMERA EFFECT
-                cam.ChangeState(CameraState.idle);
-
-                //SET ANIMATOR
-                animator.SetBool("Brake", false);
-            }
-        }
-
-        //CLAMP SPEED
-        currentSpeed = Mathf.Clamp(currentSpeed, 5, 1000);
-
-        //INCREMENT DISTANCE TRAVELLED
-        distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
-
-        //CALCULATE 2D MOVEMENT
-        horizontalMove += playerInput.rawMovement.x * movementParameters.maxHandlingSpeed * Time.deltaTime;
-        verticalMove += playerInput.rawMovement.y * movementParameters.maxHandlingSpeed * Time.deltaTime;
-
-        //CLAMP ON LIMITS
-        horizontalMove = Mathf.Clamp(horizontalMove, -movementParameters.maxWidth, movementParameters.maxWidth);
-        verticalMove = Mathf.Clamp(verticalMove, -movementParameters.maxHeight, movementParameters.maxHeight);
-
-        //CALCULATE FINAL MOVEMENT
-        Vector3 movementDirection = TrackManager.Instance.GetPositionAtDistance(distanceTravelled);
-        movementDirection += transform.right * horizontalMove;
-        movementDirection += transform.up * verticalMove;
-
-        //MOVE
-        transform.position = movementDirection;
-
-        //ROTATE
-        Quaternion targetRotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
-        var step = 150 * Time.deltaTime;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
-
-        //TILT
-        animator.SetFloat("Tilt X", playerInput.smoothedMovement.x);
-        animator.SetFloat("Tilt Y", playerInput.smoothedMovement.y);
+        //health -= amount;
     }
 
-    public void Boost(float duration, float speedBoost, float accelerationBoost, CameraState camState)
+    public void Knockback(float amount)
     {
-        //SET BOOST VALUES
-        l_boostTime = duration;
-        l_maxSpeed += speedBoost;
-        l_acceleration += accelerationBoost;
-        cam.ChangeState(camState);
+        currentSpeed -= amount;
+        stunTime = 0.5f;
+        EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
+    }
 
-        boosted = true;
+    public void Explode()
+    {
+        this.enabled = false;
+        EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -530,6 +553,7 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
         }
     }
+
     private void OnCollisionExit(Collision collision)
     {
         switch (collision.transform.tag)
@@ -539,27 +563,5 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
         }
 
-    }
-    public void RechargeEnergy(float amount)
-    {
-        l_energy += amount;
-    }
-
-    public void TakeDamage(float amount)
-    {
-        //health -= amount;
-    }
-
-    public void Knockback(float amount)
-    {
-        currentSpeed -= amount;
-        stunTime = 0.5f;
-        EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
-    }
-
-    public void Explode()
-    {
-        this.enabled = false;
-        EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
     }
 }

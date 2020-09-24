@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public enum CameraState { idle, moving, braking, low_nitro, mid_nitro, high_nitro, ring_skillcheck }
+public enum CameraState { idle, moving, braking, low_nitro, mid_nitro, high_nitro, boost, superboost, ring_skillcheck }
 public enum CameraMode { railMode, followMode, railSmoothMode, railSmoothModeUP, railSmoothModeInverted, railSmoothModeLookAt, skillCheckMode }
 
 public class CameraBehaviour : MonoBehaviour
@@ -17,6 +17,7 @@ public class CameraBehaviour : MonoBehaviour
     Camera cam;
     public Volume postpro;
     Vignette _Vignette;
+    float d = 0;
     float t = 0;
 
     //CORE PARAMETERS
@@ -26,7 +27,8 @@ public class CameraBehaviour : MonoBehaviour
     float desiredfieldOfView;
     float desiredShakeAmount;
     float desiredVignetteIntensity = 0.2f;
-    public float damp = 1.6f;
+    public float stateDamp = 1.6f;
+    public float modeDamp = 1f;
 
     //------------------------------------ EXTRA SETTINGS
     //PUBLIC ON INSPECTOR
@@ -59,13 +61,13 @@ public class CameraBehaviour : MonoBehaviour
     void Update()
     {
         //CAMERAS UPDATE
-        t += Time.unscaledDeltaTime;
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, t); //FOV
-        distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, t); //DISTANCE TO SPACESHIP
+        d += modeDamp * Time.unscaledDeltaTime;
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, d); //FOV
+        distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, d); //DISTANCE TO SPACESHIP
 
         transform.localPosition += Random.insideUnitSphere * desiredShakeAmount; //CAMERA SHAKE    
 
-        float vignetteIntensity = Mathf.Lerp(_Vignette.intensity.value, desiredVignetteIntensity, t); //VIGNETTE
+        float vignetteIntensity = Mathf.Lerp(_Vignette.intensity.value, desiredVignetteIntensity, d); //VIGNETTE
         _Vignette.intensity.value = vignetteIntensity;
 
         //STATE MACHINE
@@ -78,6 +80,10 @@ public class CameraBehaviour : MonoBehaviour
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0;
+
+                //EFFECTS
+                EffectsManager.Instance.effects.warpSpeed = 0;
+                EffectsManager.Instance.effects.nebulaActive = false;
                 break;
 
             case CameraState.moving:
@@ -87,12 +93,20 @@ public class CameraBehaviour : MonoBehaviour
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0;
+
+                //EFFECTS
+                EffectsManager.Instance.effects.warpSpeed = 0;
+                EffectsManager.Instance.effects.nebulaActive = false;
                 break;
 
             case CameraState.braking:
                 desiredDistanceToTarget = 4;
                 desiredfieldOfView = 75;
                 desiredVignetteIntensity = 0.2f;
+
+                //EFFECTS
+                EffectsManager.Instance.effects.warpSpeed = 0;
+                EffectsManager.Instance.effects.nebulaActive = false;
                 break;
 
             case CameraState.low_nitro:
@@ -102,6 +116,10 @@ public class CameraBehaviour : MonoBehaviour
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0.002f;
+
+                //PARTICLES
+                EffectsManager.Instance.effects.warpSpeed = 0.3f;
+                EffectsManager.Instance.effects.nebulaActive = false;
                 break;
 
             case CameraState.mid_nitro:
@@ -111,6 +129,12 @@ public class CameraBehaviour : MonoBehaviour
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0.005f;
+
+                //EFFECTS
+                EffectsManager.Instance.effects.warpSpeed = 0.6f;
+                EffectsManager.Instance.effects.nebulaActive = true;
+                EffectsManager.Instance.effects.nebulaDissolve = 1;
+                EffectsManager.Instance.effects.nebulaSpeed = 0.3f;
                 break;
 
             case CameraState.high_nitro:
@@ -120,6 +144,40 @@ public class CameraBehaviour : MonoBehaviour
 
                 //CAMERA SHAKE
                 desiredShakeAmount = 0.01f;
+
+                //EFFECTS
+                EffectsManager.Instance.effects.warpSpeed = 1f;
+                EffectsManager.Instance.effects.nebulaActive = true;
+                EffectsManager.Instance.effects.nebulaDissolve = 0.3f;
+                EffectsManager.Instance.effects.nebulaSpeed = 1f;
+                break;
+
+            case CameraState.boost:
+                desiredDistanceToTarget = 5;
+                desiredfieldOfView = 100;
+                desiredVignetteIntensity = 0.2f;
+
+                //CAMERA SHAKE
+                desiredShakeAmount = 0.004f;
+
+                //PARTICLES
+                EffectsManager.Instance.effects.warpSpeed = 0.3f;
+                EffectsManager.Instance.effects.nebulaActive = false;
+                break;
+
+            case CameraState.superboost:
+                desiredDistanceToTarget = 3;
+                desiredfieldOfView = 130;
+                desiredVignetteIntensity = 0.3f;
+
+                //CAMERA SHAKE
+                desiredShakeAmount = 0.01f;
+
+                //EFFECTS
+                EffectsManager.Instance.effects.warpSpeed = 0.6f;
+                EffectsManager.Instance.effects.nebulaActive = true;
+                EffectsManager.Instance.effects.nebulaDissolve = 1;
+                EffectsManager.Instance.effects.nebulaSpeed = 0.3f;
                 break;
 
             case CameraState.ring_skillcheck:
@@ -141,7 +199,7 @@ public class CameraBehaviour : MonoBehaviour
 
             case CameraMode.railSmoothMode:
 
-                t += damp * Time.deltaTime;
+                t += stateDamp * Time.deltaTime;
 
                 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
@@ -156,7 +214,7 @@ public class CameraBehaviour : MonoBehaviour
 
             case CameraMode.railSmoothModeUP:
 
-                t += damp * Time.deltaTime;
+                t += stateDamp * Time.deltaTime;
 
                 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
@@ -174,14 +232,12 @@ public class CameraBehaviour : MonoBehaviour
 
             case CameraMode.railSmoothModeInverted:
 
-                t += damp * Time.deltaTime;
+                t += stateDamp * Time.deltaTime;
 
                 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
-                hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / 10, t);
-                vOffset = Mathf.Lerp(vOffset, -player.verticalMove / 10, t);
-
-                //cam.transform.position = cameraPos + transform.right * hOffset + cam.transform.up * vOffset;
+                hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / 12, t);
+                vOffset = Mathf.Lerp(vOffset, -player.verticalMove / 12, t);
 
                 if (cameraSettings.smooth2DFollow)
                     cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up * vOffset, t);
@@ -189,15 +245,17 @@ public class CameraBehaviour : MonoBehaviour
                 else cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos, t);
 
                 Vector3 lookAt = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + cameraSettings.sightBeyond) - transform.position).normalized;
-                lookAt += (transform.right * -hOffset / 3) + (transform.up * -vOffset / 3);
+                lookAt += (transform.right * -hOffset / 3) + (transform.up * -vOffset / 4);
 
                 transform.forward = Vector3.Lerp(transform.forward, lookAt, t);
+
+                //transform.LookAt(lookAt);
 
                 break;
 
             case CameraMode.railSmoothModeLookAt:
 
-                t += damp * Time.deltaTime;
+                t += stateDamp * Time.deltaTime;
 
                 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
@@ -218,7 +276,7 @@ public class CameraBehaviour : MonoBehaviour
 
             case CameraMode.skillCheckMode:
 
-                t += damp * Time.unscaledDeltaTime;
+                t += stateDamp * Time.unscaledDeltaTime;
 
                 cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
@@ -238,7 +296,7 @@ public class CameraBehaviour : MonoBehaviour
     {
         if (cameraSettings.tiltWithTrack)
         {
-            Quaternion rot = new Quaternion(transform.rotation.x, transform.rotation.y, player.transform.rotation.z, transform.rotation.w);
+            Quaternion rot = new Quaternion(transform.rotation.x, transform.rotation.y, TrackManager.Instance.GetRotationAtDistance(player.distanceTravelled).z, transform.rotation.w);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 20 * Time.deltaTime);
         }
     }
@@ -246,6 +304,7 @@ public class CameraBehaviour : MonoBehaviour
     public void ChangeState(CameraState state)
     {
         t = 0;
+        d = 0;
         cameraState = state;
     }
 }

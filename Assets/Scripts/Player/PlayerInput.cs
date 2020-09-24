@@ -73,10 +73,7 @@ public class PlayerInput : MonoBehaviour
     //THROTTLE
     public float throttle
     {
-        get
-        {
-            return Input.GetAxis("Accelerate");
-        }
+        get { return Input.GetAxis("Accelerate"); }
     }
 
     //BARREL ROLL
@@ -86,16 +83,19 @@ public class PlayerInput : MonoBehaviour
     }
 
     //NITRO
-    public bool nitro
+    public bool nitroHold
+    {
+        get { return Input.GetButton("Nitro"); }
+    }
+
+    public bool nitroPress
     {
         get { return Input.GetButtonDown("Nitro"); }
     }
 
-    //WARM UP QTE
-
-    public bool warmUp
+    public bool nitroRelease
     {
-        get { return Input.GetButton("Nitro"); }
+        get { return Input.GetButtonUp("Nitro"); }
     }
 
     //BLASTER
