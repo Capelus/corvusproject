@@ -855,6 +855,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Swordfish
       objectReference: {fileID: 0}
+    - target: {fileID: 3833130908078103408, guid: 7edc21d18352e0849b40a35542985667,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f42413850aa220740986cb73c24e7c81, type: 2}
     - target: {fileID: 4311563988406110421, guid: 7edc21d18352e0849b40a35542985667,
         type: 3}
       propertyPath: m_LocalPosition.x

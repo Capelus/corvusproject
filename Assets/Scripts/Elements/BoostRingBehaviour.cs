@@ -5,7 +5,6 @@ using UnityEngine;
 public class BoostRingBehaviour : MonoBehaviour
 {
     //REFERENCES
-    GameObject ring;
     CapsuleCollider trigger;
 
     //PARAMETERS
@@ -22,14 +21,13 @@ public class BoostRingBehaviour : MonoBehaviour
 
     private void Start()
     {
-        ring = transform.GetChild(0).gameObject;
         trigger = GetComponent<CapsuleCollider>();
     }
 
     private void Update()
     {
         //ROTATE
-        ring.transform.Rotate(0, ringRotationSpeed * Time.deltaTime, 0);
+        transform.GetChild(0).Rotate(0, 0, ringRotationSpeed * Time.deltaTime);
 
         l_cooldownTime -= Time.unscaledDeltaTime;
         if (l_cooldownTime < 0)
