@@ -1968,7 +1968,7 @@ MonoBehaviour:
       - 0
       - 0
       - 0
-      - 11.18472
+      - 0
       - 0
       - 0
       globalNormalsAngle: 90
@@ -15985,6 +15985,7 @@ MonoBehaviour:
   player: {fileID: 0}
   playerCamera: {fileID: 0}
   playerInput: {fileID: 0}
+  previousScene: 
   playerProfile: {fileID: 0}
 --- !u!4 &2114749614
 Transform:
