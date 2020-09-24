@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 651558839196893315}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: -0.03, z: -1.32}
-  m_LocalScale: {x: 0.41513416, y: 0.5370302, z: 0.2886483}
+  m_LocalPosition: {x: 0.01, y: -0.03, z: -1.797}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2700234102695469087}
   m_RootOrder: 1
@@ -4836,7 +4836,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2598806710942457974}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: -0.34, z: 2.45}
+  m_LocalPosition: {x: 0.01, y: -0.4, z: 3.055}
   m_LocalScale: {x: 1.8972094, y: 1.8972094, z: 1.8972086}
   m_Children: []
   m_Father: {fileID: 2700234102695469087}
@@ -4867,7 +4867,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3152486185234003974}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.818, y: 0, z: 0.266}
+  m_LocalPosition: {x: -2.2, y: 0, z: 0.266}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2700234102695469087}
@@ -4996,7 +4996,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3152486186490189098}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.883, y: 0, z: 0.266}
+  m_LocalPosition: {x: 2.2, y: 0, z: 0.266}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2700234102695469087}
@@ -5111,7 +5111,6 @@ GameObject:
   - component: {fileID: 2700234102695469087}
   - component: {fileID: 1357539559348383674}
   - component: {fileID: 3833130908078103408}
-  - component: {fileID: 2076462386034803597}
   m_Layer: 0
   m_Name: Structure
   m_TagString: Untagged
@@ -5186,21 +5185,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2076462386034803597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3328995962830944933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d72cb79500324ee4c86f966c4e53e3a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jets:
-  - {fileID: 651558839196893315}
-  cannon: {fileID: 2598806710942457969}
 --- !u!1 &3503255384420799087
 GameObject:
   m_ObjectHideFlags: 0
@@ -5211,6 +5195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4311563988406110421}
   - component: {fileID: 6777268503624058417}
+  - component: {fileID: 5512051546498127834}
   m_Layer: 0
   m_Name: Swordfish
   m_TagString: Untagged
@@ -5252,3 +5237,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5512051546498127834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3503255384420799087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72cb79500324ee4c86f966c4e53e3a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 0}
+  jets:
+  - {fileID: 651558839196893315}
+  cannon: {fileID: 2598806710942457969}

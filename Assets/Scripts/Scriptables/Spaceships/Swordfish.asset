@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 732ce129d7450814c8322f5680ab65cb, type: 3}
-  m_Name: TIER A
+  m_Name: Swordfish
   m_EditorClassIdentifier: 
   engineProfile: {fileID: 11400000, guid: 245f8f2f4bfa4d944957f71a40915350, type: 2}
   chassisProfile: {fileID: 11400000, guid: 578c40e1cea283f44a9b8caa89b2315f, type: 2}

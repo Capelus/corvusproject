@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732ce129d7450814c8322f5680ab65cb, type: 3}
+  m_Name: Galacta
+  m_EditorClassIdentifier: 
+  engineProfile: {fileID: 0}
+  chassisProfile: {fileID: 0}
+  blasterProfile: {fileID: 0}
+  jetProfile: {fileID: 0}
+  tankProfile: {fileID: 0}

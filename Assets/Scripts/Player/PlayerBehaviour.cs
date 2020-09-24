@@ -13,7 +13,8 @@ public class PlayerBehaviour : MonoBehaviour
     //----------------------------------------------------------------
 
     //-------------------- SPACESHIP PROFILE -----------------------//
-    public SpaceshipProfile playerProfile;
+    public GameObject spaceship;
+    SpaceshipProfile spaceshipProfile;
     //--------------------------------------------------------------//
 
     //---------------------------------------------- ENGINE PARAMETERS  
@@ -124,81 +125,88 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Start()
     {
+        //GET PARAMETERS FROM MENU IF SELECTED SPACESHIP ON GAME MANAGER IS NOT NULL
+        if (GameManager.Instance.selectedSpaceship != null)
+            spaceship = GameManager.Instance.selectedSpaceship;
+
+        //INSTANTIATE SPACESHIP
+        spaceship = Instantiate(spaceship, transform.position, transform.rotation);
+        spaceship.transform.parent = transform;
+        spaceship.name = spaceship.name.Replace("(Clone)", "");
+        spaceship.GetComponent<SpaceshipStructure>().profile = (SpaceshipProfile)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Scriptables/Spaceships/" + spaceship.name + ".asset", typeof(SpaceshipProfile));
+
         //GET REFERENCES
         playerInput = GetComponent<PlayerInput>();
         cam = GameManager.Instance.playerCamera;
-
-        //GET PARAMETERS FROM MENU IF PLAYERSPECS ON GAME MANAGER IS NOT NULL
-        if (GameManager.Instance.playerProfile != null)
-            playerProfile = GameManager.Instance.playerProfile;
+        spaceshipProfile = spaceship.GetComponent<SpaceshipStructure>().profile;
 
         //INITIALIZE SPACESHIP PARAMETERS
-        if (playerProfile != null)
+        if (spaceshipProfile != null)
         {
             //-----------------------------------------------------------------------
             //----------------------------------------------------------- FROM ENGINE
-            if (playerProfile.engineProfile != null)
+            if (spaceshipProfile.engineProfile != null)
             {
                 // SPEED
-                engineParameters.maxSpeed = playerProfile.engineProfile.maxSpeed;
+                engineParameters.maxSpeed = spaceshipProfile.engineProfile.maxSpeed;
 
                 // ACCELERATION
-                engineParameters.maxAcceleration = playerProfile.engineProfile.maxAcceleration;
-                engineParameters.accelerationCurve = playerProfile.engineProfile.accelerationCurve;
+                engineParameters.maxAcceleration = spaceshipProfile.engineProfile.maxAcceleration;
+                engineParameters.accelerationCurve = spaceshipProfile.engineProfile.accelerationCurve;
 
                 // BRAKE
-                engineParameters.maxBrake = playerProfile.engineProfile.maxBrake;
-                engineParameters.brakeCurve = playerProfile.engineProfile.brakeCurve;
+                engineParameters.maxBrake = spaceshipProfile.engineProfile.maxBrake;
+                engineParameters.brakeCurve = spaceshipProfile.engineProfile.brakeCurve;
             }
-            else Debug.LogWarning("There is no Engine Profile on " + playerProfile.name + ". Loading default parameters...");
+            else Debug.LogWarning("There is no Engine Profile on " + spaceshipProfile.name + ". Loading default parameters...");
 
             //-----------------------------------------------------------------------
             //---------------------------------------------------------- FROM CHASSIS
-            if (playerProfile.chassisProfile != null)
+            if (spaceshipProfile.chassisProfile != null)
             {
                 // HANDLING
-                chassisParameters.maxHandlingSpeed = playerProfile.chassisProfile.handling;
-                chassisParameters.handlingCurve = playerProfile.chassisProfile.handlingCurve;
+                chassisParameters.maxHandlingSpeed = spaceshipProfile.chassisProfile.handling;
+                chassisParameters.handlingCurve = spaceshipProfile.chassisProfile.handlingCurve;
 
                 // RESISTANCE
-                chassisParameters.knockback = playerProfile.chassisProfile.knockback;
+                chassisParameters.knockback = spaceshipProfile.chassisProfile.knockback;
             }
-            else Debug.LogWarning("There is no Chassis Profile on " + playerProfile.name + ". Loading default parameters...");
+            else Debug.LogWarning("There is no Chassis Profile on " + spaceshipProfile.name + ". Loading default parameters...");
 
             //-----------------------------------------------------------------------
             //--------------------------------------------------------- FROM BLASTERS
-            if (playerProfile.blasterProfile != null)
+            if (spaceshipProfile.blasterProfile != null)
             {
                 // PROJECTILE
-                blasterParameters.projectile = playerProfile.blasterProfile.projectile;
+                blasterParameters.projectile = spaceshipProfile.blasterProfile.projectile;
 
                 // CADENCE
-                blasterParameters.cadence = playerProfile.blasterProfile.cadence;
+                blasterParameters.cadence = spaceshipProfile.blasterProfile.cadence;
             }
-            else Debug.LogWarning("There is no Blaster Profile on " + playerProfile.name + ". Loading default parameters...");
+            else Debug.LogWarning("There is no Blaster Profile on " + spaceshipProfile.name + ". Loading default parameters...");
 
             //-----------------------------------------------------------------------
             //------------------------------------------------------------- FROM JETS
-            if (playerProfile.jetProfile != null)
+            if (spaceshipProfile.jetProfile != null)
             {
                 //BOOST
-                jetParameters.boostAcceleration = playerProfile.jetProfile.boost;
-                jetParameters.boostConsumption = playerProfile.jetProfile.boostIntake;
+                jetParameters.boostAcceleration = spaceshipProfile.jetProfile.boost;
+                jetParameters.boostConsumption = spaceshipProfile.jetProfile.boostIntake;
 
                 //SUPERBOOST
-                jetParameters.superBoostAcceleration = playerProfile.jetProfile.superBoost;
-                jetParameters.superBoostConsumption = playerProfile.jetProfile.superBoostIntake;
+                jetParameters.superBoostAcceleration = spaceshipProfile.jetProfile.superBoost;
+                jetParameters.superBoostConsumption = spaceshipProfile.jetProfile.superBoostIntake;
             }
-            else Debug.LogWarning("There is no Jet Profile on " + playerProfile.name + ". Loading default parameters...");
+            else Debug.LogWarning("There is no Jet Profile on " + spaceshipProfile.name + ". Loading default parameters...");
 
             //-----------------------------------------------------------------------
             //------------------------------------------------------------- FROM TANK
-            if (playerProfile.tankProfile != null)
+            if (spaceshipProfile.tankProfile != null)
             {
                 // ENERGY TANK CAPACITY
-                energyParameters.maxEnergy = playerProfile.tankProfile.capacity;
+                energyParameters.maxEnergy = spaceshipProfile.tankProfile.capacity;
             }
-            else Debug.LogWarning("There is no Tank Profile on " + playerProfile.name + ". Loading default parameters...");
+            else Debug.LogWarning("There is no Tank Profile on " + spaceshipProfile.name + ". Loading default parameters...");
         }
 
         else Debug.Log("There isn't any profile to load. Initializing with default parameters...");
@@ -415,31 +423,34 @@ public class PlayerBehaviour : MonoBehaviour
 
     void UpdateRoll()
     {
-        if (playerInput.roll)
+        if (animator != null)
         {
-            //SET ANIMATOR
-            animator.SetBool("Brake", false);
+            if (playerInput.roll)
+            {
+                //SET ANIMATOR
+                animator.SetBool("Brake", false);
 
-            //LEFT
-            if (playerInput.rawMovement.x < 0)
-                animator.SetBool("Roll_Left", true);
+                //LEFT
+                if (playerInput.rawMovement.x < 0)
+                    animator.SetBool("Roll_Left", true);
 
-            //RIGHT
-            else if (playerInput.rawMovement.x > 0)
-                animator.SetBool("Roll_Right", true);
+                //RIGHT
+                else if (playerInput.rawMovement.x > 0)
+                    animator.SetBool("Roll_Right", true);
 
-            //STRAIGHT
+                //STRAIGHT
+                else
+                {
+                    if (Random.value < 0.5f) animator.SetBool("Roll_Left", true);
+                    else animator.SetBool("Roll_Right", true);
+                }
+            }
+
             else
             {
-                if (Random.value < 0.5f) animator.SetBool("Roll_Left", true);
-                else animator.SetBool("Roll_Right", true);
+                animator.SetBool("Roll_Left", false);
+                animator.SetBool("Roll_Right", false);
             }
-        }
-
-        else
-        {
-            animator.SetBool("Roll_Left", false);
-            animator.SetBool("Roll_Right", false);
         }
     }
 

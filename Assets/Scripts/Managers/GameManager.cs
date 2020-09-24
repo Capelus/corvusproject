@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     }
 
     //PLAYER SPACESHIP SPECS
-    [HideInInspector] public SpaceshipProfile playerProfile;
+    [HideInInspector] public GameObject selectedSpaceship;
 
     void Update()
     {
@@ -45,20 +45,25 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void LoadRace(SpaceshipProfile specs) //EN EL FUTURO ESTA FUNCIÓN PEDIRÁ CIRCUITO Y DEMÁS COSAS
+    public void LoadRace() //EN EL FUTURO ESTA FUNCIÓN PEDIRÁ CIRCUITO Y DEMÁS COSAS
     {
-        playerProfile = specs;
         SceneManager.LoadScene("RaceTrackLarge(DOUBLE LINES)");
     }
 
-    public void LoadRaceCustomTier() //DEBUG
+    public void LoadRace(GameObject spaceship) //EN EL FUTURO ESTA FUNCIÓN PEDIRÁ CIRCUITO Y DEMÁS COSAS
     {
-        playerProfile = new SpaceshipProfile();
-        playerProfile.engineProfile.maxSpeed = float.Parse(GameObject.Find("maxSpeedIF").GetComponent<InputField>().text);
-        playerProfile.engineProfile.maxAcceleration = float.Parse(GameObject.Find("accelerationIF").GetComponent<InputField>().text);
-        playerProfile.chassisProfile.handling = float.Parse(GameObject.Find("handlingSpeedIF").GetComponent<InputField>().text);
-        playerProfile.blasterProfile.cadence = 0.2f; //HARDCODED DE MOMENTO
+        selectedSpaceship = spaceship;
+        SceneManager.LoadScene("RaceTrackLarge(DOUBLE LINES)");
     }
+
+    //public void LoadRaceCustomTier() //DEBUG
+    //{
+    //    spaceshipProfile = new SpaceshipProfile();
+    //    spaceshipProfile.engineProfile.maxSpeed = float.Parse(GameObject.Find("maxSpeedIF").GetComponent<InputField>().text);
+    //    spaceshipProfile.engineProfile.maxAcceleration = float.Parse(GameObject.Find("accelerationIF").GetComponent<InputField>().text);
+    //    spaceshipProfile.chassisProfile.handling = float.Parse(GameObject.Find("handlingSpeedIF").GetComponent<InputField>().text);
+    //    spaceshipProfile.blasterProfile.cadence = 0.2f; //HARDCODED DE MOMENTO
+    //}
 
     public void DebuggingChangeScene(string sceneName)
     {
