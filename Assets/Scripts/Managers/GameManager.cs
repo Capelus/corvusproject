@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public PlayerBehaviour player;
     [HideInInspector] public CameraBehaviour playerCamera;
     [HideInInspector] public PlayerInput playerInput;
+    [HideInInspector] public string previousScene;
 
     //SINGLETON
     public static GameManager Instance;
@@ -57,6 +58,13 @@ public class GameManager : MonoBehaviour
         playerSpecs.maxAccelerationvalue = float.Parse(GameObject.Find("accelerationIF").GetComponent<InputField>().text);
         playerSpecs.handlingValue = float.Parse(GameObject.Find("handlingSpeedIF").GetComponent<InputField>().text);
         playerSpecs.cadenceValue = 0.2f; //HARDCODED DE MOMENTO
+
+    }
+
+    public void DebuggingChangeScene(string sceneName)
+    {
+        previousScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(sceneName);
 
     }
 }
