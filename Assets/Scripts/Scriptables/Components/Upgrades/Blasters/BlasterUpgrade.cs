@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Blaster Upgrade", menuName = "Upgrades/New Blaster Upgrade", order = 4)]
+[CreateAssetMenu(fileName = "Blaster Upgrade", menuName = "Upgrades/New Upgrade Component/Blaster Upgrade", order = 4)]
 public class BlasterUpgrade : ScriptableObject
 {
     //GENERAL INFO

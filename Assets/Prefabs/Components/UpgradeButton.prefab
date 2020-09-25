@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6220361980746150962}
   - component: {fileID: 9133601060050021404}
   m_Layer: 5
-  m_Name: Component
+  m_Name: UpgradeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,7 +133,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8019ca13a0624ee4aa6ca26400028b03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  componentData: {fileID: 0}
+  workshopManager: {fileID: 0}
+  label: {fileID: 8615434066488248054}
+  upgradeType: 
+  componentName: 
+  upgradeComponentData: {fileID: 0}
 --- !u!1 &9162443014503869202
 GameObject:
   m_ObjectHideFlags: 0

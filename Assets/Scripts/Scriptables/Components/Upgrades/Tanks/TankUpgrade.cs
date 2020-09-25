@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Tank Upgrade", menuName = "Upgrades/New Tank Upgrade", order = 5)]
+[CreateAssetMenu(fileName = "Tank Upgrade", menuName = "Upgrades/New Upgrade Component/Tank Upgrade", order = 5)]
 public class TankUpgrade : ScriptableObject
 {
     //GENERAL INFO

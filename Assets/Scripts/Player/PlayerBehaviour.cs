@@ -15,6 +15,7 @@ public class PlayerBehaviour : MonoBehaviour
     //-------------------- SPACESHIP PROFILE -----------------------//
     public GameObject spaceship;
     SpaceshipProfile spaceshipProfile;
+    UpgradesProfile upgradesProfile;
     //--------------------------------------------------------------//
 
     //---------------------------------------------- ENGINE PARAMETERS  
@@ -139,6 +140,7 @@ public class PlayerBehaviour : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         cam = GameManager.Instance.playerCamera;
         spaceshipProfile = spaceship.GetComponent<SpaceshipStructure>().profile;
+        upgradesProfile = spaceship.GetComponent<SpaceshipStructure>().upgradesProfile;
 
         //INITIALIZE SPACESHIP PARAMETERS
         if (spaceshipProfile != null)
@@ -157,6 +159,14 @@ public class PlayerBehaviour : MonoBehaviour
                 // BRAKE
                 engineParameters.maxBrake = spaceshipProfile.engineProfile.maxBrake;
                 engineParameters.brakeCurve = spaceshipProfile.engineProfile.brakeCurve;
+
+                if(upgradesProfile.engineUpgrades != null)
+                {
+                    engineParameters.maxSpeed += upgradesProfile.engineUpgrades.bonusMaxSpeed;
+                    engineParameters.maxAcceleration += upgradesProfile.engineUpgrades.bonusMaxAcceleration;
+                    engineParameters.maxBrake += upgradesProfile.engineUpgrades.bonusMaxBrake;
+                }
+
             }
             else Debug.LogWarning("There is no Engine Profile on " + spaceshipProfile.name + ". Loading default parameters...");
 
@@ -170,6 +180,12 @@ public class PlayerBehaviour : MonoBehaviour
 
                 // RESISTANCE
                 chassisParameters.knockback = spaceshipProfile.chassisProfile.knockback;
+
+                if (upgradesProfile.chassisUpgrades != null)
+                {
+                    chassisParameters.maxHandlingSpeed += upgradesProfile.chassisUpgrades.bonusMaxHandling;
+                    chassisParameters.knockback += upgradesProfile.chassisUpgrades.bonusKnockback;
+                }
             }
             else Debug.LogWarning("There is no Chassis Profile on " + spaceshipProfile.name + ". Loading default parameters...");
 
@@ -182,6 +198,11 @@ public class PlayerBehaviour : MonoBehaviour
 
                 // CADENCE
                 blasterParameters.cadence = spaceshipProfile.blasterProfile.cadence;
+
+                if (upgradesProfile.blastersUpgrades != null)
+                {
+                    blasterParameters.cadence += upgradesProfile.blastersUpgrades.bonusCadence;
+                }
             }
             else Debug.LogWarning("There is no Blaster Profile on " + spaceshipProfile.name + ". Loading default parameters...");
 
@@ -196,6 +217,14 @@ public class PlayerBehaviour : MonoBehaviour
                 //SUPERBOOST
                 jetParameters.superBoostAcceleration = spaceshipProfile.jetProfile.superBoost;
                 jetParameters.superBoostConsumption = spaceshipProfile.jetProfile.superBoostIntake;
+
+                if (upgradesProfile.jetsUpgrades != null)
+                {
+                    jetParameters.boostAcceleration = upgradesProfile.jetsUpgrades.bonusMaxBoost;
+                    jetParameters.superBoostAcceleration = upgradesProfile.jetsUpgrades.bonusMaxSuperBoost;
+                    jetParameters.boostConsumption = upgradesProfile.jetsUpgrades.bonusBoostIntake;
+                    jetParameters.superBoostConsumption = upgradesProfile.jetsUpgrades.bonusSuperBoostIntake;
+                }
             }
             else Debug.LogWarning("There is no Jet Profile on " + spaceshipProfile.name + ". Loading default parameters...");
 
@@ -205,6 +234,11 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 // ENERGY TANK CAPACITY
                 energyParameters.maxEnergy = spaceshipProfile.tankProfile.capacity;
+
+                if (upgradesProfile.tanksUpgrades != null)
+                {
+                    energyParameters.maxEnergy += upgradesProfile.tanksUpgrades.bonusCapacity;
+                }
             }
             else Debug.LogWarning("There is no Tank Profile on " + spaceshipProfile.name + ". Loading default parameters...");
         }

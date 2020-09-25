@@ -5,11 +5,12 @@ using UnityEditor;
 
 public class SpaceshipStructure : MonoBehaviour
 {
-    //PROFILE
-    public SpaceshipProfile profile;
+    //BASE PROFILE
+    [HideInInspector] public SpaceshipProfile profile;
 
-    //UPGRADES
-
+    //UPGRADES PROFILE
+    public UpgradesAtlas upgradesAtlas;
+    public UpgradesProfile upgradesProfile;
 
     //REFERENCES
     public GameObject[] jets;

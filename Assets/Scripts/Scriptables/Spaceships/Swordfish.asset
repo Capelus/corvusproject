@@ -17,3 +17,4 @@ MonoBehaviour:
   blasterProfile: {fileID: 11400000, guid: 697397c26517a7f47838dd027d41e1ae, type: 2}
   jetProfile: {fileID: 11400000, guid: f8f011bbc80ad9542b76139aa28da223, type: 2}
   tankProfile: {fileID: 11400000, guid: 44d45edc49af54c4e85522909ed84d0a, type: 2}
+  upgradesProfile: {fileID: 11400000, guid: 7dfbba822c162e14caf9138147cd4f22, type: 2}

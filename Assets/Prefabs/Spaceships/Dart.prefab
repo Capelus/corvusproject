@@ -41,7 +41,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 284252215041412284}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1efdea381c176364c8d99c3012e7f71c, type: 2}
   m_CullingMode: 0
@@ -65,6 +65,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 0}
+  upgradesAtlas: {fileID: 11400000, guid: 665bd076fb2e5b7498329387f5735285, type: 2}
+  upgradesProfile: {fileID: 11400000, guid: 4fde90805ad09cd4498fe7aaf5828aea, type: 2}
   jets:
   - {fileID: 4207770096079330896}
   - {fileID: 4540840167149887416}

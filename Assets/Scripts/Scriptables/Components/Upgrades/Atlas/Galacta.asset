@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e806c40c961480c45bbb35cd461550e4, type: 3}
-  m_Name: Swordfish
+  m_Name: Galacta
   m_EditorClassIdentifier: 
   engineUpgrades:
   - {fileID: 11400000, guid: d2cb9339edc56494abd6af07ea95bbeb, type: 2}

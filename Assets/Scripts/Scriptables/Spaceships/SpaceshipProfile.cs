@@ -19,6 +19,9 @@ public class SpaceshipProfile : ScriptableObject
 
     [Header("Tank")]
     public TankProfile tankProfile;
+
+    [Header("Upgrades")]
+    public UpgradesProfile upgradesProfile;
 }
 
 
