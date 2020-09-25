@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    //PLAYER SPACESHIP SPECS
+    //PLAYER SELECTED SPACESHIP
     [HideInInspector] public GameObject selectedSpaceship;
 
     void Update()

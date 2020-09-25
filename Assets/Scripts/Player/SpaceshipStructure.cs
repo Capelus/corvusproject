@@ -8,6 +8,9 @@ public class SpaceshipStructure : MonoBehaviour
     //PROFILE
     public SpaceshipProfile profile;
 
+    //UPGRADES
+
+
     //REFERENCES
     public GameObject[] jets;
     public Transform cannon;
