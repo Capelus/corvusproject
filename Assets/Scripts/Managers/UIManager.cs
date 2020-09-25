@@ -60,6 +60,8 @@ public class UIManager : MonoBehaviour
         UI.energyBarSlider.maxValue = player.energyParameters.maxEnergy;
 
         UIW.countDown.text = "HOLD";
+        UIW.countDown.enabled = false;
+
     }
 
     private void Update()

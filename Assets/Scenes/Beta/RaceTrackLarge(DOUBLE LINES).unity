@@ -1973,7 +1973,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 90
       flipNormals: 0
-    vertexPathUpToDate: 0
+    vertexPathUpToDate: 1
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -8907,7 +8907,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1129556709}
   m_LocalRotation: {x: 0.000000002444721, y: 0.70709866, z: 0.000000002328306, w: 0.7071149}
-  m_LocalPosition: {x: 72.57939, y: -1.2770314, z: 0}
+  m_LocalPosition: {x: 59.58, y: -1.2770314, z: 0}
   m_LocalScale: {x: 0.44035545, y: 0.44035545, z: 0.44035545}
   m_Children: []
   m_Father: {fileID: 663948451}
@@ -13565,6 +13565,7 @@ MonoBehaviour:
   lapCount: 0
   bestLap: 0
   countDownReady: 0
+  startSeqEnded: 0
   lapLog:
     rawTime: 0
     lapConvertedTime: 
@@ -15992,7 +15993,7 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   playerInput: {fileID: 0}
   previousScene: 
-  spaceshipProfile: {fileID: 0}
+  selectedSpaceship: {fileID: 0}
 --- !u!4 &2114749614
 Transform:
   m_ObjectHideFlags: 0
@@ -16780,6 +16781,7 @@ GameObject:
   - component: {fileID: 1299104378369544626}
   - component: {fileID: 1299104378369544638}
   - component: {fileID: 1299104378369544627}
+  - component: {fileID: 1299104378369544628}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -16809,6 +16811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraMode: 1
   cameraState: 0
+  camAnimator: {fileID: 1299104378369544628}
   idle:
     distanceToTarget: 6
     fieldOfView: 75
@@ -16856,6 +16859,25 @@ MonoBehaviour:
     nebulaSpeed: 0.3
   sightBeyond: 20
   postpro: {fileID: 1299104379405689184}
+--- !u!95 &1299104378369544628
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299104378369544625}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91bd7d05a8cc7774da28dc9c8bfba955, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!20 &1299104378369544636
 Camera:
   m_ObjectHideFlags: 0

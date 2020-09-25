@@ -4,13 +4,14 @@ using UnityEngine.Rendering.Universal;
 
 
 public enum CameraMode { railSmoothMode, railSmoothModeInverted, railSmoothModeLookAt }
-public enum CameraState { idle, moving, braking, boost, superboost }
+public enum CameraState { idle, moving, braking, boost, superboost, startingSequence }
 
 public class CameraBehaviour : MonoBehaviour
 {
     //REFERENCES
     public CameraMode cameraMode = CameraMode.railSmoothModeInverted;
     public CameraState cameraState;
+    public Animator camAnimator;
 
     PlayerBehaviour player;
     Camera cam;
@@ -72,6 +73,12 @@ public class CameraBehaviour : MonoBehaviour
 
     void Update()
     {
+
+        if (UIManager.Instance.UIW.countDown.enabled && camAnimator.enabled)
+        {
+            camAnimator.enabled = false;
+            
+        }
         //TIMESTEPS
         d += modeDamp * Time.unscaledDeltaTime;
         t += stateDamp * Time.deltaTime;
