@@ -8,15 +8,16 @@ public class RaceManager : MonoBehaviour
 {
     public static RaceManager Instance;
 
-    public float countDown = 0;
+    public float countDown;
     public float raceTimer;
     [HideInInspector] public bool raceStarted;
     public float milliseconds, seconds, minutes;
     public string convertedTime;
     public int lapCount;
     public float bestLap;
-    public bool countDownReady = false;
+    public bool countDownReady;
     bool boosted;
+    public bool startSeqEnded;
 
     [System.Serializable]
     public class Lap
@@ -35,6 +36,8 @@ public class RaceManager : MonoBehaviour
         raceTimer = 0.0f;
         bestLap = 9999999.0f;
         lapCount = 0;
+        startSeqEnded = false;
+        countDownReady = false;
     }
     void Update()
     {

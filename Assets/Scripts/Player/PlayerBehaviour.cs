@@ -218,6 +218,7 @@ public class PlayerBehaviour : MonoBehaviour
         l_nitroInputTime = superBoostInputTime;
 
         //SET INITIAL POSITION
+        initialDistance = 0;
         transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance);
         distanceTravelled = initialDistance;
 
@@ -228,17 +229,31 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
-        //MOVEMENT
-        if (playerInput.inputEnabled) UpdateMove();
-        
-        //NITRO 
-        UpdateNitro();
 
-        //BARREL ROLL
-        UpdateRoll();
+        //STARTING SEQUENCE
+        if (distanceTravelled < 60)
+        {
+            StartingSequence();
+        }
+        else
+        {
+            UIManager.Instance.UIW.countDown.enabled = true;
+            RaceManager.Instance.startSeqEnded = true;
+        }
+        if (playerInput.inputEnabled)
+        {
+            //MOVEMENT
+            UpdateMove();
 
-        //BLASTERS
-        UpdateBlasters(); 
+            //NITRO 
+            UpdateNitro();
+
+            //BARREL ROLL
+            UpdateRoll();
+
+            //BLASTERS
+            UpdateBlasters();
+        }
         
         //CLAMP ENERGY
         l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);
@@ -526,6 +541,16 @@ public class PlayerBehaviour : MonoBehaviour
     {
         this.enabled = false;
         EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
+    }
+
+    public void StartingSequence()
+    {
+       
+        Vector3 movementDirection = TrackManager.Instance.GetPositionAtDistance(distanceTravelled);
+
+        transform.position = movementDirection;
+        distanceTravelled += 0.05f;
+
     }
 
     private void OnTriggerEnter(Collider other)
