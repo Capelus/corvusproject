@@ -38,12 +38,6 @@ public class RaceManager : MonoBehaviour
     }
     void Update()
     {
-        //COUNTDOWN------------------------------------
-        //if (countDown > 0 && countDownReady) countDown -= Time.deltaTime;
-        //if (countDown < 1)
-        //{             
-        //}
-
         if (countDownReady)
         {
             countDown -= Time.deltaTime;
@@ -55,7 +49,7 @@ public class RaceManager : MonoBehaviour
                 if (UIManager.Instance.UIW.warmUpQTE.successQTE && !boosted)
                 {
                     boosted = true;
-                    GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.mid_nitro);
+                    GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.superboost);
                 }
 
                 UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);
@@ -91,7 +85,6 @@ public class RaceManager : MonoBehaviour
         lapCount++;
         lapLog.rawTime = 0;
         raceTimer = 0;
-        Debug.Log(lapLog.lapConvertedTime);
-        
+        Debug.Log(lapLog.lapConvertedTime);       
     }
 }

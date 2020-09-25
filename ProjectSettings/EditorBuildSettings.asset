@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Beta/TierSelector.unity
     guid: 977f9db7ecf033b418f06e083f1aac14
+  - enabled: 1
+    path: Assets/Scenes/Scene Structure/WorkShop.unity
+    guid: 819aab637243ee04c9e82cc9ceec6cd1
   - enabled: 1
     path: Assets/Scenes/Beta/RaceTrackLarge(DOUBLE LINES).unity
     guid: 12699701090bbb9408c0a4e5f1b4f4f9
