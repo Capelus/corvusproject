@@ -44,5 +44,10 @@ public class BoostRingBehaviour : MonoBehaviour
             GameManager.Instance.player.OneShotBoost(boostTime, accelerationBoost, false, cameraState); 
             l_cooldownTime = cooldownTime;
         }
+
+        if (other.CompareTag("Racer"))
+        {
+            other.GetComponent<AIBehaviour>().OneShotBoost(boostTime, accelerationBoost);
+        }
     }
 }

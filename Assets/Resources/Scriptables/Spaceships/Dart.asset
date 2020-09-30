@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732ce129d7450814c8322f5680ab65cb, type: 3}
   m_Name: Dart
   m_EditorClassIdentifier: 
-  engineProfile: {fileID: 0}
-  chassisProfile: {fileID: 0}
-  blasterProfile: {fileID: 0}
-  jetProfile: {fileID: 0}
-  tankProfile: {fileID: 0}
+  engineProfile: {fileID: 11400000, guid: 245f8f2f4bfa4d944957f71a40915350, type: 2}
+  chassisProfile: {fileID: 11400000, guid: 578c40e1cea283f44a9b8caa89b2315f, type: 2}
+  blasterProfile: {fileID: 11400000, guid: 697397c26517a7f47838dd027d41e1ae, type: 2}
+  jetProfile: {fileID: 11400000, guid: f8f011bbc80ad9542b76139aa28da223, type: 2}
+  tankProfile: {fileID: 11400000, guid: 44d45edc49af54c4e85522909ed84d0a, type: 2}
+  upgradesProfile: {fileID: 11400000, guid: 7dfbba822c162e14caf9138147cd4f22, type: 2}

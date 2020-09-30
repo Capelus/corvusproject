@@ -6,7 +6,7 @@ using UnityEditor;
 public class SpaceshipStructure : MonoBehaviour
 {
     //BASE PROFILE
-    [HideInInspector] public SpaceshipProfile profile;
+    public SpaceshipProfile profile;
 
     //UPGRADES PROFILE
     public UpgradesAtlas upgradesAtlas;

@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - Nitro
   - HardObstacle
+  - Racer
   layers:
   - Default
   - TransparentFX

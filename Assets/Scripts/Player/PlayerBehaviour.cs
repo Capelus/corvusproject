@@ -221,10 +221,10 @@ public class PlayerBehaviour : MonoBehaviour
 
                 if (upgradesProfile.jetsUpgrades != null)
                 {
-                    jetParameters.boostAcceleration = upgradesProfile.jetsUpgrades.bonusMaxBoost;
-                    jetParameters.superBoostAcceleration = upgradesProfile.jetsUpgrades.bonusMaxSuperBoost;
-                    jetParameters.boostConsumption = upgradesProfile.jetsUpgrades.bonusBoostIntake;
-                    jetParameters.superBoostConsumption = upgradesProfile.jetsUpgrades.bonusSuperBoostIntake;
+                    jetParameters.boostAcceleration += upgradesProfile.jetsUpgrades.bonusMaxBoost;
+                    jetParameters.superBoostAcceleration += upgradesProfile.jetsUpgrades.bonusMaxSuperBoost;
+                    jetParameters.boostConsumption += upgradesProfile.jetsUpgrades.bonusBoostIntake;
+                    jetParameters.superBoostConsumption += upgradesProfile.jetsUpgrades.bonusSuperBoostIntake;
                 }
             }
             else Debug.LogWarning("There is no Jet Profile on " + spaceshipProfile.name + ". Loading default parameters...");
@@ -437,10 +437,9 @@ public class PlayerBehaviour : MonoBehaviour
                     if (playerInput.nitroPress && nitroInputInitialEnergy == energyParameters.maxEnergy)
                     {
                         //SUPERBOOST
-                        Debug.Log("SUPERBOOST");
-                        OneShotBoost(l_energy / jetParameters.superBoostConsumption, 
+                        Debug.Log("SUPERBOOST" + jetParameters.superBoostConsumption);
+                        OneShotBoost(nitroInputInitialEnergy / jetParameters.superBoostConsumption, 
                             jetParameters.superBoostAcceleration, true, CameraState.superboost);
-                        l_energy = 0;
                     }
                 }
             }
