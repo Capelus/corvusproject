@@ -190,7 +190,7 @@ public class WorkshopManager : MonoBehaviour
     public void Race()
     {
         //GameObject s = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Spaceships/" + currentSpaceship.name + ".prefab", typeof(GameObject));
-        GameObject s = Resources.Load<GameObject>("Prefabs / Spaceships / " + currentSpaceship.name + ".prefab");
+        GameObject s = Resources.Load<GameObject>("Prefabs/Spaceships/" + currentSpaceship.name);
         GameManager.Instance.LoadRace(s);
     }
 

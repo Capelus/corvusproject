@@ -135,7 +135,7 @@ public class PlayerBehaviour : MonoBehaviour
         spaceship.transform.parent = transform;
         spaceship.name = spaceship.name.Replace("(Clone)", "");
         //spaceship.GetComponent<SpaceshipStructure>().profile = (SpaceshipProfile)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Scriptables/Spaceships/" + spaceship.name + ".asset", typeof(SpaceshipProfile));
-        spaceship.GetComponent<SpaceshipStructure>().profile = Resources.Load<SpaceshipProfile>("Scripts/Scriptables/Spaceships/" + spaceship.name + ".asset");
+        spaceship.GetComponent<SpaceshipStructure>().profile = Resources.Load<SpaceshipProfile>("Scriptables/Spaceships/" + spaceship.name);
 
         //GET REFERENCES
         playerInput = GetComponent<PlayerInput>();
