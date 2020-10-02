@@ -5249,7 +5249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d72cb79500324ee4c86f966c4e53e3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 0}
+  profile: {fileID: 11400000, guid: fb5762c153b7c9e4c9d0f5050c004dd1, type: 2}
   upgradesAtlas: {fileID: 11400000, guid: 286293b4669357548ba764b13cc60e60, type: 2}
   upgradesProfile: {fileID: 11400000, guid: 7dfbba822c162e14caf9138147cd4f22, type: 2}
   jets:

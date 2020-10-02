@@ -101,9 +101,10 @@ public class AIBehaviour : MonoBehaviour
         transform.position = movementDirection;
 
         //ROTATE
-        Quaternion targetRotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
-        var step = 150 * Time.deltaTime;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+        transform.forward = TrackManager.Instance.GetPositionAtDistance(distanceTravelled+5) - transform.position;
+        //Quaternion targetRotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
+        //var step = 150 * Time.deltaTime;
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
 
         //TILT
         animator.SetFloat("Tilt X", horizontalMove);

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8722126189664132580}
   - component: {fileID: 6399689835746165122}
   - component: {fileID: 688647261712169263}
-  - component: {fileID: 4667406647208859058}
   - component: {fileID: 7519063149232765191}
+  - component: {fileID: 929494609}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -29,14 +29,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8722126189664132582}
-  m_LocalRotation: {x: 2.3283059e-10, y: 0.70709866, z: 1.16415294e-10, w: 0.7071149}
+  m_LocalRotation: {x: 0, y: 0.7071006, z: 0, w: 0.70711297}
   m_LocalPosition: {x: -173.19568, y: -34.7, z: -17.999773}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8819578367204387777}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 89.999, z: 0}
 --- !u!114 &8722126189664132587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,13 +181,13 @@ Rigidbody:
   m_GameObject: {fileID: 8722126189664132582}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 0.1
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
+  m_Constraints: 112
+  m_CollisionDetection: 3
 --- !u!82 &688647261712169263
 AudioSource:
   m_ObjectHideFlags: 0
@@ -284,19 +284,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!65 &4667406647208859058
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8722126189664132582}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.9338841, y: 0.61961436, z: 1}
-  m_Center: {x: 0, y: 0.018723845, z: 0}
 --- !u!65 &7519063149232765191
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -306,10 +293,24 @@ BoxCollider:
   m_GameObject: {fileID: 8722126189664132582}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.54286194, y: 0.30929637, z: 3.812702}
-  m_Center: {x: 0.35375977, y: -0.0059171915, z: 0}
+  m_Size: {x: 4.1052103, y: 0.6730002, z: 3.812702}
+  m_Center: {x: 0.042083025, y: 0.009226651, z: -7.482747e-13}
+--- !u!136 &929494609
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8722126189664132582}
+  m_Material: {fileID: 13400000, guid: 929106575b54282438e7046df65b193e, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.79
+  m_Height: 3.94
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.026936412}
 --- !u!1 &8819578365463761861
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,7 +720,7 @@ MonoBehaviour:
   cameraState: 0
   camAnimator: {fileID: 1392844580294146098}
   idle:
-    distanceToTarget: 6
+    distanceToTarget: 10
     fieldOfView: 75
     shakeAmount: 0
     vignetteIntensity: 0.2
@@ -728,7 +729,7 @@ MonoBehaviour:
     nebulaDissolve: 0
     nebulaSpeed: 0
   moving:
-    distanceToTarget: 6
+    distanceToTarget: 12
     fieldOfView: 80
     shakeAmount: 0
     vignetteIntensity: 0.2
