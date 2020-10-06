@@ -9,6 +9,7 @@ public class PlayerBehaviour : MonoBehaviour
     //----------------------------------------------------- REFERENCES
     PlayerInput playerInput;
     CameraBehaviour cam;
+    Rigidbody rb;
     [HideInInspector] public Animator animator;
     //----------------------------------------------------------------
 
@@ -110,7 +111,13 @@ public class PlayerBehaviour : MonoBehaviour
     public EnergyParameters energyParameters;
 
     //LOCAL
+    Vector3 movement;
     [HideInInspector] public float l_energy;
+    //----------------------------------------------------------------
+
+    //----------------------------------------------- COLLISION SYSTEM
+    Ray rayUp, rayDown, rayLeft, rayRight;
+    bool hitUp, hitDown, hitLeft, hitRight;
     //----------------------------------------------------------------
 
     //----------------------------------------------------- LAPCHECKER
@@ -221,10 +228,10 @@ public class PlayerBehaviour : MonoBehaviour
 
                 if (upgradesProfile.jetsUpgrades != null)
                 {
-                    jetParameters.boostAcceleration = upgradesProfile.jetsUpgrades.bonusMaxBoost;
-                    jetParameters.superBoostAcceleration = upgradesProfile.jetsUpgrades.bonusMaxSuperBoost;
-                    jetParameters.boostConsumption = upgradesProfile.jetsUpgrades.bonusBoostIntake;
-                    jetParameters.superBoostConsumption = upgradesProfile.jetsUpgrades.bonusSuperBoostIntake;
+                    jetParameters.boostAcceleration += upgradesProfile.jetsUpgrades.bonusMaxBoost;
+                    jetParameters.superBoostAcceleration += upgradesProfile.jetsUpgrades.bonusMaxSuperBoost;
+                    jetParameters.boostConsumption += upgradesProfile.jetsUpgrades.bonusBoostIntake;
+                    jetParameters.superBoostConsumption += upgradesProfile.jetsUpgrades.bonusSuperBoostIntake;
                 }
             }
             else Debug.LogWarning("There is no Jet Profile on " + spaceshipProfile.name + ". Loading default parameters...");
@@ -257,24 +264,28 @@ public class PlayerBehaviour : MonoBehaviour
         transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance);
         distanceTravelled = initialDistance;
 
-        //GET FORWARD VECTOR
+        //SET FORWARD VECTOR
         forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
         transform.forward = forwardDirection.normalized;
+
+        //SET OTHER REFERENCES
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-
         //STARTING SEQUENCE
         if (distanceTravelled < 60)
         {
             StartingSequence();
         }
+
         else
         {
             UIManager.Instance.UIW.countDown.enabled = true;
             RaceManager.Instance.startSeqEnded = true;
         }
+
         if (playerInput.inputEnabled)
         {
             //MOVEMENT
@@ -384,20 +395,101 @@ public class PlayerBehaviour : MonoBehaviour
 
         //CALCULATE 2D MOVEMENT VALUE WITH HANDLING CURVE
         float handling = chassisParameters.maxHandlingSpeed * chassisParameters.handlingCurve.Evaluate(currentSpeed / l_maxSpeed);
-        horizontalMove += playerInput.rawMovement.x * handling * Time.deltaTime;
-        verticalMove += playerInput.rawMovement.y * handling * Time.deltaTime;
+
+        float inputX = playerInput.rawMovement.x;
+        float inputY = playerInput.rawMovement.y;
+
+        if (this.hitUp)
+            if (inputY > 0) inputY = 0;
+
+        if (this.hitDown)
+            if (inputY < 0) inputY = 0;
+
+        if (this.hitLeft)
+            if (inputX < 0) inputX = 0;
+
+        if (this.hitRight)
+            if (inputX > 0) inputX = 0;
+
+        horizontalMove += inputX * handling * Time.deltaTime;
+        verticalMove += inputY * handling * Time.deltaTime;
 
         //CLAMP ON LIMITS
         horizontalMove = Mathf.Clamp(horizontalMove, -TrackManager.Instance.movementLimits.x, TrackManager.Instance.movementLimits.x);
         verticalMove = Mathf.Clamp(verticalMove, -TrackManager.Instance.movementLimits.y, TrackManager.Instance.movementLimits.y);
 
         //CALCULATE FINAL MOVEMENT
-        Vector3 movementDirection = TrackManager.Instance.GetPositionAtDistance(distanceTravelled);
-        movementDirection += transform.right * horizontalMove;
-        movementDirection += transform.up * verticalMove;
+        movement = TrackManager.Instance.GetPositionAtDistance(distanceTravelled);
+        movement += transform.right * horizontalMove;
+        movement += transform.up * verticalMove;
+
+        //CHECK COLLISIONS
+        rayUp = new Ray(movement, transform.up);
+        rayDown = new Ray(movement, -transform.up);
+        rayLeft = new Ray(movement, -transform.right);
+        rayRight = new Ray(movement, transform.right);
+
+        Debug.DrawRay(transform.position, rayUp.direction);
+        Debug.DrawRay(transform.position, rayDown.direction);
+        Debug.DrawRay(transform.position, rayLeft.direction);
+        Debug.DrawRay(transform.position, rayRight.direction);
+
+        if (Physics.Raycast(rayUp, out RaycastHit hitUp, 1))
+        {
+            if (hitUp.transform.CompareTag("Wall"))
+            {
+                Vector3 prevMovement = movement;
+                movement -= transform.up * (1 - (Vector3.Distance(hitUp.point, movement)));
+                verticalMove += (movement - prevMovement).y;
+                this.hitUp = true;
+            }
+        }
+        else this.hitUp = false;
+
+        if (Physics.Raycast(rayDown, out RaycastHit hitDown, 1))
+        {
+            if (hitDown.transform.CompareTag("Wall"))
+            {
+                Vector3 prevMovement = movement;
+                movement += transform.up * (1 - (Vector3.Distance(hitDown.point, movement)));
+                verticalMove += (movement - prevMovement).y;
+                this.hitDown = true;
+            }
+        }
+        else this.hitDown = false;
+
+        if (Physics.Raycast(rayLeft, out RaycastHit hitLeft, 2))
+        {
+            if (hitLeft.transform.CompareTag("Wall"))
+            {
+                Vector3 prevMovement = movement;
+                movement += transform.right * (2 - (Vector3.Distance(hitLeft.point, movement)));
+
+                Vector3 offsetMovement = (movement - prevMovement);
+                offsetMovement.y = 0;
+                horizontalMove += offsetMovement.magnitude;
+                this.hitLeft = true;
+            }
+        }
+        else this.hitLeft = false;
+
+        if (Physics.Raycast(rayRight, out RaycastHit hitRight, 2))
+        {
+            if (hitRight.transform.CompareTag("Wall"))
+            {
+                Vector3 prevMovement = movement;
+                movement -= transform.right * (2 - (Vector3.Distance(hitRight.point, movement)));
+
+                Vector3 offsetMovement = (movement - prevMovement);
+                offsetMovement.y = 0;
+                horizontalMove -= offsetMovement.magnitude;
+                this.hitRight = true;
+            }
+        }
+        else this.hitRight = false;
 
         //MOVE
-        transform.position = movementDirection;
+        transform.position = movement;
 
         //ROTATE
         Quaternion targetRotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
@@ -437,10 +529,9 @@ public class PlayerBehaviour : MonoBehaviour
                     if (playerInput.nitroPress && nitroInputInitialEnergy == energyParameters.maxEnergy)
                     {
                         //SUPERBOOST
-                        Debug.Log("SUPERBOOST");
-                        OneShotBoost(l_energy / jetParameters.superBoostConsumption, 
+                        Debug.Log("SUPERBOOST" + jetParameters.superBoostConsumption);
+                        OneShotBoost(nitroInputInitialEnergy / jetParameters.superBoostConsumption, 
                             jetParameters.superBoostAcceleration, true, CameraState.superboost);
-                        l_energy = 0;
                     }
                 }
             }
@@ -624,10 +715,6 @@ public class PlayerBehaviour : MonoBehaviour
                 Knockback();
                 break;
 
-            case "HardObstacle":
-                Knockback();
-                break;
-
             case "Enemy":
                 Knockback();
                 break;
@@ -651,6 +738,5 @@ public class PlayerBehaviour : MonoBehaviour
                 endedLap = false;
                 break;
         }
-
     }
 }

@@ -26,6 +26,11 @@ public class TrackManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         //SET REFERENCES

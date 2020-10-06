@@ -84,10 +84,10 @@ public class UIManager : MonoBehaviour
             UI.energyBar.GetComponent<Outline>().effectColor = new Color(1, 1, 1, 0);
             UI.AButton.color = new Color(1, 1, 1, 0);
         }
+
         if (RaceManager.Instance.countDownReady)
         {
             UIW.countDown.text = RaceManager.Instance.countDown.ToString("f0");
-            //UIW.RTbutton.enabled = false;
         }
       
 

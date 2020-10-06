@@ -12,81 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732ce129d7450814c8322f5680ab65cb, type: 3}
   m_Name: TIER S
   m_EditorClassIdentifier: 
-  maxSpeedValue: 200
-  maxAccelerationvalue: 30
-  accelerationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -0.7258502
-      outSlope: -0.7258502
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.16604798
-    - serializedVersion: 3
-      time: 1
-      value: 0.010004222
-      inSlope: -2.8727744
-      outSlope: -2.8727744
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.018325746
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  brakeCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -0.2999878
-      outSlope: -0.2999878
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.7000122
-      inSlope: -0.5639741
-      outSlope: -0.5639741
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.08445299
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  handlingValue: 18
-  handlingCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -0.08342052
-      outSlope: -0.08342052
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.10748561
-    - serializedVersion: 3
-      time: 1
-      value: 0.70000076
-      inSlope: -0.58176583
-      outSlope: -0.58176583
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.04990405
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  projectile: {fileID: 269988879153526050, guid: 218686552ecf9f242bec07f7b39a1035,
-    type: 3}
-  cadenceValue: 0.2
+  engineProfile: {fileID: 11400000, guid: 4916143f0402ba54899f2ffd73d76331, type: 2}
+  chassisProfile: {fileID: 11400000, guid: 578c40e1cea283f44a9b8caa89b2315f, type: 2}
+  blasterProfile: {fileID: 11400000, guid: 697397c26517a7f47838dd027d41e1ae, type: 2}
+  jetProfile: {fileID: 11400000, guid: f8f011bbc80ad9542b76139aa28da223, type: 2}
+  tankProfile: {fileID: 11400000, guid: 44d45edc49af54c4e85522909ed84d0a, type: 2}
+  upgradesProfile: {fileID: 11400000, guid: 7dfbba822c162e14caf9138147cd4f22, type: 2}

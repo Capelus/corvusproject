@@ -10,7 +10,8 @@ TagManager:
   - PitLaneTrigger
   - Enemy
   - Nitro
-  - HardObstacle
+  - Racer
+  - Wall
   layers:
   - Default
   - TransparentFX
