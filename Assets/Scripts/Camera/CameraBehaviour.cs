@@ -76,9 +76,9 @@ public class CameraBehaviour : MonoBehaviour
 
         if (UIManager.Instance.UIW.countDown.enabled && camAnimator.enabled)
         {
-            camAnimator.enabled = false;
-            
+            camAnimator.enabled = false;          
         }
+
         //TIMESTEPS
         d += modeDamp * Time.unscaledDeltaTime;
         t += stateDamp * Time.deltaTime;
@@ -126,9 +126,11 @@ public class CameraBehaviour : MonoBehaviour
                 cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up * vOffset, t);
 
                 //CALULATE ROTATION
+                transform.rotation = player.transform.rotation;
+
                 Vector3 lookAt = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + sightBeyond) - transform.position).normalized;
                 lookAt += (transform.right * -hOffset / 3) + (transform.up * -vOffset / 4);
-                transform.forward = Vector3.Lerp(transform.forward, lookAt, t);
+                transform.forward = Vector3.Lerp(transform.forward, lookAt, t);    
                 break;
 
             case CameraMode.railSmoothModeLookAt:

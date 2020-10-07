@@ -8,7 +8,6 @@ public class PlayerBehaviour : MonoBehaviour
 {
     //----------------------------------------------------- REFERENCES
     PlayerInput playerInput;
-    CameraBehaviour cam;
     Rigidbody rb;
     [HideInInspector] public Animator animator;
     //----------------------------------------------------------------
@@ -146,7 +145,6 @@ public class PlayerBehaviour : MonoBehaviour
 
         //GET REFERENCES
         playerInput = GetComponent<PlayerInput>();
-        cam = GameManager.Instance.playerCamera;
         spaceshipProfile = spaceship.GetComponent<SpaceshipStructure>().profile;
         upgradesProfile = spaceship.GetComponent<SpaceshipStructure>().upgradesProfile;
 
@@ -334,10 +332,6 @@ public class PlayerBehaviour : MonoBehaviour
                 //BRAKE
                 currentSpeed += l_acceleration * Time.deltaTime;
 
-                //CHANGE CAMERA
-                if (cam.cameraState != CameraState.braking)
-                    cam.ChangeState(CameraState.braking);
-
                 //SET ANIMATOR
                 animator.SetBool("Brake", true);
             }
@@ -364,10 +358,6 @@ public class PlayerBehaviour : MonoBehaviour
                     currentSpeed -= engineParameters.maxAcceleration * Time.deltaTime;
                 }
 
-                //CHANGE CAMERA
-                if (cam.cameraState != CameraState.moving && !boosted && !superboosted)
-                    cam.ChangeState(CameraState.moving);
-
                 //SET ANIMATOR
                 animator.SetBool("Brake", false);
             }
@@ -377,10 +367,6 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 //DECELERATE
                 currentSpeed -= engineParameters.maxAcceleration * Time.deltaTime;
-
-                //CAMERA EFFECT
-                if (cam.cameraState != CameraState.idle)
-                    cam.ChangeState(CameraState.idle);
 
                 //SET ANIMATOR
                 animator.SetBool("Brake", false);
@@ -613,8 +599,6 @@ public class PlayerBehaviour : MonoBehaviour
     public void Boost(float accelerationBoost, CameraState camState)
     {       
         currentSpeed += accelerationBoost * Time.deltaTime;
-        if (cam.cameraState != camState)
-            cam.ChangeState(camState);
     }
 
     public void OneShotBoost(float duration, float accelerationBoost, bool energyCost, CameraState camState)
@@ -633,15 +617,11 @@ public class PlayerBehaviour : MonoBehaviour
 
             if(energyCost) l_energy -= jetParameters.superBoostConsumption * Time.deltaTime;
 
-            if (cam.cameraState != camState)
-                cam.ChangeState(camState);
-
             if (energyCost) l_energy = 0;
 
             yield return null;
         }
         superboosted = false;
-        cam.ChangeState(CameraState.moving);
         yield break;
     }
 
@@ -693,14 +673,14 @@ public class PlayerBehaviour : MonoBehaviour
             case "PitLaneTrigger":
                 if (other.name == "PitLane Trigger Exit")
                 {
-                    cam.GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("PitLane"));
-                    cam.GetComponent<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("RaceTrack");
+                    GameManager.Instance.playerCamera.GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("PitLane"));
+                    GameManager.Instance.playerCamera.GetComponent<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("RaceTrack");
                 }
 
                 else
                 {
-                    cam.GetComponent<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("PitLane");
-                    cam.GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("RaceTrack"));
+                    GameManager.Instance.playerCamera.GetComponent<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("PitLane");
+                    GameManager.Instance.playerCamera.GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("RaceTrack"));
                 }
                 break;
         }
@@ -713,6 +693,8 @@ public class PlayerBehaviour : MonoBehaviour
             //--------------------------------------------- OBSTACLE
             case "Obstacle":
                 Knockback();
+                if (collision.transform.GetComponent<BreakableBehaviour>())
+                    collision.transform.GetComponent<BreakableBehaviour>().Destroy();
                 break;
 
             case "Enemy":
