@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Beta/TierSelector.unity
     guid: 977f9db7ecf033b418f06e083f1aac14
   - enabled: 1
@@ -14,4 +14,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Beta/RaceTrackLarge(DOUBLE LINES).unity
     guid: 12699701090bbb9408c0a4e5f1b4f4f9
+  - enabled: 1
+    path: Assets/Scenes/Scene Structure/IntroMenu.unity
+    guid: cd19959b23167624db94c9e3986a4ffc
+  - enabled: 1
+    path: Assets/Scenes/Scene Structure/NewCharacter.unity
+    guid: af8d4d45d3e3faf4c942e969cf235e98
+  - enabled: 1
+    path: Assets/Scenes/Scene Structure/Settings.unity
+    guid: 56bc89d8cf445d0418486f49720bdb19
+  - enabled: 1
+    path: Assets/Scenes/Scene Structure/SystemMap.unity
+    guid: 0bba167cdea89b44f8037b786213f928
   m_configObjects: {}

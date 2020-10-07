@@ -67,8 +67,15 @@ public class GameManager : MonoBehaviour
 
     public void DebuggingChangeScene(string sceneName)
     {
-        previousScene = SceneManager.GetActiveScene().name;
+        if(sceneName == "return")
+        {
+            SceneManager.LoadScene(previousScene);
+        }
+        else
+        {
         SceneManager.LoadScene(sceneName);
+        }
+        previousScene = SceneManager.GetActiveScene().name;
 
     }
 }

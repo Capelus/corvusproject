@@ -13,6 +13,13 @@ public class SplineObjectSpawner : EditorWindow
 
     bool placeMode;
     bool fillMode;
+    bool nineObjectsMode;
+
+    //NINE POSITION TOGGLE BOOLS
+   
+    bool upLeft, upMid, upRight;
+    bool midLeft, midMid, midRight;
+    bool lowLeft, lowMid, lowRight;
 
     GameObject spawnMark;
     TrackManager trackManager;
@@ -61,6 +68,7 @@ public class SplineObjectSpawner : EditorWindow
             }
         }
 
+        //FILL TRACK MODE
         fillMode = EditorGUILayout.Foldout(fillMode, new GUIContent("Fill track"), true);
         if (fillMode)
         {
@@ -69,6 +77,30 @@ public class SplineObjectSpawner : EditorWindow
             if (GUILayout.Button("Fill Track"))
             {
                 FillTrack();
+            }
+        }
+        //NINE POSITION GRID MODE
+        nineObjectsMode = EditorGUILayout.Foldout(nineObjectsMode, new GUIContent("Nine Position Grid"), true);
+        if (nineObjectsMode)
+        {
+            positionOnTrack = EditorGUILayout.Slider("Position on track", positionOnTrack, 0, trackManager.GetPathLength());
+            spawnPos = trackManager.GetPositionAtDistance(positionOnTrack);
+
+            upLeft = EditorGUILayout.Toggle("Upper Left Corner",upLeft);
+            upMid = EditorGUILayout.Toggle("Upper Mid Corner", upMid);
+            upRight = EditorGUILayout.Toggle("Upper Right Corner", upRight);
+
+            midLeft = EditorGUILayout.Toggle("Mid Left Corner", midLeft);
+            midMid = EditorGUILayout.Toggle("Mid Mid Corner", midMid);
+            midRight = EditorGUILayout.Toggle("Mid Right Corner", midRight);
+
+            lowLeft = EditorGUILayout.Toggle("Low Left Corner", lowLeft);
+            lowMid = EditorGUILayout.Toggle("Low Mid Corner", lowMid);
+            lowRight = EditorGUILayout.Toggle("Low Right Corner", lowRight);
+
+            if (GUILayout.Button("Spawn"))
+            {
+                FillGrid();
             }
         }
     }
@@ -80,6 +112,7 @@ public class SplineObjectSpawner : EditorWindow
             spawnMark.transform.position = spawnPos;
             spawnMark.transform.rotation = trackManager.GetRotationAtDistance(positionOnTrack);
         }
+
     }
 
     void SpawnObjects()
@@ -124,6 +157,103 @@ public class SplineObjectSpawner : EditorWindow
 
             objectID++;
         }
+    }
+
+    void FillGrid()
+    {
+        if (upLeft)
+        {
+            spawnPos.y += 8;
+            spawnPos.z += 8;
+            GameObject newObject = Instantiate(objectToSpawn, spawnPos, trackManager.GetRotationAtDistance(positionOnTrack));
+            spawnPos = trackManager.GetPositionAtDistance(positionOnTrack);
+
+            newObject.name = objectName + objectID;
+            objectID++;
+        }
+        if (upMid)
+        {
+            spawnPos.y += 8;
+            GameObject newObject = Instantiate(objectToSpawn, spawnPos, trackManager.GetRotationAtDistance(positionOnTrack));
+            spawnPos = trackManager.GetPositionAtDistance(positionOnTrack);
+
+            newObject.name = objectName + objectID;
+            objectID++;
+        }
+        if (upRight)
+        {
+            spawnPos.y += 8;
+            spawnPos.z -= 8;
+
+            GameObject newObject = Instantiate(objectToSpawn, spawnPos, trackManager.GetRotationAtDistance(positionOnTrack));
+            spawnPos = trackManager.GetPositionAtDistance(positionOnTrack);
+
+            newObject.name = objectName + objectID;
+            objectID++;
+        }
+        if (midLeft)
+        {
+            spawnPos.z += 8;
+
+            GameObject newObject = Instantiate(objectToSpawn, spawnPos, trackManager.GetRotationAtDistance(positionOnTrack));
+            spawnPos = trackManager.GetPositionAtDistance(positionOnTrack);
+
+            newObject.name = objectName + objectID;
+            objectID++;
+        }
+        if (midMid)
+        {
+            GameObject newObject = Instantiate(objectToSpawn, spawnPos, trackManager.GetRotationAtDistance(positionOnTrack));
+            spawnPos = trackManager.GetPositionAtDistance(positionOnTrack);
+
+            newObject.name = objectName + objectID;
+            objectID++;
+        }
+        if (midRight)
+        {
+            spawnPos.z -= 8;
+
+            GameObject newObject = Instantiate(objectToSpawn, spawnPos, trackManager.GetRotationAtDistance(positionOnTrack));
+            spawnPos = trackManager.GetPositionAtDistance(positionOnTrack);
+
+            newObject.name = objectName + objectID;
+            objectID++;
+        }
+        if (lowLeft)
+        {
+            spawnPos.y -= 8;
+            spawnPos.z += 8;
+
+            GameObject newObject = Instantiate(objectToSpawn, spawnPos, trackManager.GetRotationAtDistance(positionOnTrack));
+            spawnPos = trackManager.GetPositionAtDistance(positionOnTrack);
+
+            newObject.name = objectName + objectID;
+            objectID++;
+        }
+        if (lowMid)
+        {
+            spawnPos.y -= 8;
+
+            GameObject newObject = Instantiate(objectToSpawn, spawnPos, trackManager.GetRotationAtDistance(positionOnTrack));
+            spawnPos = trackManager.GetPositionAtDistance(positionOnTrack);
+
+            newObject.name = objectName + objectID;
+            objectID++;
+        }
+        if (lowRight)
+        {
+            spawnPos.y -= 8;
+            spawnPos.z -= 8;
+
+            GameObject newObject = Instantiate(objectToSpawn, spawnPos, trackManager.GetRotationAtDistance(positionOnTrack));
+            spawnPos = trackManager.GetPositionAtDistance(positionOnTrack);
+
+            newObject.name = objectName + objectID;
+            objectID++;
+        }
+
+
+
     }
 }
 

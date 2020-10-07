@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 90382797}
   - component: {fileID: 90382796}
   m_Layer: 5
-  m_Name: Workshop
+  m_Name: SystemMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -293,7 +293,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: WorkShop
+          m_StringArgument: SystemMap
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &90382797
@@ -784,7 +784,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: THE WORKSHOP
+  m_Text: SYSTEM MAP
 --- !u!222 &1436473106
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1165,7 +1165,7 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   playerInput: {fileID: 0}
   previousScene: 
-  playerSpecs: {fileID: 0}
+  selectedSpaceship: {fileID: 0}
 --- !u!4 &2043073967
 Transform:
   m_ObjectHideFlags: 0
