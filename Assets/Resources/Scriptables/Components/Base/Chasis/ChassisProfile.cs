@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Chassis Profile", menuName = "Components/New Chassis Profile", order = 2)]
 public class ChassisProfile : ScriptableObject
 {
+    //--------------------------------- LIMIT SPEED
+    [Tooltip("The maximum velocity the spaceship can reach.")]
+    public float limitSpeed = 500;
+
     //----------------------------------- HANDLING
     [Tooltip("The maximum velocity the spaceship can move horizontally and vertically.")]
     public float handling = 15;

@@ -6,14 +6,13 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-
+    //SINGLETON
     public static UIManager Instance;
 
     //REFERENCES
     PlayerBehaviour player;
 
     //UI ELEMENTS
-
     [System.Serializable]
     public class UIWarmUp
     {
@@ -38,9 +37,13 @@ public class UIManager : MonoBehaviour
     }
     public UIElements UI;
 
-    private void Start()
+    private void Awake()
     {
-        Instance = this;     
+        Instance = this;
+    }
+
+    private void Start()
+    {   
         player = GameManager.Instance.player;
 
         //INITIALIZE TIME CHART
@@ -54,14 +57,12 @@ public class UIManager : MonoBehaviour
         UI.timeChart[6] = GameObject.Find("Lap 7").GetComponent<UnityEngine.UI.Text>();
         UI.timeChart[7] = GameObject.Find("Lap 8").GetComponent<UnityEngine.UI.Text>();
 
-
         //INITIALIZE ENERGY BAR
         UI.energyBarSlider.minValue = 0;
         UI.energyBarSlider.maxValue = player.energyParameters.maxEnergy;
 
         UIW.countDown.text = "HOLD";
         UIW.countDown.enabled = false;
-
     }
 
     private void Update()
@@ -94,7 +95,6 @@ public class UIManager : MonoBehaviour
         //COUNTDOWN--------------------------------------------
         if (RaceManager.Instance.countDown <= 1.0f)
         {
-            player.GetComponent<PlayerInput>().inputEnabled = true;
             UIW.countDown.text = "GO!";
 
         }

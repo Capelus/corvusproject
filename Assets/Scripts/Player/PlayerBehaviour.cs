@@ -8,7 +8,6 @@ public class PlayerBehaviour : MonoBehaviour
 {
     //----------------------------------------------------- REFERENCES
     PlayerInput playerInput;
-    Rigidbody rb;
     [HideInInspector] public Animator animator;
     //----------------------------------------------------------------
 
@@ -42,6 +41,7 @@ public class PlayerBehaviour : MonoBehaviour
     [System.Serializable]
     public class ChasisParameters
     {
+        public float limitSpeed = 500;
         public float maxHandlingSpeed = 15;
         public AnimationCurve handlingCurve;
         public float knockback = 10;
@@ -74,7 +74,7 @@ public class PlayerBehaviour : MonoBehaviour
     bool nitroInputPhase, nitroInputReleased;
     float nitroInputInitialEnergy, l_nitroInputTime;
 
-    [Tooltip("The window time to perform a superboost (Double tap 'Jet Button')")]
+    [Tooltip("The time window to perform a superboost (Double tap 'Jet Button')")]
     public float superBoostInputTime = 0.4f;
 
     [HideInInspector] public bool boosted, superboosted;
@@ -119,9 +119,6 @@ public class PlayerBehaviour : MonoBehaviour
     bool hitUp, hitDown, hitLeft, hitRight;
     //----------------------------------------------------------------
 
-    //----------------------------------------------------- LAPCHECKER
-    bool endedLap;
-
     [Header("SETTINGS")]
     public float initialDistance;
 
@@ -140,7 +137,6 @@ public class PlayerBehaviour : MonoBehaviour
         spaceship = Instantiate(spaceship, transform.position, transform.rotation);
         spaceship.transform.parent = transform;
         spaceship.name = spaceship.name.Replace("(Clone)", "");
-        //spaceship.GetComponent<SpaceshipStructure>().profile = (SpaceshipProfile)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Scriptables/Spaceships/" + spaceship.name + ".asset", typeof(SpaceshipProfile));
         spaceship.GetComponent<SpaceshipStructure>().profile = Resources.Load<SpaceshipProfile>("Scriptables/Spaceships/" + spaceship.name);
 
         //GET REFERENCES
@@ -180,6 +176,9 @@ public class PlayerBehaviour : MonoBehaviour
             //---------------------------------------------------------- FROM CHASSIS
             if (spaceshipProfile.chassisProfile != null)
             {
+                //LIMIT SPEED
+                chassisParameters.limitSpeed = spaceshipProfile.chassisProfile.limitSpeed;
+
                 // HANDLING
                 chassisParameters.maxHandlingSpeed = spaceshipProfile.chassisProfile.handling;
                 chassisParameters.handlingCurve = spaceshipProfile.chassisProfile.handlingCurve;
@@ -258,46 +257,27 @@ public class PlayerBehaviour : MonoBehaviour
         l_nitroInputTime = superBoostInputTime;
 
         //SET INITIAL POSITION
-        initialDistance = 0;
         transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance);
         distanceTravelled = initialDistance;
 
         //SET FORWARD VECTOR
         forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
         transform.forward = forwardDirection.normalized;
-
-        //SET OTHER REFERENCES
-        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        //STARTING SEQUENCE
-        if (distanceTravelled < 60)
-        {
-            StartingSequence();
-        }
+        //MOVEMENT
+        UpdateMove();
 
-        else
-        {
-            UIManager.Instance.UIW.countDown.enabled = true;
-            RaceManager.Instance.startSeqEnded = true;
-        }
+        //NITRO 
+        UpdateNitro();
 
-        if (playerInput.inputEnabled)
-        {
-            //MOVEMENT
-            UpdateMove();
+        //BARREL ROLL
+        UpdateRoll();
 
-            //NITRO 
-            UpdateNitro();
-
-            //BARREL ROLL
-            UpdateRoll();
-
-            //BLASTERS
-            UpdateBlasters();
-        }
+        //BLASTERS
+        UpdateBlasters();
         
         //CLAMP ENERGY
         l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);
@@ -317,7 +297,7 @@ public class PlayerBehaviour : MonoBehaviour
     void UpdateMove()
     {
         //FORWARD MOVEMENT
-        stunTime -= Time.unscaledDeltaTime;
+        stunTime -= Time.deltaTime;
         if (stunTime <= 0)
         {
             //BRAKE
@@ -334,6 +314,9 @@ public class PlayerBehaviour : MonoBehaviour
 
                 //SET ANIMATOR
                 animator.SetBool("Brake", true);
+
+                //CHANGE CAMERA STATE
+                GameManager.Instance.playerCamera.ChangeState(CameraState.braking);
             }
 
             //ACCELERATE
@@ -360,6 +343,10 @@ public class PlayerBehaviour : MonoBehaviour
 
                 //SET ANIMATOR
                 animator.SetBool("Brake", false);
+
+                //CHANGE CAMERA STATE
+                if(!superboosted)
+                    GameManager.Instance.playerCamera.ChangeState(CameraState.moving);
             }
 
             //IDLE
@@ -370,21 +357,26 @@ public class PlayerBehaviour : MonoBehaviour
 
                 //SET ANIMATOR
                 animator.SetBool("Brake", false);
+
+                //CHANGE CAMERA STATE
+                GameManager.Instance.playerCamera.ChangeState(CameraState.idle);
             }
         }
 
         //CLAMP SPEED
-        currentSpeed = Mathf.Clamp(currentSpeed, 5, 500);
+        currentSpeed = Mathf.Clamp(currentSpeed, 5, chassisParameters.limitSpeed);
 
         //INCREMENT DISTANCE TRAVELLED
-        distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
+        distanceTravelled += currentSpeed * Time.deltaTime;
 
         //CALCULATE 2D MOVEMENT VALUE WITH HANDLING CURVE
         float handling = chassisParameters.maxHandlingSpeed * chassisParameters.handlingCurve.Evaluate(currentSpeed / l_maxSpeed);
 
+        //GET PLAYER'S INPUT
         float inputX = playerInput.rawMovement.x;
         float inputY = playerInput.rawMovement.y;
 
+        //LOCK ON COLLISIONS
         if (this.hitUp)
             if (inputY > 0) inputY = 0;
 
@@ -397,84 +389,23 @@ public class PlayerBehaviour : MonoBehaviour
         if (this.hitRight)
             if (inputX > 0) inputX = 0;
 
+        //CALCULATE 2D MOVEMENT
         horizontalMove += inputX * handling * Time.deltaTime;
         verticalMove += inputY * handling * Time.deltaTime;
 
-        //CLAMP ON LIMITS
+        //CLAMP IT ON LIMITS
         horizontalMove = Mathf.Clamp(horizontalMove, -TrackManager.Instance.movementLimits.x, TrackManager.Instance.movementLimits.x);
         verticalMove = Mathf.Clamp(verticalMove, -TrackManager.Instance.movementLimits.y, TrackManager.Instance.movementLimits.y);
 
-        //CALCULATE FINAL MOVEMENT
+        //CALCULATE DESIRED MOVEMENT
         movement = TrackManager.Instance.GetPositionAtDistance(distanceTravelled);
         movement += transform.right * horizontalMove;
         movement += transform.up * verticalMove;
 
         //CHECK COLLISIONS
-        rayUp = new Ray(movement, transform.up);
-        rayDown = new Ray(movement, -transform.up);
-        rayLeft = new Ray(movement, -transform.right);
-        rayRight = new Ray(movement, transform.right);
+        CheckCollisions();
 
-        Debug.DrawRay(transform.position, rayUp.direction);
-        Debug.DrawRay(transform.position, rayDown.direction);
-        Debug.DrawRay(transform.position, rayLeft.direction);
-        Debug.DrawRay(transform.position, rayRight.direction);
-
-        if (Physics.Raycast(rayUp, out RaycastHit hitUp, 1))
-        {
-            if (hitUp.transform.CompareTag("Wall"))
-            {
-                Vector3 prevMovement = movement;
-                movement -= transform.up * (1 - (Vector3.Distance(hitUp.point, movement)));
-                verticalMove += (movement - prevMovement).y;
-                this.hitUp = true;
-            }
-        }
-        else this.hitUp = false;
-
-        if (Physics.Raycast(rayDown, out RaycastHit hitDown, 1))
-        {
-            if (hitDown.transform.CompareTag("Wall"))
-            {
-                Vector3 prevMovement = movement;
-                movement += transform.up * (1 - (Vector3.Distance(hitDown.point, movement)));
-                verticalMove += (movement - prevMovement).y;
-                this.hitDown = true;
-            }
-        }
-        else this.hitDown = false;
-
-        if (Physics.Raycast(rayLeft, out RaycastHit hitLeft, 2))
-        {
-            if (hitLeft.transform.CompareTag("Wall"))
-            {
-                Vector3 prevMovement = movement;
-                movement += transform.right * (2 - (Vector3.Distance(hitLeft.point, movement)));
-
-                Vector3 offsetMovement = (movement - prevMovement);
-                offsetMovement.y = 0;
-                horizontalMove += offsetMovement.magnitude;
-                this.hitLeft = true;
-            }
-        }
-        else this.hitLeft = false;
-
-        if (Physics.Raycast(rayRight, out RaycastHit hitRight, 2))
-        {
-            if (hitRight.transform.CompareTag("Wall"))
-            {
-                Vector3 prevMovement = movement;
-                movement -= transform.right * (2 - (Vector3.Distance(hitRight.point, movement)));
-
-                Vector3 offsetMovement = (movement - prevMovement);
-                offsetMovement.y = 0;
-                horizontalMove -= offsetMovement.magnitude;
-                this.hitRight = true;
-            }
-        }
-        else this.hitRight = false;
-
-        //MOVE
+        //FINALLY, MOVE
         transform.position = movement;
 
         //ROTATE
@@ -505,7 +436,7 @@ public class PlayerBehaviour : MonoBehaviour
                 nitroInputReleased = true;
 
             //INPUT TIMER
-            l_nitroInputTime -= Time.unscaledDeltaTime;
+            l_nitroInputTime -= Time.deltaTime;
             if (l_nitroInputTime > 0)
             {
                 //IF THIS IS NOT THE FIRST FRAME INPUT...
@@ -541,10 +472,8 @@ public class PlayerBehaviour : MonoBehaviour
                 l_energy -= jetParameters.boostConsumption * Time.deltaTime;
                 boosted = true;
             }
-
             else boosted = false;
         }
-
         else boosted = false;
     }
 
@@ -599,6 +528,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void Boost(float accelerationBoost, CameraState camState)
     {       
         currentSpeed += accelerationBoost * Time.deltaTime;
+        GameManager.Instance.playerCamera.ChangeState(camState);
     }
 
     public void OneShotBoost(float duration, float accelerationBoost, bool energyCost, CameraState camState)
@@ -609,6 +539,7 @@ public class PlayerBehaviour : MonoBehaviour
     IEnumerator BoostCoroutine(float duration, float accelerationBoost, bool energyCost, CameraState camState)
     {
         superboosted = true;
+        GameManager.Instance.playerCamera.ChangeState(camState);
         while (duration > 0)
         {
             duration -= Time.deltaTime;
@@ -617,12 +548,72 @@ public class PlayerBehaviour : MonoBehaviour
 
             if(energyCost) l_energy -= jetParameters.superBoostConsumption * Time.deltaTime;
 
-            if (energyCost) l_energy = 0;
-
             yield return null;
         }
         superboosted = false;
         yield break;
+    }
+
+    public void CheckCollisions()
+    {
+        rayUp = new Ray(movement, transform.up);
+        rayDown = new Ray(movement, -transform.up);
+        rayLeft = new Ray(movement, -transform.right);
+        rayRight = new Ray(movement, transform.right);
+
+        if (Physics.Raycast(rayUp, out RaycastHit hitUp, 1))
+        {
+            if (hitUp.transform.CompareTag("Wall"))
+            {
+                Vector3 prevMovement = movement;
+                movement -= transform.up * (1 - (Vector3.Distance(hitUp.point, movement)));
+                verticalMove += (movement - prevMovement).y;
+                this.hitUp = true;
+            }
+        }
+        else this.hitUp = false;
+
+        if (Physics.Raycast(rayDown, out RaycastHit hitDown, 1))
+        {
+            if (hitDown.transform.CompareTag("Wall"))
+            {
+                Vector3 prevMovement = movement;
+                movement += transform.up * (1 - (Vector3.Distance(hitDown.point, movement)));
+                verticalMove += (movement - prevMovement).y;
+                this.hitDown = true;
+            }
+        }
+        else this.hitDown = false;
+
+        if (Physics.Raycast(rayLeft, out RaycastHit hitLeft, 2))
+        {
+            if (hitLeft.transform.CompareTag("Wall"))
+            {
+                Vector3 prevMovement = movement;
+                movement += transform.right * (2 - (Vector3.Distance(hitLeft.point, movement)));
+
+                Vector3 offsetMovement = (movement - prevMovement);
+                offsetMovement.y = 0;
+                horizontalMove += offsetMovement.magnitude;
+                this.hitLeft = true;
+            }
+        }
+        else this.hitLeft = false;
+
+        if (Physics.Raycast(rayRight, out RaycastHit hitRight, 2))
+        {
+            if (hitRight.transform.CompareTag("Wall"))
+            {
+                Vector3 prevMovement = movement;
+                movement -= transform.right * (2 - (Vector3.Distance(hitRight.point, movement)));
+
+                Vector3 offsetMovement = (movement - prevMovement);
+                offsetMovement.y = 0;
+                horizontalMove -= offsetMovement.magnitude;
+                this.hitRight = true;
+            }
+        }
+        else this.hitRight = false;
     }
 
     public void RechargeEnergy(float amount)
@@ -699,25 +690,6 @@ public class PlayerBehaviour : MonoBehaviour
 
             case "Enemy":
                 Knockback();
-                break;
-
-            case "Finish":
-                Debug.Log("Lap");
-                if (!endedLap)
-                {
-                RaceManager.Instance.LapChecker();
-                }
-                endedLap = true;
-                break;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        switch (collision.transform.tag)
-        {
-            case "Finish":
-                endedLap = false;
                 break;
         }
     }

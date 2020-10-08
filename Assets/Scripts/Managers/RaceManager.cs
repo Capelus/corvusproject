@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class RaceManager : MonoBehaviour
 {
+    //SINGLETON
     public static RaceManager Instance;
 
     public float countDown;
@@ -15,7 +16,7 @@ public class RaceManager : MonoBehaviour
     public string convertedTime;
     public int lapCount;
     public float bestLap;
-    public bool countDownReady;
+    public bool countDownReady = true;
     bool boosted;
     public bool startSeqEnded;
 
@@ -27,39 +28,41 @@ public class RaceManager : MonoBehaviour
     }
     public Lap lapLog;
 
-    
-    private void Start()
+    private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
         countDown = 3.4f;
         raceStarted = false;
         raceTimer = 0.0f;
         bestLap = 9999999.0f;
         lapCount = 0;
         startSeqEnded = false;
-        countDownReady = false;
     }
+
     void Update()
     {
-        if (countDownReady)
+
+        countDown -= Time.deltaTime;
+        if (countDown < 1)
         {
-            countDown -= Time.deltaTime;
-            if (countDown < 1)
+            raceStarted = true;
+            lapLog.rawTime += Time.deltaTime;
+
+            if (UIManager.Instance.UIW.warmUpQTE.successQTE && !boosted)
             {
-                raceStarted = true;
-                lapLog.rawTime += Time.deltaTime;
-
-                if (UIManager.Instance.UIW.warmUpQTE.successQTE && !boosted)
-                {
-                    boosted = true;
-                    GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.superboost);
-                }
-
-                UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);
-                UIManager.Instance.UIW.warmUpQTE.successQTE = false;
-                UIManager.Instance.UIW.warmUpQTE.enabled = false;
+                boosted = true;
+                GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.superboost);
             }
+
+            UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);
+            UIManager.Instance.UIW.warmUpQTE.successQTE = false;
+            UIManager.Instance.UIW.warmUpQTE.enabled = false;
         }
+        
 
         if (raceStarted)
         {
