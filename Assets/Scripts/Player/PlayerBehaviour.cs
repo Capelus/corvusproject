@@ -267,6 +267,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+        UIManager.Instance.UIW.countDown.enabled = true;
+        RaceManager.Instance.startSeqEnded = true;
+
         if (playerInput.inputEnabled)
         {
             //MOVEMENT

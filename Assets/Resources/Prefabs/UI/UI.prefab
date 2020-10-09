@@ -440,6 +440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boostZone: {fileID: 1345554394}
   checkMark: {fileID: 982637811}
+  yellowZone: {fileID: 0}
   boostZoneWidth: 0
   checkMarkSpeed: 0
   successQTE: 0
@@ -1955,7 +1956,7 @@ MonoBehaviour:
   UIW:
     countDown: {fileID: 2475808016283343297}
     warmUpQTE: {fileID: 320534594}
-    GlowEffect: {fileID: 0}
+    GlowEffect: {fileID: 6285567429299070961}
   UI:
     speedometer: {fileID: 2475808015096970242}
     energyBarSlider: {fileID: 2475808014610340120}

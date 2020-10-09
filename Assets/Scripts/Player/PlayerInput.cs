@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
     float sensitivity = 3f;
     float dead = 0.001f;
 
-    public bool inputEnabled = true;
+    public bool inputEnabled;
 
     private void Start()
     {
