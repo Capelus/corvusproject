@@ -29,7 +29,7 @@ public class BoostRingBehaviour : MonoBehaviour
         //ROTATE
         transform.GetChild(0).Rotate(0, 0, ringRotationSpeed * Time.deltaTime);
 
-        l_cooldownTime -= Time.unscaledDeltaTime;
+        l_cooldownTime -= Time.deltaTime;
         if (l_cooldownTime < 0)
             trigger.enabled = true;
 

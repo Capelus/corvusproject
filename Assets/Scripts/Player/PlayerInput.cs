@@ -11,12 +11,11 @@ public class PlayerInput : MonoBehaviour
     float movY = 0;
     float sensitivity = 3f;
     float dead = 0.001f;
-    [HideInInspector]public bool inputEnabled;
+
 
     private void Start()
     {
         GameManager.Instance.playerInput = this;
-        inputEnabled = false;
     }
 
     public Vector2 rawMovement

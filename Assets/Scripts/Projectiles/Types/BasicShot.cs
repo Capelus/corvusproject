@@ -63,6 +63,11 @@ public class BasicShot : MonoBehaviour
                 }
                 break;
 
+            case "Obstacle":
+                if (other.transform.GetComponent<BreakableBehaviour>())
+                    other.transform.GetComponent<BreakableBehaviour>().Destroy();
+                break;
+
             default: 
                 DestroyShot();
                 break;

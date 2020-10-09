@@ -72,7 +72,7 @@ public class AIBehaviour : MonoBehaviour
         currentSpeed = Mathf.Clamp(currentSpeed, 5, 500);
 
         //INCREMENT DISTANCE TRAVELLED
-        distanceTravelled += currentSpeed * Time.unscaledDeltaTime;
+        distanceTravelled += currentSpeed * Time.deltaTime;
 
         //CALCULATE RANDOM DIRECTION
         changeDirTimer -= Time.deltaTime;

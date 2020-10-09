@@ -1,232 +1,168 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
-
 
 public enum CameraMode { railSmoothMode, railSmoothModeInverted, railSmoothModeLookAt }
-public enum CameraState { idle, moving, braking, boost, superboost, startingSequence }
+public enum CameraState { idle, moving, braking, boost, superboost }
 
 public class CameraBehaviour : MonoBehaviour
 {
-    //REFERENCES
-    public CameraMode cameraMode = CameraMode.railSmoothModeInverted;
-    public CameraState cameraState;
-    public Animator camAnimator;
-
+    // REFERENCES
     PlayerBehaviour player;
     Camera cam;
-    Vignette _Vignette;
 
-    //CORE PARAMETERS
+    // ENUMERABLES
+    public CameraState cameraState;
+
+    // CORE PARAMETERS
     Vector3 cameraPos;
-    float distanceToTarget, desiredDistanceToTarget;
-    float desiredfieldOfView;
-    float desiredShakeAmount;
-    float desiredVignetteIntensity;
-    
-    //TIMESTEPS
-    float d = 0, t = 0, stateDamp = 0.6f, modeDamp = 1f;
+    float distanceToTarget, fieldOfView, shakeAmount;
+    public float stateTransitionTime = 1;
+    float l_stateTransitionTime = 0;
 
-    //CAMERA STATES
+    // TIMESTEPS
+    float t = 0, damp = 0.8f;
+
+    // CAMERA STATES
     [System.Serializable]
-    public class CameraProfile
+    public class StateParameters
     {
-        [Header("PARAMETERS")]
-        //PARAMETERS
-        public float distanceToTarget = 5;
-        public float fieldOfView = 75;
-        public float shakeAmount = 0.001f;
-        public float vignetteIntensity = 0.2f;
+        // DISTANCE TO TARGET
+        [Tooltip("This curve determines the rate at which the camera gets closer or farther (over speed).")]
+        public AnimationCurve distanceToTargetCurve;
 
-        [Header("EFFECTS")]
-        //EFFECTS
-        public float warpSpeed = 0;
-        public bool nebulaActive;
-        public float nebulaDissolve, nebulaSpeed;
+        // FIELD OF VIEW
+        [Tooltip("This curve determines the rate at which the camera changes it's FOV (over speed).")]
+        public AnimationCurve fieldOfViewCurve;
+
+        // SHAKE AMOUNT
+        [Tooltip("The maximum shake amount the camera can take.")]
+        public float maxShakeAmount = 0.001f;
     }
 
-    [Header("CAMERA STATES")]
-    public CameraProfile idle;
-    public CameraProfile moving;
-    public CameraProfile braking;
-    public CameraProfile boost;
-    public CameraProfile superboost;
+    [Header("CAMERA STATE PARAMETERS")]
+    public StateParameters idleParameters;
+    public StateParameters movingParameters;
 
-    //LOCAL
-    float hOffset = 0;
-    float vOffset = 0;
+    StateParameters currentParameters;
 
-    //OTHER
+    [Header("CAMERA SETTINGS")]
+    [Tooltip("The minimum distance the camera can get to it's target.)")]
+    public float minDistanceToTarget = 5;
+    float l_minDistanceToTarget;
+    [Tooltip("The maximum distance the camera can get from it's target.")]
+    public float maxDistanceToTarget = 8;
+    float l_maxDistanceToTarget;
+
+    [Tooltip("The minimum field of view the camera can reach.")]
+    public float minFieldOfView = 75;
+    float l_minFieldOfView;
+    [Tooltip("The maximum field of view the camera can reach.")]
+    public float maxFieldOfView = 120;
+    float l_maxFieldOfView;
+
+    // LOCAL
+    float hOffset = 0; // This value stores the horizontal offset relative to the player's horizontal position on screen.
+    float vOffset = 0; // This value stores the vertical offset relative to the player's vertical position on screen.
+
+    // SIGHT BEYOND PLAYER'S SPACESHIP
     [Header("OTHER")]
-    //SIGHT BEYOND PLAYER'S SPACESHIP
     public float sightBeyond = 20;
+
+    // THE POSTPROCESSING VOLUME IF ANY
     public Volume postpro;
+
+    // EFFECTS
+    float warpSpeed = 0;
+    bool nebulaActive;
+    float nebulaDissolve, nebulaSpeed;
 
     void Start()
     {
-        //REFERENCES
+        // REFERENCES
         GameManager.Instance.playerCamera = this;
         player = GameManager.Instance.player;
         cam = GetComponent<Camera>();
-        postpro.profile.TryGet<Vignette>(out _Vignette);
+
+        // PARAMETERS
+        l_maxDistanceToTarget = maxDistanceToTarget;
+        l_minDistanceToTarget = minDistanceToTarget;
+        l_maxFieldOfView = maxFieldOfView;
+        l_minFieldOfView = minFieldOfView;
+
+        //OTHER
+        currentParameters = idleParameters;
+        stateTransitionTime *= 100;
     }
 
     void Update()
     {
+        // TIMESTEPS
+        t += damp * Time.deltaTime;
+        l_stateTransitionTime += Time.deltaTime;
 
-        if (UIManager.Instance.UIW.countDown.enabled && camAnimator.enabled)
-        {
-            camAnimator.enabled = false;
-            
-        }
-        //TIMESTEPS
-        d += modeDamp * Time.unscaledDeltaTime;
-        t += stateDamp * Time.deltaTime;
+        // DISTANCE
+        float desiredDistance = currentParameters.distanceToTargetCurve.Evaluate(player.currentSpeed / player.l_maxSpeed) * l_maxDistanceToTarget; 
+        distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistance, (l_stateTransitionTime / stateTransitionTime));
+        distanceToTarget = Mathf.Clamp(distanceToTarget, l_minDistanceToTarget, l_maxDistanceToTarget);
 
-        //FOV
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredfieldOfView, d);
+        // FOV
+        float desiredFOV = currentParameters.fieldOfViewCurve.Evaluate(player.currentSpeed / player.l_maxSpeed) * l_maxFieldOfView;
+        fieldOfView = Mathf.Lerp(fieldOfView, desiredFOV, (l_stateTransitionTime / stateTransitionTime));
+        fieldOfView = Mathf.Clamp(fieldOfView, l_minFieldOfView, l_maxFieldOfView * 2);
+        cam.fieldOfView = fieldOfView;
 
-        //DISTANCE TO TARGET
-        distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistanceToTarget, d);
+        // SHAKE
+        shakeAmount = (player.currentSpeed / player.l_maxSpeed) * currentParameters.maxShakeAmount;
+        transform.localPosition += Random.insideUnitSphere * shakeAmount;
 
-        //SHAKE
-        transform.localPosition += Random.insideUnitSphere * desiredShakeAmount; 
+        // GET POSITION
+        cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
-        //VIGNETTE INTENISTY
-        float vignetteIntensity = Mathf.Lerp(_Vignette.intensity.value, desiredVignetteIntensity, d); //VIGNETTE
-        _Vignette.intensity.value = vignetteIntensity;
+        // CALCULATE 2D OFFSETS
+        hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / 6, t);
+        vOffset = Mathf.Lerp(vOffset, -player.verticalMove / 6, t);
 
-        //CAMERA MODES
-        switch (cameraMode)
-        {
-            case CameraMode.railSmoothMode:
-                //GET POSITION
-                cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
-
-                //CALCULATE 2D OFFSETS
-                hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 2, t);
-                vOffset = Mathf.Lerp(vOffset, player.verticalMove / 2, t);
-
-                //CALULATE POSITION
-                cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up * vOffset, t);
-
-                //CALULATE ROTATION
-                transform.forward = Vector3.Lerp(transform.forward, (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + sightBeyond) - transform.position).normalized,t);
-                break;
-
-            case CameraMode.railSmoothModeInverted:
-                //GET POSITION
-                cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
-
-                //CALCULATE 2D OFFSETS
-                hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / 12, t);
-                vOffset = Mathf.Lerp(vOffset, -player.verticalMove / 12, t);
-
-                //CALULATE POSITION
-                cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up * vOffset, t);
-
-                //CALULATE ROTATION
-                Vector3 lookAt = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + sightBeyond) - transform.position).normalized;
-                lookAt += (transform.right * -hOffset / 3) + (transform.up * -vOffset / 4);
-                transform.forward = Vector3.Lerp(transform.forward, lookAt, t);
-                break;
-
-            case CameraMode.railSmoothModeLookAt:
-                //GET POSITION
-                cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
-
-                //CALCULATE 2D OFFSETS
-                hOffset = Mathf.Lerp(hOffset, player.horizontalMove / 10f, t);
-                vOffset = Mathf.Lerp(vOffset, (player.verticalMove) / 10f, t);
-
-                //CALULATE POSITION
-                cam.transform.position = Vector3.Lerp(cam.transform.position, cameraPos + transform.right * hOffset + cam.transform.up * vOffset, t);
-                
-                //CALULATE ROTATION
-                Vector3 lookAtUP = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + sightBeyond) - transform.position).normalized;
-                lookAtUP += (transform.right * +hOffset / 5) + (transform.up * +vOffset / 5);
-                transform.forward = Vector3.Lerp(transform.forward, lookAtUP, t);
-                break;
-        }
-
-        switch (cameraState)
-        {
-            case CameraState.idle:
-                //SET VALUES FROM CURRENT STATE
-                desiredDistanceToTarget = idle.distanceToTarget;
-                desiredfieldOfView = idle.fieldOfView;
-                desiredShakeAmount = idle.shakeAmount;
-                desiredVignetteIntensity = idle.shakeAmount;
-
-                //CHANGE EFFECTS
-                EffectsManager.Instance.effects.warpSpeed = idle.warpSpeed;
-                EffectsManager.Instance.effects.nebulaActive = idle.nebulaActive;
-                EffectsManager.Instance.effects.nebulaSpeed = idle.nebulaSpeed;
-                EffectsManager.Instance.effects.nebulaDissolve = idle.nebulaDissolve;
-                break;
-
-            case CameraState.moving:
-                //SET VALUES FROM CURRENT STATE
-                desiredDistanceToTarget = moving.distanceToTarget;
-                desiredfieldOfView = moving.fieldOfView;
-                desiredShakeAmount = moving.shakeAmount;
-                desiredVignetteIntensity = moving.shakeAmount;
-
-                //CHANGE EFFECTS
-                EffectsManager.Instance.effects.warpSpeed = moving.warpSpeed;
-                EffectsManager.Instance.effects.nebulaActive = moving.nebulaActive;
-                EffectsManager.Instance.effects.nebulaSpeed = moving.nebulaSpeed;
-                EffectsManager.Instance.effects.nebulaDissolve = moving.nebulaDissolve;
-                break;
-
-            case CameraState.braking:
-                //SET VALUES FROM CURRENT STATE
-                desiredDistanceToTarget = braking.distanceToTarget;
-                desiredfieldOfView = braking.fieldOfView;
-                desiredShakeAmount = braking.shakeAmount;
-                desiredVignetteIntensity = braking.shakeAmount;
-
-                //CHANGE EFFECTS
-                EffectsManager.Instance.effects.warpSpeed = braking.warpSpeed;
-                EffectsManager.Instance.effects.nebulaActive = braking.nebulaActive;
-                EffectsManager.Instance.effects.nebulaSpeed = braking.nebulaSpeed;
-                EffectsManager.Instance.effects.nebulaDissolve = braking.nebulaDissolve;
-                break;
-
-            case CameraState.boost:
-                //SET VALUES FROM CURRENT STATE
-                desiredDistanceToTarget = boost.distanceToTarget;
-                desiredfieldOfView = boost.fieldOfView;
-                desiredShakeAmount = boost.shakeAmount;
-                desiredVignetteIntensity = boost.shakeAmount;
-
-                //CHANGE EFFECTS
-                EffectsManager.Instance.effects.warpSpeed = boost.warpSpeed;
-                EffectsManager.Instance.effects.nebulaActive = boost.nebulaActive;
-                EffectsManager.Instance.effects.nebulaSpeed = boost.nebulaSpeed;
-                EffectsManager.Instance.effects.nebulaDissolve = boost.nebulaDissolve;
-                break;
-
-            case CameraState.superboost:
-                //SET VALUES FROM CURRENT STATE
-                desiredDistanceToTarget = superboost.distanceToTarget;
-                desiredfieldOfView = superboost.fieldOfView;
-                desiredShakeAmount = superboost.shakeAmount;
-                desiredVignetteIntensity = superboost.shakeAmount;
-
-                //CHANGE EFFECTS
-                EffectsManager.Instance.effects.warpSpeed = superboost.warpSpeed;
-                EffectsManager.Instance.effects.nebulaActive = superboost.nebulaActive;
-                EffectsManager.Instance.effects.nebulaSpeed = superboost.nebulaSpeed;
-                EffectsManager.Instance.effects.nebulaDissolve = superboost.nebulaDissolve;
-                break;
-        }
+        // CALULATE POSITION
+        transform.position = Vector3.Lerp(transform.position, cameraPos + transform.right * hOffset + transform.up * vOffset, t);
+               
+        // CALULATE ROTATION
+        transform.LookAt(TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + sightBeyond), player.transform.up);
     }
 
     public void ChangeState(CameraState state)
     {
-        t = 0;
-        d = 0;
-        cameraState = state;       
+        if (cameraState != state)
+        {
+            switch (state)
+            {
+                case CameraState.idle:
+                    currentParameters = idleParameters;
+                    l_maxFieldOfView = maxFieldOfView;
+                    break;
+
+                case CameraState.moving:
+                    currentParameters = movingParameters;
+                    l_maxFieldOfView = maxFieldOfView;
+                    break;
+
+                case CameraState.braking:
+                    currentParameters = idleParameters;
+                    l_maxFieldOfView = maxFieldOfView - 10;
+                    break;
+
+                case CameraState.boost:
+                    currentParameters = movingParameters;
+                    l_maxFieldOfView = maxFieldOfView + 30;
+                    break;
+
+                case CameraState.superboost:
+                    currentParameters = movingParameters;
+                    l_maxFieldOfView = maxFieldOfView + 50;
+                    break;
+            }
+
+            cameraState = state;
+            l_stateTransitionTime = 0;
+        }
     }
 }
