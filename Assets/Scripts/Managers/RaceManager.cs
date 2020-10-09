@@ -58,6 +58,7 @@ public class RaceManager : MonoBehaviour
                 UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);
                 UIManager.Instance.UIW.warmUpQTE.successQTE = false;
                 UIManager.Instance.UIW.warmUpQTE.enabled = false;
+                UIManager.Instance.UIW.GlowEffect.enabled = false;
             }
         }
 
