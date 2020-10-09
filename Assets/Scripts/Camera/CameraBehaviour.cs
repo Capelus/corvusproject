@@ -20,7 +20,7 @@ public class CameraBehaviour : MonoBehaviour
     float l_stateTransitionTime = 0;
 
     // TIMESTEPS
-    float t = 0, damp = 0.4f;
+    float t = 0, damp = 0.8f;
 
     // CAMERA STATES
     [System.Serializable]
@@ -108,7 +108,7 @@ public class CameraBehaviour : MonoBehaviour
         // FOV
         float desiredFOV = currentParameters.fieldOfViewCurve.Evaluate(player.currentSpeed / player.l_maxSpeed) * l_maxFieldOfView;
         fieldOfView = Mathf.Lerp(fieldOfView, desiredFOV, (l_stateTransitionTime / stateTransitionTime));
-        fieldOfView = Mathf.Clamp(fieldOfView, l_minFieldOfView, l_maxFieldOfView);
+        fieldOfView = Mathf.Clamp(fieldOfView, l_minFieldOfView, l_maxFieldOfView * 2);
         cam.fieldOfView = fieldOfView;
 
         // SHAKE
@@ -119,8 +119,8 @@ public class CameraBehaviour : MonoBehaviour
         cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
         // CALCULATE 2D OFFSETS
-        hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / 4, t);
-        vOffset = Mathf.Lerp(vOffset, -player.verticalMove / 4, t);
+        hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / 6, t);
+        vOffset = Mathf.Lerp(vOffset, -player.verticalMove / 6, t);
 
         // CALULATE POSITION
         transform.position = Vector3.Lerp(transform.position, cameraPos + transform.right * hOffset + transform.up * vOffset, t);
