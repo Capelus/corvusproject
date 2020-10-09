@@ -267,17 +267,20 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
-        //MOVEMENT
-        UpdateMove();
+        if (playerInput.inputEnabled)
+        {
+            //MOVEMENT
+            UpdateMove();
 
-        //NITRO 
-        UpdateNitro();
+            //NITRO 
+            UpdateNitro();
 
-        //BARREL ROLL
-        UpdateRoll();
+            //BARREL ROLL
+            UpdateRoll();
 
-        //BLASTERS
-        UpdateBlasters();
+            //BLASTERS
+            UpdateBlasters();
+        }    
         
         //CLAMP ENERGY
         l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);

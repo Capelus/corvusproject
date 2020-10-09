@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -86,7 +87,7 @@ public class UIManager : MonoBehaviour
             UI.AButton.color = new Color(1, 1, 1, 0);
         }
 
-        if (RaceManager.Instance.countDownReady)
+        if (RaceManager.Instance.raceReady)
         {
             UIW.countDown.text = RaceManager.Instance.countDown.ToString("f0");
         }
@@ -104,11 +105,21 @@ public class UIManager : MonoBehaviour
         }
 
         //RACE TIMER--------------------------------------------------------
-        UI.raceTimer.text = RaceManager.Instance.convertedTime;
+        UI.raceTimer.text = FormatTime(RaceManager.Instance.raceTimer);
     }
 
     public void UpdateTimeChart(string lastLapTime)
     {
         UI.timeChart[RaceManager.Instance.lapCount].text = lastLapTime;
+    }
+
+    string FormatTime(float totalRaceTime)
+    {
+        int minutes = (int)totalRaceTime / 60;
+        int seconds = (int)totalRaceTime % 60;
+        float milliseconds = totalRaceTime * 1000;
+        milliseconds %= 1000;
+        string convertToString = String.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+        return convertToString;
     }
 }

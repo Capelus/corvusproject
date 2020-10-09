@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    //MOVEMENT
-
     //SMOOTH PARAMETERS
     float movX = 0;
     float movY = 0;
     float sensitivity = 3f;
     float dead = 0.001f;
 
+    public bool inputEnabled = true;
 
     private void Start()
     {

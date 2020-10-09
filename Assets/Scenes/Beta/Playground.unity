@@ -5318,17 +5318,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ff9647db8a1dca428f4016832145e8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startSequence: 1
   countDown: 0
   raceTimer: 0
-  raceStarted: 0
-  milliseconds: 0
-  seconds: 0
-  minutes: 0
-  convertedTime: 
   lapCount: 0
-  bestLap: 0
-  countDownReady: 0
-  startSeqEnded: 0
+  raceStarted: 0
+  raceReady: 0
   lapLog:
     rawTime: 0
     lapConvertedTime: 
@@ -24640,6 +24635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b41d92e43e9474bbfccbcc543882ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputEnabled: 1
 --- !u!114 &8722126188569110748
 MonoBehaviour:
   m_ObjectHideFlags: 0

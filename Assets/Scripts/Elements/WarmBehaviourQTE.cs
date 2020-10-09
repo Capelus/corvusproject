@@ -30,9 +30,9 @@ public class WarmBehaviourQTE : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.playerInput.nitroHold && checkMark.localPosition.x < 100 && RaceManager.Instance.startSeqEnded)
+        if (GameManager.Instance.playerInput.nitroHold && checkMark.localPosition.x < 100 && RaceManager.Instance.raceReady)
         {
-            RaceManager.Instance.countDownReady = true;
+            RaceManager.Instance.startSequence = true;
             checkMark.localPosition = new Vector2(checkMark.localPosition.x + 0.5f, 0);
             decelerationValue = 0;
         }

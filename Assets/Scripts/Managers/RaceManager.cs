@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RaceManager : MonoBehaviour
 {
     //SINGLETON
     public static RaceManager Instance;
 
-    public float countDown;
-    public float raceTimer;
+    public bool startSequence;
+    public float countDown = 3;
+    [HideInInspector] public float raceTimer;
+    [HideInInspector] public int lapCount;
     [HideInInspector] public bool raceStarted;
-    public float milliseconds, seconds, minutes;
-    public string convertedTime;
-    public int lapCount;
-    public float bestLap;
-    public bool countDownReady = true;
-    bool boosted;
-    public bool startSeqEnded;
+    [HideInInspector] public bool raceReady;
 
     [System.Serializable]
     public class Lap
@@ -35,57 +28,41 @@ public class RaceManager : MonoBehaviour
 
     private void Start()
     {
-        countDown = 3.4f;
-        raceStarted = false;
-        raceTimer = 0.0f;
-        bestLap = 9999999.0f;
-        lapCount = 0;
-        startSeqEnded = false;
+        if (startSequence)
+            GameManager.Instance.playerInput.inputEnabled = false;        
     }
 
     void Update()
     {
-
-        countDown -= Time.deltaTime;
-        if (countDown < 1)
+        if (raceReady)
         {
-            raceStarted = true;
-            lapLog.rawTime += Time.deltaTime;
-
-            if (UIManager.Instance.UIW.warmUpQTE.successQTE && !boosted)
+            countDown -= Time.deltaTime;
+            if (countDown < 0)
             {
-                boosted = true;
-                GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.superboost);
+                raceStarted = true;
+                lapLog.rawTime += Time.deltaTime;
+
+                if (UIManager.Instance.UIW.warmUpQTE.successQTE)
+                {
+                    GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.superboost);
+                }
+
+                UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);
+                UIManager.Instance.UIW.warmUpQTE.successQTE = false;
+                UIManager.Instance.UIW.warmUpQTE.enabled = false;
             }
 
-            UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);
-            UIManager.Instance.UIW.warmUpQTE.successQTE = false;
-            UIManager.Instance.UIW.warmUpQTE.enabled = false;
+            raceReady = false;
         }
         
-
         if (raceStarted)
         {
             raceTimer += Time.deltaTime;         
         }
-
-        convertedTime = FormatTime(raceTimer);
-    }
-
-    string FormatTime(float totalRaceTime)
-    {  
-        int minutes  = (int)totalRaceTime / 60;
-        int seconds = (int)totalRaceTime % 60;
-        float milliseconds = totalRaceTime * 1000;
-        milliseconds %= 1000;
-        string convertToString = String.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
-        return convertToString;
     }
 
     public void LapChecker()
     {
-        lapLog.lapConvertedTime = FormatTime(lapLog.rawTime);
-        
         UIManager.Instance.UpdateTimeChart(lapLog.lapConvertedTime);
         
         lapCount++;
