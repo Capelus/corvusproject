@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,20 +6,22 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    //SINGLETON
+
     public static UIManager Instance;
 
     //REFERENCES
     PlayerBehaviour player;
 
     //UI ELEMENTS
+
     [System.Serializable]
     public class UIWarmUp
     {
         //LIST OF UIW ELEMENTS
         public Text countDown;
         public WarmBehaviourQTE warmUpQTE;
-        public Image RTbutton;
+        public Image GlowEffect;
+
     }
     public UIWarmUp UIW;
 
@@ -35,17 +36,23 @@ public class UIManager : MonoBehaviour
         public Text raceTimer;
         public Text[] timeChart;
         public GameObject skillcheck;
+
     }
     public UIElements UI;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
 
+    //ADDITIONAL ELEMENTS
+    Vector3 bigGlowingScale, initialGlowingScale;
+    bool glowIncreasing;
     private void Start()
-    {   
+    {
+        Instance = this;     
         player = GameManager.Instance.player;
+
+        //DEFINE WARMUP GLOWING SCALE
+        glowIncreasing = true;
+        initialGlowingScale = UIW.GlowEffect.rectTransform.localScale;
+        bigGlowingScale = new Vector3(UIW.GlowEffect.rectTransform.localScale.x * 1.2f, UIW.GlowEffect.rectTransform.localScale.y * 1.2f, 1);
 
         //INITIALIZE TIME CHART
         UI.timeChart = new Text[8];
@@ -58,12 +65,15 @@ public class UIManager : MonoBehaviour
         UI.timeChart[6] = GameObject.Find("Lap 7").GetComponent<UnityEngine.UI.Text>();
         UI.timeChart[7] = GameObject.Find("Lap 8").GetComponent<UnityEngine.UI.Text>();
 
+
         //INITIALIZE ENERGY BAR
         UI.energyBarSlider.minValue = 0;
         UI.energyBarSlider.maxValue = player.energyParameters.maxEnergy;
 
-        UIW.countDown.text = "HOLD";
+        UIW.countDown.text = "HOLD RT";
         UIW.countDown.enabled = false;
+
+
     }
 
     private void Update()
@@ -87,15 +97,18 @@ public class UIManager : MonoBehaviour
             UI.AButton.color = new Color(1, 1, 1, 0);
         }
 
-        if (RaceManager.Instance.raceReady)
+        //COUNTDOWN--------------------------------------------
+
+        if (RaceManager.Instance.countDownReady && !RaceManager.Instance.raceStarted)
         {
             UIW.countDown.text = RaceManager.Instance.countDown.ToString("f0");
+            QTEGlowing();
         }
       
 
-        //COUNTDOWN--------------------------------------------
         if (RaceManager.Instance.countDown <= 1.0f)
         {
+            player.GetComponent<PlayerInput>().inputEnabled = true;
             UIW.countDown.text = "GO!";
 
         }
@@ -105,7 +118,8 @@ public class UIManager : MonoBehaviour
         }
 
         //RACE TIMER--------------------------------------------------------
-        UI.raceTimer.text = FormatTime(RaceManager.Instance.raceTimer);
+        UI.raceTimer.text = RaceManager.Instance.convertedTime;
+
     }
 
     public void UpdateTimeChart(string lastLapTime)
@@ -113,13 +127,29 @@ public class UIManager : MonoBehaviour
         UI.timeChart[RaceManager.Instance.lapCount].text = lastLapTime;
     }
 
-    string FormatTime(float totalRaceTime)
+    void QTEGlowing()
     {
-        int minutes = (int)totalRaceTime / 60;
-        int seconds = (int)totalRaceTime % 60;
-        float milliseconds = totalRaceTime * 1000;
-        milliseconds %= 1000;
-        string convertToString = String.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
-        return convertToString;
+        if(glowIncreasing)
+        {
+            if (UIW.GlowEffect.rectTransform.localScale.x < bigGlowingScale.x-0.01f)
+            {
+                UIW.GlowEffect.rectTransform.localScale = Vector3.Lerp(UIW.GlowEffect.rectTransform.localScale, bigGlowingScale, 0.02f);
+            }
+            else
+            {
+                glowIncreasing = false;
+            }
+        }
+        else
+        {
+            if(UIW.GlowEffect.rectTransform.localScale.x > initialGlowingScale.x+0.01f)
+            {
+                UIW.GlowEffect.rectTransform.localScale = Vector3.Lerp(UIW.GlowEffect.rectTransform.localScale, initialGlowingScale, 0.02f);
+            }
+            else
+            {
+                glowIncreasing = true;
+            }
+        }
     }
 }
