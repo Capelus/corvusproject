@@ -7381,7 +7381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endOfPathInstruction: 0
-  movementLimits: {x: 8, y: 4}
+  movementLimits: {x: 10, y: 6}
   objectPoolPosition: {x: 0, y: 500, z: 0}
   enemies: []
   shots: []
@@ -17865,6 +17865,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 320534590, guid: 15f40a3f4c666d6499600befb4b3c0c9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2475808015731484947, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_Name
@@ -17984,6 +17988,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475808015875422652, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475808016283343297, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782100954285908498, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15f40a3f4c666d6499600befb4b3c0c9, type: 3}
@@ -49087,11 +49106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effects:
     warp: {fileID: 221284216403574716}
-    warpSpeed: 0
     nebula: {fileID: 1261947809}
-    nebulaSpeed: 0.3
-    nebulaDissolve: 1
-    nebulaActive: 0
     explosion: {fileID: 2332627243320502491, guid: 647e17c6261d14047806894511c36883,
       type: 3}
 --- !u!4 &1512079558
@@ -61575,24 +61590,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 688647261712169263, guid: 90b88f01a498fad49a51cfe33b8b73a9,
+    - target: {fileID: 4928873815684776612, guid: 90b88f01a498fad49a51cfe33b8b73a9,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 688647261712169263, guid: 90b88f01a498fad49a51cfe33b8b73a9,
+    - target: {fileID: 6874213693114164081, guid: 90b88f01a498fad49a51cfe33b8b73a9,
         type: 3}
-      propertyPath: m_Volume
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 688647261712169263, guid: 90b88f01a498fad49a51cfe33b8b73a9,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: b13639e052fe42d4da5b8d6f564b1d76, type: 3}
-    - target: {fileID: 688647261712169263, guid: 90b88f01a498fad49a51cfe33b8b73a9,
-        type: 3}
-      propertyPath: m_Pitch
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8232834253654558556, guid: 90b88f01a498fad49a51cfe33b8b73a9,
@@ -61659,6 +61664,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819578367080092921, guid: 90b88f01a498fad49a51cfe33b8b73a9,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819578367080092921, guid: 90b88f01a498fad49a51cfe33b8b73a9,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[1].m_Value.w
+      value: 0.56078434
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819578367080092921, guid: 90b88f01a498fad49a51cfe33b8b73a9,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[1].m_Value.x
+      value: 31.999996
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819578367080092921, guid: 90b88f01a498fad49a51cfe33b8b73a9,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[1].m_Value.y
+      value: 31.999996
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819578367080092921, guid: 90b88f01a498fad49a51cfe33b8b73a9,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[1].m_Value.z
+      value: 31.999996
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90b88f01a498fad49a51cfe33b8b73a9, type: 3}

@@ -26,11 +26,27 @@ public class CameraBehaviour : MonoBehaviour
     [System.Serializable]
     public class StateParameters
     {
+        //LOOK AT SPEED
+        [Tooltip("The speed at the camera will rotatate to face it's target.)")]
+        public float lookAtSpeed = 50;
+
         // DISTANCE TO TARGET
+        [Tooltip("The minimum distance the camera can get to it's target.)")]
+        public float minDistanceToTarget = 5;
+
+        [Tooltip("The maximum distance the camera can get from it's target.")]
+        public float maxDistanceToTarget = 8;
+
         [Tooltip("This curve determines the rate at which the camera gets closer or farther (over speed).")]
         public AnimationCurve distanceToTargetCurve;
 
         // FIELD OF VIEW
+        [Tooltip("The minimum field of view the camera can reach.")]
+        public float minFieldOfView = 75;
+
+        [Tooltip("The maximum field of view the camera can reach.")]
+        public float maxFieldOfView = 120;
+
         [Tooltip("This curve determines the rate at which the camera changes it's FOV (over speed).")]
         public AnimationCurve fieldOfViewCurve;
 
@@ -40,41 +56,26 @@ public class CameraBehaviour : MonoBehaviour
     }
 
     [Header("CAMERA STATE PARAMETERS")]
-    public StateParameters idleParameters;
     public StateParameters movingParameters;
-
+    public StateParameters boostParameters;
     StateParameters currentParameters;
 
-    [Header("CAMERA SETTINGS")]
-    [Tooltip("The minimum distance the camera can get to it's target.)")]
-    public float minDistanceToTarget = 5;
-    float l_minDistanceToTarget;
-    [Tooltip("The maximum distance the camera can get from it's target.")]
-    public float maxDistanceToTarget = 8;
-    float l_maxDistanceToTarget;
-
-    [Tooltip("The minimum field of view the camera can reach.")]
-    public float minFieldOfView = 75;
-    float l_minFieldOfView;
-    [Tooltip("The maximum field of view the camera can reach.")]
-    public float maxFieldOfView = 120;
-    float l_maxFieldOfView;
-
-    // LOCAL
     float hOffset = 0; // This value stores the horizontal offset relative to the player's horizontal position on screen.
     float vOffset = 0; // This value stores the vertical offset relative to the player's vertical position on screen.
 
     // SIGHT BEYOND PLAYER'S SPACESHIP
-    [Header("OTHER")]
+    [Header("SETTINGS")]
+    [Tooltip("The distance to look at beyond the player.")]
     public float sightBeyond = 20;
+    [Tooltip("Check this to invert the offset movements.")]
+    public bool invertedOffsets;
+    [Tooltip("The fraction from the player's horizontal movement used to calculate the horizontal offset value.")]
+    public float horizontalOffsetFraction = 4;
+    [Tooltip("The fraction from the player's vertical movement used to calculate the vertical offset value.")]
+    public float verticalOffsetFraction = 3;
 
     // THE POSTPROCESSING VOLUME IF ANY
-    public Volume postpro;
-
-    // EFFECTS
-    float warpSpeed = 0;
-    bool nebulaActive;
-    float nebulaDissolve, nebulaSpeed;
+    //public Volume postpro;
 
     void Start()
     {
@@ -84,14 +85,7 @@ public class CameraBehaviour : MonoBehaviour
         cam = GetComponent<Camera>();
 
         // PARAMETERS
-        l_maxDistanceToTarget = maxDistanceToTarget;
-        l_minDistanceToTarget = minDistanceToTarget;
-        l_maxFieldOfView = maxFieldOfView;
-        l_minFieldOfView = minFieldOfView;
-
-        //OTHER
-        currentParameters = idleParameters;
-        stateTransitionTime *= 100;
+        ChangeState(CameraState.moving);
     }
 
     void Update()
@@ -99,16 +93,15 @@ public class CameraBehaviour : MonoBehaviour
         // TIMESTEPS
         t += damp * Time.deltaTime;
         l_stateTransitionTime += Time.deltaTime;
+        l_stateTransitionTime = Mathf.Clamp(l_stateTransitionTime, 0, 1); // Clamp the value on a 0-1 range.
 
         // DISTANCE
-        float desiredDistance = currentParameters.distanceToTargetCurve.Evaluate(player.currentSpeed / player.l_maxSpeed) * l_maxDistanceToTarget; 
+        float desiredDistance = currentParameters.minDistanceToTarget + currentParameters.distanceToTargetCurve.Evaluate(player.currentSpeed / player.l_maxSpeed) * (currentParameters.maxDistanceToTarget - currentParameters.minDistanceToTarget); 
         distanceToTarget = Mathf.Lerp(distanceToTarget, desiredDistance, (l_stateTransitionTime / stateTransitionTime));
-        distanceToTarget = Mathf.Clamp(distanceToTarget, l_minDistanceToTarget, l_maxDistanceToTarget);
 
         // FOV
-        float desiredFOV = currentParameters.fieldOfViewCurve.Evaluate(player.currentSpeed / player.l_maxSpeed) * l_maxFieldOfView;
+        float desiredFOV = currentParameters.minFieldOfView + currentParameters.fieldOfViewCurve.Evaluate(player.currentSpeed / player.l_maxSpeed) * (currentParameters.maxFieldOfView - currentParameters.minFieldOfView);
         fieldOfView = Mathf.Lerp(fieldOfView, desiredFOV, (l_stateTransitionTime / stateTransitionTime));
-        fieldOfView = Mathf.Clamp(fieldOfView, l_minFieldOfView, l_maxFieldOfView * 2);
         cam.fieldOfView = fieldOfView;
 
         // SHAKE
@@ -119,14 +112,28 @@ public class CameraBehaviour : MonoBehaviour
         cameraPos = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled - distanceToTarget);
 
         // CALCULATE 2D OFFSETS
-        hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / 6, t);
-        vOffset = Mathf.Lerp(vOffset, -player.verticalMove / 6, t);
+        if (invertedOffsets)
+        {
+            hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / horizontalOffsetFraction, t);
+            vOffset = Mathf.Lerp(vOffset, -player.verticalMove / verticalOffsetFraction, t);
+        }
+
+        else
+        {
+            hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / horizontalOffsetFraction, t);
+            vOffset = Mathf.Lerp(vOffset, player.verticalMove / verticalOffsetFraction, t);
+        }
 
         // CALULATE POSITION
         transform.position = Vector3.Lerp(transform.position, cameraPos + transform.right * hOffset + transform.up * vOffset, t);
-               
+
         // CALULATE ROTATION
-        transform.LookAt(TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + sightBeyond), player.transform.up);
+        //transform.LookAt(TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + sightBeyond), player.transform.up); //OLD WAY
+        Vector3 lookDirection = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + sightBeyond)) - transform.position;
+        lookDirection = Quaternion.AngleAxis(-hOffset * 2, player.transform.up) * lookDirection;
+        lookDirection = Quaternion.AngleAxis(-vOffset * 2, player.transform.right) * lookDirection;
+        Quaternion lookRotation = Quaternion.LookRotation(lookDirection, player.transform.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, currentParameters.lookAtSpeed * Time.deltaTime);
     }
 
     public void ChangeState(CameraState state)
@@ -136,28 +143,23 @@ public class CameraBehaviour : MonoBehaviour
             switch (state)
             {
                 case CameraState.idle:
-                    currentParameters = idleParameters;
-                    l_maxFieldOfView = maxFieldOfView;
+                    currentParameters = movingParameters;
                     break;
 
                 case CameraState.moving:
                     currentParameters = movingParameters;
-                    l_maxFieldOfView = maxFieldOfView;
                     break;
 
                 case CameraState.braking:
-                    currentParameters = idleParameters;
-                    l_maxFieldOfView = maxFieldOfView - 10;
+                    currentParameters = movingParameters;
                     break;
 
                 case CameraState.boost:
-                    currentParameters = movingParameters;
-                    l_maxFieldOfView = maxFieldOfView + 30;
+                    currentParameters = boostParameters;
                     break;
 
                 case CameraState.superboost:
-                    currentParameters = movingParameters;
-                    l_maxFieldOfView = maxFieldOfView + 50;
+                    currentParameters = boostParameters;
                     break;
             }
 

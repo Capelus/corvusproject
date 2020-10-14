@@ -121,6 +121,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("SETTINGS")]
     public float initialDistance;
+    public float initialVerticalOffset;
+    public float initialHorizontalOffset;
 
     private void Awake()
     {
@@ -257,8 +259,10 @@ public class PlayerBehaviour : MonoBehaviour
         l_nitroInputTime = superBoostInputTime;
 
         //SET INITIAL POSITION
-        transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance);
+        transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance) + transform.up * initialVerticalOffset + transform.right * initialHorizontalOffset;
         distanceTravelled = initialDistance;
+        horizontalMove = initialHorizontalOffset;
+        verticalMove = initialVerticalOffset;
 
         //SET FORWARD VECTOR
         forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);

@@ -16,14 +16,9 @@ public class EffectsManager : MonoBehaviour
 
         //WARP
         public VisualEffect warp;
-        [Range(0, 1)]
-        public float warpSpeed = 0;
 
         //NEBULA
         public MeshRenderer nebula;
-        public float nebulaSpeed = 0.3f;
-        public float nebulaDissolve = 1;
-        public bool nebulaActive;
 
         //VARIOUS
         public GameObject explosion;
@@ -37,17 +32,27 @@ public class EffectsManager : MonoBehaviour
 
     private void Update()
     {
-        //WARP EFFECT
-        effects.warp.SetFloat("WarpAmount", effects.warpSpeed);
+        //UPDATE WARP EFFECT
+        WarpEffect();
 
-        if (effects.nebulaActive)
+        //UPDATE NEBULA EFFECT
+        NebulaEffect();
+    }
+
+    public void WarpEffect()
+    {      
+        effects.warp.SetFloat("WarpAmount", (GameManager.Instance.player.currentSpeed / GameManager.Instance.player.l_maxSpeed));
+    }
+
+    public void NebulaEffect()
+    {
+        if(GameManager.Instance.player.currentSpeed > GameManager.Instance.player.engineParameters.maxSpeed + 20)
         {
             effects.nebula.enabled = true;
-            effects.nebula.material.SetFloat("Dissolve_", effects.nebulaDissolve);
-            effects.nebula.material.SetVector("NebulaSpeed_", new Vector4(0, effects.nebulaSpeed, 0, 0));
+            effects.nebula.material.SetFloat("Dissolve_", 1 / (GameManager.Instance.player.currentSpeed / GameManager.Instance.player.l_maxSpeed));
         }
 
-        else effects.nebula.enabled = false;
+       else effects.nebula.enabled = false;
     }
 
     public void InstantiateEffect(string name, Vector3 position, Quaternion rotation)

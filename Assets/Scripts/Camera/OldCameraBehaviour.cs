@@ -156,11 +156,11 @@ public class OldCameraBehaviour : MonoBehaviour
                 desiredShakeAmount = idle.shakeAmount;
                 desiredVignetteIntensity = idle.shakeAmount;
 
-                //CHANGE EFFECTS
-                EffectsManager.Instance.effects.warpSpeed = idle.warpSpeed;
-                EffectsManager.Instance.effects.nebulaActive = idle.nebulaActive;
-                EffectsManager.Instance.effects.nebulaSpeed = idle.nebulaSpeed;
-                EffectsManager.Instance.effects.nebulaDissolve = idle.nebulaDissolve;
+                ////CHANGE EFFECTS
+                //EffectsManager.Instance.effects.warpSpeed = idle.warpSpeed;
+                //EffectsManager.Instance.effects.nebulaActive = idle.nebulaActive;
+                //EffectsManager.Instance.effects.nebulaSpeed = idle.nebulaSpeed;
+                //EffectsManager.Instance.effects.nebulaDissolve = idle.nebulaDissolve;
                 break;
 
             case CameraState.moving:
@@ -170,11 +170,11 @@ public class OldCameraBehaviour : MonoBehaviour
                 desiredShakeAmount = moving.shakeAmount;
                 desiredVignetteIntensity = moving.shakeAmount;
 
-                //CHANGE EFFECTS
-                EffectsManager.Instance.effects.warpSpeed = moving.warpSpeed;
-                EffectsManager.Instance.effects.nebulaActive = moving.nebulaActive;
-                EffectsManager.Instance.effects.nebulaSpeed = moving.nebulaSpeed;
-                EffectsManager.Instance.effects.nebulaDissolve = moving.nebulaDissolve;
+                ////CHANGE EFFECTS
+                //EffectsManager.Instance.effects.warpSpeed = moving.warpSpeed;
+                //EffectsManager.Instance.effects.nebulaActive = moving.nebulaActive;
+                //EffectsManager.Instance.effects.nebulaSpeed = moving.nebulaSpeed;
+                //EffectsManager.Instance.effects.nebulaDissolve = moving.nebulaDissolve;
                 break;
 
             case CameraState.braking:
@@ -184,11 +184,11 @@ public class OldCameraBehaviour : MonoBehaviour
                 desiredShakeAmount = braking.shakeAmount;
                 desiredVignetteIntensity = braking.shakeAmount;
 
-                //CHANGE EFFECTS
-                EffectsManager.Instance.effects.warpSpeed = braking.warpSpeed;
-                EffectsManager.Instance.effects.nebulaActive = braking.nebulaActive;
-                EffectsManager.Instance.effects.nebulaSpeed = braking.nebulaSpeed;
-                EffectsManager.Instance.effects.nebulaDissolve = braking.nebulaDissolve;
+                ////CHANGE EFFECTS
+                //EffectsManager.Instance.effects.warpSpeed = braking.warpSpeed;
+                //EffectsManager.Instance.effects.nebulaActive = braking.nebulaActive;
+                //EffectsManager.Instance.effects.nebulaSpeed = braking.nebulaSpeed;
+                //EffectsManager.Instance.effects.nebulaDissolve = braking.nebulaDissolve;
                 break;
 
             case CameraState.boost:
@@ -198,11 +198,11 @@ public class OldCameraBehaviour : MonoBehaviour
                 desiredShakeAmount = boost.shakeAmount;
                 desiredVignetteIntensity = boost.shakeAmount;
 
-                //CHANGE EFFECTS
-                EffectsManager.Instance.effects.warpSpeed = boost.warpSpeed;
-                EffectsManager.Instance.effects.nebulaActive = boost.nebulaActive;
-                EffectsManager.Instance.effects.nebulaSpeed = boost.nebulaSpeed;
-                EffectsManager.Instance.effects.nebulaDissolve = boost.nebulaDissolve;
+                ////CHANGE EFFECTS
+                //EffectsManager.Instance.effects.warpSpeed = boost.warpSpeed;
+                //EffectsManager.Instance.effects.nebulaActive = boost.nebulaActive;
+                //EffectsManager.Instance.effects.nebulaSpeed = boost.nebulaSpeed;
+                //EffectsManager.Instance.effects.nebulaDissolve = boost.nebulaDissolve;
                 break;
 
             case CameraState.superboost:
@@ -212,11 +212,11 @@ public class OldCameraBehaviour : MonoBehaviour
                 desiredShakeAmount = superboost.shakeAmount;
                 desiredVignetteIntensity = superboost.shakeAmount;
 
-                //CHANGE EFFECTS
-                EffectsManager.Instance.effects.warpSpeed = superboost.warpSpeed;
-                EffectsManager.Instance.effects.nebulaActive = superboost.nebulaActive;
-                EffectsManager.Instance.effects.nebulaSpeed = superboost.nebulaSpeed;
-                EffectsManager.Instance.effects.nebulaDissolve = superboost.nebulaDissolve;
+                ////CHANGE EFFECTS
+                //EffectsManager.Instance.effects.warpSpeed = superboost.warpSpeed;
+                //EffectsManager.Instance.effects.nebulaActive = superboost.nebulaActive;
+                //EffectsManager.Instance.effects.nebulaSpeed = superboost.nebulaSpeed;
+                //EffectsManager.Instance.effects.nebulaDissolve = superboost.nebulaDissolve;
                 break;
         }
     }

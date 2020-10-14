@@ -69,7 +69,7 @@ public class RaceManager : MonoBehaviour
     {
         //SWITCH CAMERAS
         initialSequenceCamera.enabled = true;
-        GameManager.Instance.playerCamera.enabled = false;
+        GameManager.Instance.playerCamera.GetComponent<Camera>().enabled = false;
 
         //START ANIMATION
         initialSequenceCamera.GetComponent<Animation>().Play();
@@ -81,7 +81,7 @@ public class RaceManager : MonoBehaviour
 
         //SWITCH CAMERAS
         initialSequenceCamera.enabled = false;
-        GameManager.Instance.playerCamera.enabled = true;
+        GameManager.Instance.playerCamera.GetComponent<Camera>().enabled = true;
 
         //END
         if (warmUpSequence)

@@ -99,6 +99,11 @@ public class UIManager : MonoBehaviour
 
     IEnumerator WarmUpCoroutine(float countDownTime)
     {
+        //ACTIVATE UI ELEMENTS
+        UIW.countDown.enabled = true;
+        UIW.warmUpQTE.gameObject.SetActive(true);
+        UIW.GlowEffect.gameObject.SetActive(true);
+
         //COUNTDOWN
         while (countDownTime > 0)
         {
@@ -117,12 +122,12 @@ public class UIManager : MonoBehaviour
         //CHECK QUICK TIME EVENT
         if (UIManager.Instance.UIW.warmUpQTE.successQTE)
             GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.superboost);
-        
+
         //DISABLE QUICK TIME EVENT
         UIW.warmUpQTE.gameObject.SetActive(false);
         UIW.warmUpQTE.successQTE = false;
         UIW.warmUpQTE.enabled = false;
-        UIW.GlowEffect.enabled = false;
+        UIW.GlowEffect.gameObject.SetActive(false);
 
         //START RACE
         RaceManager.Instance.warmUpSequence = false;
@@ -130,8 +135,8 @@ public class UIManager : MonoBehaviour
         //WAIT FOR "GO" TO BE DISPLAYED
         yield return new WaitForSeconds(0.3f);
 
-        //END
-        UIW.countDown.text = "";
+        //DISABLE COUNTDOWN
+        UIW.countDown.enabled = false;
     }
 
     public string FormatTime(float totalRaceTime)
