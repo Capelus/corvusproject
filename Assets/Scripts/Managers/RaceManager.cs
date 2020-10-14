@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RaceManager : MonoBehaviour
 {
+    //SINGLETON
     public static RaceManager Instance;
 
-    public float countDown;
-    public float raceTimer;
+    //PUBLIC
+    public bool initialSequence, warmUpSequence;
+    public float countDownTime = 3;
+    Camera initialSequenceCamera;
+
+    //LOCAL
+    [HideInInspector] public float raceTimer = 0;
+    [HideInInspector] public int lapCount = 0;
     [HideInInspector] public bool raceStarted;
-    public float milliseconds, seconds, minutes;
-    public string convertedTime;
-    public int lapCount;
-    public float bestLap;
-    public bool countDownReady;
-    bool boosted;
-    public bool startSeqEnded;
 
     [System.Serializable]
     public class Lap
@@ -27,62 +25,74 @@ public class RaceManager : MonoBehaviour
     }
     public Lap lapLog;
 
-    
-    private void Start()
+    private void Awake()
     {
         Instance = this;
-        countDown = 3.4f;
-        raceStarted = false;
-        raceTimer = 0.0f;
-        bestLap = 9999999.0f;
-        lapCount = 0;
-        startSeqEnded = false;
-        countDownReady = false;
     }
+
+    private void Start()
+    {
+        //GET REFERENCES
+        initialSequenceCamera = GameObject.FindGameObjectWithTag("InitialSequenceCamera").GetComponent<Camera>();
+
+        //DISABLE INPUT
+        GameManager.Instance.playerInput.inputEnabled = false;
+
+        if (initialSequence)
+            LaunchInitialSequence();
+
+        else if (warmUpSequence)
+            UIManager.Instance.LaunchWarmUpEvent(countDownTime);       
+    }
+
     void Update()
     {
-        if (countDownReady)
+        if (!initialSequence && !warmUpSequence)
         {
-            countDown -= Time.deltaTime;
-            if (countDown < 1)
-            {
-                raceStarted = true;
-                lapLog.rawTime += Time.deltaTime;
+            //ENABLE INPUT
+            GameManager.Instance.playerInput.inputEnabled = true;
 
-                if (UIManager.Instance.UIW.warmUpQTE.successQTE && !boosted)
-                {
-                    boosted = true;
-                    GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.superboost);
-                }
+            //START RACE
+            raceStarted = true;
 
-                UIManager.Instance.UIW.warmUpQTE.gameObject.SetActive(false);
-                UIManager.Instance.UIW.warmUpQTE.successQTE = false;
-                UIManager.Instance.UIW.warmUpQTE.enabled = false;
-                UIManager.Instance.UIW.GlowEffect.enabled = false;
-            }
+            raceTimer += Time.deltaTime;
+            lapLog.rawTime += Time.deltaTime;
         }
-
-        if (raceStarted)
-        {
-            raceTimer += Time.deltaTime;         
-        }
-
-        convertedTime = FormatTime(raceTimer);
     }
 
-    string FormatTime(float totalRaceTime)
-    {  
-        int minutes  = (int)totalRaceTime / 60;
-        int seconds = (int)totalRaceTime % 60;
-        float milliseconds = totalRaceTime * 1000;
-        milliseconds %= 1000;
-        string convertToString = String.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
-        return convertToString;
+    void LaunchInitialSequence()
+    {
+        StartCoroutine("InitialSequenceCoroutine");
+    }
+
+    IEnumerator InitialSequenceCoroutine()
+    {
+        //SWITCH CAMERAS
+        initialSequenceCamera.enabled = true;
+        GameManager.Instance.playerCamera.enabled = false;
+
+        //START ANIMATION
+        initialSequenceCamera.GetComponent<Animation>().Play();
+
+        while (initialSequenceCamera.GetComponent<Animation>().isPlaying)
+        {
+            yield return null;
+        }
+
+        //SWITCH CAMERAS
+        initialSequenceCamera.enabled = false;
+        GameManager.Instance.playerCamera.enabled = true;
+
+        //END
+        if (warmUpSequence)
+            UIManager.Instance.LaunchWarmUpEvent(countDownTime);
+
+        initialSequence = false;
     }
 
     public void LapChecker()
     {
-        lapLog.lapConvertedTime = FormatTime(lapLog.rawTime);
+        lapLog.lapConvertedTime = UIManager.Instance.FormatTime(lapLog.rawTime);
         
         UIManager.Instance.UpdateTimeChart(lapLog.lapConvertedTime);
         

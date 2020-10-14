@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,14 +7,10 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-
+    //SINGLETON
     public static UIManager Instance;
 
-    //REFERENCES
-    PlayerBehaviour player;
-
     //UI ELEMENTS
-
     [System.Serializable]
     public class UIWarmUp
     {
@@ -36,21 +33,21 @@ public class UIManager : MonoBehaviour
         public Text raceTimer;
         public Text[] timeChart;
         public GameObject skillcheck;
-
     }
     public UIElements UI;
 
-
     //ADDITIONAL ELEMENTS
     Vector3 bigGlowingScale, initialGlowingScale;
-    bool glowIncreasing;
+    bool glowIncreasing = true;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
-        Instance = this;     
-        player = GameManager.Instance.player;
-
         //DEFINE WARMUP GLOWING SCALE
-        glowIncreasing = true;
         initialGlowingScale = UIW.GlowEffect.rectTransform.localScale;
         bigGlowingScale = new Vector3(UIW.GlowEffect.rectTransform.localScale.x * 1.2f, UIW.GlowEffect.rectTransform.localScale.y * 1.2f, 1);
 
@@ -65,26 +62,20 @@ public class UIManager : MonoBehaviour
         UI.timeChart[6] = GameObject.Find("Lap 7").GetComponent<UnityEngine.UI.Text>();
         UI.timeChart[7] = GameObject.Find("Lap 8").GetComponent<UnityEngine.UI.Text>();
 
-
         //INITIALIZE ENERGY BAR
         UI.energyBarSlider.minValue = 0;
-        UI.energyBarSlider.maxValue = player.energyParameters.maxEnergy;
-
-        UIW.countDown.text = "HOLD RT";
-        UIW.countDown.enabled = false;
-
-
+        UI.energyBarSlider.maxValue = GameManager.Instance.player.energyParameters.maxEnergy;
     }
 
     private void Update()
     {
         //UPDATE UI
-        UI.speedometer.text = Mathf.FloorToInt(player.currentSpeed).ToString();
-        UI.energyBarSlider.value = player.l_energy;
+        UI.speedometer.text = Mathf.FloorToInt(GameManager.Instance.player.currentSpeed).ToString();
+        UI.energyBarSlider.value = GameManager.Instance.player.l_energy;
 
-        UI.energyBar.fillAmount = player.l_energy / player.energyParameters.maxEnergy;
+        UI.energyBar.fillAmount = GameManager.Instance.player.l_energy / GameManager.Instance.player.energyParameters.maxEnergy;
 
-        if (player.l_energy > player.energyParameters.maxEnergy - 1)
+        if (GameManager.Instance.player.l_energy > GameManager.Instance.player.energyParameters.maxEnergy - 1)
         {
             //GLOW OUTLINE
             UI.energyBar.GetComponent<Outline>().effectColor = new Color(1, 1, 1, Mathf.Sin(30 * Time.deltaTime));
@@ -97,29 +88,60 @@ public class UIManager : MonoBehaviour
             UI.AButton.color = new Color(1, 1, 1, 0);
         }
 
-        //COUNTDOWN--------------------------------------------
+        //UPDATE RACE TIMER
+        UI.raceTimer.text = FormatTime(RaceManager.Instance.raceTimer);
+    }
 
-        if (RaceManager.Instance.countDownReady && !RaceManager.Instance.raceStarted)
+    public void LaunchWarmUpEvent(float countDownTime)
+    {
+        StartCoroutine("WarmUpCoroutine", countDownTime);
+    }
+
+    IEnumerator WarmUpCoroutine(float countDownTime)
+    {
+        //COUNTDOWN
+        while (countDownTime > 0)
         {
-            UIW.countDown.text = RaceManager.Instance.countDown.ToString("f0");
+            countDownTime -= Time.deltaTime;
+            UIW.countDown.text = Mathf.Clamp(countDownTime, 1, countDownTime).ToString("f0");
             QTEGlowing();
-        }
-      
-
-        if (RaceManager.Instance.countDown <= 1.0f)
-        {
-            player.GetComponent<PlayerInput>().inputEnabled = true;
-            UIW.countDown.text = "GO!";
-
-        }
-        if (RaceManager.Instance.countDown <= 0.0f)
-        {
-            UIW.countDown.text = "";
+            yield return null;
         }
 
-        //RACE TIMER--------------------------------------------------------
-        UI.raceTimer.text = RaceManager.Instance.convertedTime;
+        //GO!
+        UIW.countDown.text = "GO!";
 
+        //ENABLE INPUT
+        GameManager.Instance.playerInput.inputEnabled = true;
+
+        //CHECK QUICK TIME EVENT
+        if (UIManager.Instance.UIW.warmUpQTE.successQTE)
+            GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.superboost);
+        
+        //DISABLE QUICK TIME EVENT
+        UIW.warmUpQTE.gameObject.SetActive(false);
+        UIW.warmUpQTE.successQTE = false;
+        UIW.warmUpQTE.enabled = false;
+        UIW.GlowEffect.enabled = false;
+
+        //START RACE
+        RaceManager.Instance.warmUpSequence = false;
+
+        //WAIT FOR "GO" TO BE DISPLAYED
+        yield return new WaitForSeconds(0.3f);
+
+        //END
+        UIW.countDown.text = "";
+    }
+
+    public string FormatTime(float totalRaceTime)
+    {
+        int minutes = (int)totalRaceTime / 60;
+        int seconds = (int)totalRaceTime % 60;
+        float milliseconds = totalRaceTime * 1000;
+        milliseconds %= 1000;
+        string convertToString = String.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+        return convertToString;
     }
 
     public void UpdateTimeChart(string lastLapTime)
@@ -132,24 +154,17 @@ public class UIManager : MonoBehaviour
         if(glowIncreasing)
         {
             if (UIW.GlowEffect.rectTransform.localScale.x < bigGlowingScale.x-0.01f)
-            {
                 UIW.GlowEffect.rectTransform.localScale = Vector3.Lerp(UIW.GlowEffect.rectTransform.localScale, bigGlowingScale, 0.02f);
-            }
-            else
-            {
-                glowIncreasing = false;
-            }
+            
+            else glowIncreasing = false;     
         }
+
         else
         {
             if(UIW.GlowEffect.rectTransform.localScale.x > initialGlowingScale.x+0.01f)
-            {
                 UIW.GlowEffect.rectTransform.localScale = Vector3.Lerp(UIW.GlowEffect.rectTransform.localScale, initialGlowingScale, 0.02f);
-            }
-            else
-            {
-                glowIncreasing = true;
-            }
+            
+            else glowIncreasing = true;     
         }
     }
 }
