@@ -119,6 +119,9 @@ public class PlayerBehaviour : MonoBehaviour
     bool hitUp, hitDown, hitLeft, hitRight;
     //----------------------------------------------------------------
 
+    //-------------------------------------------------------------FOG
+    bool isInsideFog;
+
     [Header("SETTINGS")]
     public float initialDistance;
 
@@ -263,6 +266,9 @@ public class PlayerBehaviour : MonoBehaviour
         //SET FORWARD VECTOR
         forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
         transform.forward = forwardDirection.normalized;
+
+        //SET FOG INITIAL VALUE TO FALSE
+        isInsideFog = false;
     }
 
     void Update()
@@ -325,8 +331,8 @@ public class PlayerBehaviour : MonoBehaviour
                 GameManager.Instance.playerCamera.ChangeState(CameraState.braking);
             }
 
-            //ACCELERATE
-            else if (playerInput.accelerate)
+            //ACCELERATE (EXCEPT IF PLAYER IS INSIDE FOG)
+            else if (playerInput.accelerate && !isInsideFog)
             {
                 //GET ACCELERATION VALUE FROM CURVE
                 l_acceleration = (engineParameters.accelerationCurve.Evaluate(currentSpeed / l_maxSpeed) * engineParameters.maxAcceleration);
@@ -679,6 +685,23 @@ public class PlayerBehaviour : MonoBehaviour
                     GameManager.Instance.playerCamera.GetComponent<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("PitLane");
                     GameManager.Instance.playerCamera.GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("RaceTrack"));
                 }
+                break;
+            case "Fog":
+                isInsideFog = true;
+                Debug.Log("in");
+
+                break;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        switch (other.tag)
+        {
+            //------------------------------------FOG
+            case "Fog":
+                isInsideFog = false;
+                Debug.Log("out");
                 break;
         }
     }

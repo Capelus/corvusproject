@@ -12,6 +12,7 @@ TagManager:
   - Nitro
   - Racer
   - Wall
+  - Fog
   layers:
   - Default
   - TransparentFX

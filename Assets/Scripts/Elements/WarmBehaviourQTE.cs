@@ -42,6 +42,10 @@ public class WarmBehaviourQTE : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.playerInput.throttle > 0 && RaceManager.Instance.countDownReady == false)
+        {
+            UIManager.Instance.UIW.countDown.text = "";
+        }
         if (GameManager.Instance.playerInput.nitroHold && checkMark.localPosition.x < 100 && RaceManager.Instance.startSeqEnded)
         {
             RaceManager.Instance.countDownReady = true;
