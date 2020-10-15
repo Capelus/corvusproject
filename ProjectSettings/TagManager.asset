@@ -13,6 +13,7 @@ TagManager:
   - Racer
   - Wall
   - InitialSequenceCamera
+  - Boost
   layers:
   - Default
   - TransparentFX

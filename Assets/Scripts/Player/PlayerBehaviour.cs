@@ -453,7 +453,6 @@ public class PlayerBehaviour : MonoBehaviour
                     if (playerInput.nitroPress && nitroInputInitialEnergy == energyParameters.maxEnergy)
                     {
                         //SUPERBOOST
-                        Debug.Log("SUPERBOOST" + jetParameters.superBoostConsumption);
                         OneShotBoost(nitroInputInitialEnergy / jetParameters.superBoostConsumption, 
                             jetParameters.superBoostAcceleration, true, CameraState.superboost);
                     }
@@ -680,6 +679,16 @@ public class PlayerBehaviour : MonoBehaviour
                     GameManager.Instance.playerCamera.GetComponent<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("PitLane");
                     GameManager.Instance.playerCamera.GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("RaceTrack"));
                 }
+                break;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "Boost":
+                Boost(jetParameters.boostAcceleration, CameraState.boost);
                 break;
         }
     }

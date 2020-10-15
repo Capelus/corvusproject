@@ -11,30 +11,25 @@ public class AIBehaviour : MonoBehaviour
 
     public float initialDistance;
     float distanceTravelled = 0;
-
-    float horizontalMove = 0;
-    float verticalMove = 0;
-    float horizontalDir = 0;
-    float verticalDir = 0;
+    float horizontalMove = 0, verticalMove = 0;
+    float horizontalDir = 0, verticalDir = 0;
     public float changeDirectionTimer = 3;
     float changeDirTimer;
 
+    float stunTime = 0;
+
     Vector3 forwardDirection;
-
     bool superboosted;
-
-    Animator animator;
 
     void Start()
     {
-        animator = GetComponentInChildren<Animator>();
-
         changeDirTimer = changeDirectionTimer;
 
         //SET INITIAL POSITION
-        transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance) 
-            + transform.right * Random.Range(- TrackManager.Instance.movementLimits.x, TrackManager.Instance.movementLimits.x)
-            + transform.up * Random.Range(-TrackManager.Instance.movementLimits.y, TrackManager.Instance.movementLimits.y);
+        horizontalDir = Random.Range(-TrackManager.Instance.movementLimits.x, TrackManager.Instance.movementLimits.x);
+        verticalDir = Random.Range(-TrackManager.Instance.movementLimits.y, TrackManager.Instance.movementLimits.y);
+        
+        transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance) + transform.right * horizontalDir + transform.up * verticalDir;
         distanceTravelled = initialDistance;
 
         //GET FORWARD VECTOR
@@ -45,20 +40,21 @@ public class AIBehaviour : MonoBehaviour
     void Update()
     {
         if (RaceManager.Instance.raceStarted)
-        {
-            Move();
-        }
+            Move();        
     }
 
     void Move()
     {
+        stunTime -= Time.deltaTime;
+
         //GET ACCELERATION VALUE FROM CURVE
         acceleration = (profile.engineProfile.accelerationCurve.Evaluate(currentSpeed / profile.engineProfile.maxSpeed) * profile.engineProfile.maxAcceleration);
 
         //INCREASE SPEED
         while (Mathf.Abs(currentSpeed - profile.engineProfile.maxSpeed) > Mathf.Epsilon)
         {
-            currentSpeed += acceleration * Time.deltaTime;
+            if (stunTime < 0)
+                currentSpeed += acceleration * Time.deltaTime;
             break;
         }
 
@@ -101,14 +97,9 @@ public class AIBehaviour : MonoBehaviour
         transform.position = movementDirection;
 
         //ROTATE
-        transform.forward = TrackManager.Instance.GetPositionAtDistance(distanceTravelled+5) - transform.position;
-        //Quaternion targetRotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
-        //var step = 150 * Time.deltaTime;
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
-
-        //TILT
-        animator.SetFloat("Tilt X", horizontalMove);
-        animator.SetFloat("Tilt Y", verticalMove);
+        Quaternion targetRotation = TrackManager.Instance.GetRotationAtDistance(distanceTravelled);
+        var step = 150 * Time.deltaTime;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
     }
 
     public void OneShotBoost(float duration, float accelerationBoost)
@@ -133,9 +124,8 @@ public class AIBehaviour : MonoBehaviour
     public void Knockback()
     {
         currentSpeed -= profile.chassisProfile.knockback;
-        //stunTime = 0.5f;
+        stunTime = 0.5f;
         EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
-        animator.SetBool("Knockback", true);
     }
 
     private void OnTriggerEnter(Collider other)

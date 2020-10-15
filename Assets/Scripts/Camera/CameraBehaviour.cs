@@ -27,7 +27,7 @@ public class CameraBehaviour : MonoBehaviour
     public class StateParameters
     {
         //LOOK AT SPEED
-        [Tooltip("The speed at the camera will rotatate to face it's target.)")]
+        [Tooltip("The speed at the camera will rotate to face it's target.)")]
         public float lookAtSpeed = 50;
 
         // DISTANCE TO TARGET
@@ -69,9 +69,9 @@ public class CameraBehaviour : MonoBehaviour
     public float sightBeyond = 20;
     [Tooltip("Check this to invert the offset movements.")]
     public bool invertedOffsets;
-    [Tooltip("The fraction from the player's horizontal movement used to calculate the horizontal offset value.")]
+    [Tooltip("The fraction (1/X) from the player's horizontal movement used to calculate the horizontal offset value.")]
     public float horizontalOffsetFraction = 4;
-    [Tooltip("The fraction from the player's vertical movement used to calculate the vertical offset value.")]
+    [Tooltip("The fraction (1/X) from the player's vertical movement used to calculate the vertical offset value.")]
     public float verticalOffsetFraction = 3;
 
     // THE POSTPROCESSING VOLUME IF ANY
