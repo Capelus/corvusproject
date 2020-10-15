@@ -12,7 +12,8 @@ TagManager:
   - Nitro
   - Racer
   - Wall
-  - Fog
+  - InitialSequenceCamera
+  - Boost
   layers:
   - Default
   - TransparentFX

@@ -124,6 +124,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("SETTINGS")]
     public float initialDistance;
+    public float initialVerticalOffset;
+    public float initialHorizontalOffset;
 
     private void Awake()
     {
@@ -260,8 +262,10 @@ public class PlayerBehaviour : MonoBehaviour
         l_nitroInputTime = superBoostInputTime;
 
         //SET INITIAL POSITION
-        transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance);
+        transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance) + transform.up * initialVerticalOffset + transform.right * initialHorizontalOffset;
         distanceTravelled = initialDistance;
+        horizontalMove = initialHorizontalOffset;
+        verticalMove = initialVerticalOffset;
 
         //SET FORWARD VECTOR
         forwardDirection = TrackManager.Instance.GetDirectionAtDistance(distanceTravelled);
@@ -273,9 +277,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
-        UIManager.Instance.UIW.countDown.enabled = true;
-        RaceManager.Instance.startSeqEnded = true;
-
         if (playerInput.inputEnabled)
         {
             //MOVEMENT
@@ -458,7 +459,6 @@ public class PlayerBehaviour : MonoBehaviour
                     if (playerInput.nitroPress && nitroInputInitialEnergy == energyParameters.maxEnergy)
                     {
                         //SUPERBOOST
-                        Debug.Log("SUPERBOOST" + jetParameters.superBoostConsumption);
                         OneShotBoost(nitroInputInitialEnergy / jetParameters.superBoostConsumption, 
                             jetParameters.superBoostAcceleration, true, CameraState.superboost);
                     }
@@ -702,6 +702,16 @@ public class PlayerBehaviour : MonoBehaviour
             case "Fog":
                 isInsideFog = false;
                 Debug.Log("out");
+                break;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "Boost":
+                Boost(jetParameters.boostAcceleration, CameraState.boost);
                 break;
         }
     }

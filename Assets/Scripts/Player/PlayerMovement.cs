@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     AnimationCurve handlingCurve;
 
 
-    float currentSpeed;
+    //float currentSpeed;
 
     float t = 0;
     float damp = 0.3f;
@@ -52,29 +52,29 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
-        Move();
+        //Move();
     }
 
-    void Move()
-    {
-        t += Time.deltaTime * damp;
+    //void Move()
+    //{
+    //    t += Time.deltaTime * damp;
 
-        //ACCELERATE
-        Vector3 movement = Vector3.zero;
+    //    //ACCELERATE
+    //    Vector3 movement = Vector3.zero;
 
-        movement += transform.forward * (accelerationCurve.Evaluate(currentSpeed / maxSpeed) * maxAcceleration) * input.throttle;
+    //    movement += transform.forward * (accelerationCurve.Evaluate(currentSpeed / maxSpeed) * maxAcceleration) * input.throttle;
 
-        transform.Rotate(Vector3.up * (handlingCurve.Evaluate(currentSpeed / maxSpeed) * handling) * input.rawMovement.x * Time.deltaTime, Space.World);
-        transform.Rotate(transform.right * (handlingCurve.Evaluate(currentSpeed / maxSpeed) * handling) * input.rawMovement.y * Time.deltaTime, Space.World);
+    //    transform.Rotate(Vector3.up * (handlingCurve.Evaluate(currentSpeed / maxSpeed) * handling) * input.rawMovement.x * Time.deltaTime, Space.World);
+    //    transform.Rotate(transform.right * (handlingCurve.Evaluate(currentSpeed / maxSpeed) * handling) * input.rawMovement.y * Time.deltaTime, Space.World);
 
-        animator.SetFloat("Tilt X", input.rawMovement.x);
-        animator.SetFloat("Tilt Y", -input.rawMovement.y);
+    //    animator.SetFloat("Tilt X", input.rawMovement.x);
+    //    animator.SetFloat("Tilt Y", -input.rawMovement.y);
 
-        //TURN
-        //rotation += transform.up * (handlingCurve.Evaluate(currentSpeed / maxSpeed) * handling) * input.smoothedMovement.x;
-        //rotation += transform.right * (handlingCurve.Evaluate(currentSpeed / maxSpeed) * handling) * input.smoothedMovement.y;
+    //    //TURN
+    //    //rotation += transform.up * (handlingCurve.Evaluate(currentSpeed / maxSpeed) * handling) * input.smoothedMovement.x;
+    //    //rotation += transform.right * (handlingCurve.Evaluate(currentSpeed / maxSpeed) * handling) * input.smoothedMovement.y;
 
-        transform.position += movement * Time.deltaTime;
-        //transform.localRotation *= Quaternion.Euler(rotation * Time.deltaTime);
-    }
+    //    transform.position += movement * Time.deltaTime;
+    //    //transform.localRotation *= Quaternion.Euler(rotation * Time.deltaTime);
+    //}
 }
