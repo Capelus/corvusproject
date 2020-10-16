@@ -121,7 +121,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     //-------------------------------------------------------------FOG
     bool isInsideFog;
+    //----------------------------------------------------------------
 
+    //-----------------------------------------------------LAP CHECKER
+    bool endedLap;
     [Header("SETTINGS")]
     public float initialDistance;
     public float initialVerticalOffset;
@@ -273,6 +276,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         //SET FOG INITIAL VALUE TO FALSE
         isInsideFog = false;
+
+        //SET LAPCHECKER
+        endedLap = false;
     }
 
     void Update()
@@ -689,7 +695,13 @@ public class PlayerBehaviour : MonoBehaviour
             case "Fog":
                 isInsideFog = true;
                 Debug.Log("in");
-
+                break;
+            case "Finish":
+                if (!endedLap)
+                {
+                    RaceManager.Instance.LapChecker();
+                }
+                endedLap = true;
                 break;
         }
     }
@@ -702,6 +714,10 @@ public class PlayerBehaviour : MonoBehaviour
             case "Fog":
                 isInsideFog = false;
                 Debug.Log("out");
+                break;
+            //----------------------------LAP CHECKER
+            case "Finish":
+                endedLap = false;
                 break;
         }
     }

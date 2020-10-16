@@ -10,7 +10,7 @@ public class AIBehaviour : MonoBehaviour
     float acceleration;
 
     public float initialDistance;
-    float distanceTravelled = 0;
+    public float distanceTravelled = 0;
     float horizontalMove = 0, verticalMove = 0;
     float horizontalDir = 0, verticalDir = 0;
     public float changeDirectionTimer = 3;

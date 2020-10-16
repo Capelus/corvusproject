@@ -10,12 +10,14 @@ public class RaceManager : MonoBehaviour
     //PUBLIC
     public bool initialSequence, warmUpSequence;
     public float countDownTime = 3;
+    public GameObject AIRacer1, AIRacer2, AIRacer3, AIRacer4, AIRacer5;
     Camera initialSequenceCamera;
 
     //LOCAL
     [HideInInspector] public float raceTimer = 0;
     [HideInInspector] public int lapCount = 0;
     [HideInInspector] public bool raceStarted;
+    int racePosition;
 
     [System.Serializable]
     public class Lap
@@ -58,6 +60,7 @@ public class RaceManager : MonoBehaviour
             raceTimer += Time.deltaTime;
             lapLog.rawTime += Time.deltaTime;
         }
+        calculatePosition();
     }
 
     void LaunchInitialSequence()
@@ -100,5 +103,44 @@ public class RaceManager : MonoBehaviour
         lapLog.rawTime = 0;
         raceTimer = 0;
         Debug.Log(lapLog.lapConvertedTime);       
+    }
+
+    void calculatePosition()
+    {
+        racePosition = 6;
+        //GET AI RACERS DISTANCE TRAVELLED
+        float AI1Dis, AI2Dis, AI3Dis, AI4Dis, AI5Dis, PlayerDis;
+        AI1Dis = AIRacer1.GetComponent<AIBehaviour>().distanceTravelled;
+        AI2Dis = AIRacer2.GetComponent<AIBehaviour>().distanceTravelled;
+        AI3Dis = AIRacer3.GetComponent<AIBehaviour>().distanceTravelled;
+        AI4Dis = AIRacer4.GetComponent<AIBehaviour>().distanceTravelled;
+        AI5Dis = AIRacer5.GetComponent<AIBehaviour>().distanceTravelled;
+        PlayerDis = GameManager.Instance.player.distanceTravelled;
+
+        //CALCULATE PLAYER POSITION
+        if (PlayerDis > AI1Dis)
+        {
+            racePosition--;
+        }
+        if (PlayerDis > AI2Dis)
+        {
+            racePosition--;
+        }
+        if (PlayerDis > AI3Dis)
+        {
+            racePosition--;
+        }
+        if (PlayerDis > AI4Dis)
+        {
+            racePosition--;
+        }
+        if (PlayerDis > AI5Dis)
+        {
+            racePosition--;
+        }
+
+        // CHANGE POSITION TEXT
+        UIManager.Instance.updatePosition(racePosition);
+
     }
 }
