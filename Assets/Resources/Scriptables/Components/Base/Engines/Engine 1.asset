@@ -29,11 +29,11 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0.019989014
-      inSlope: -4.1384473
-      outSlope: -4.1384473
+      inSlope: -2.9365363
+      outSlope: -2.9365363
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.03895694
+      inWeight: 0.02268374
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

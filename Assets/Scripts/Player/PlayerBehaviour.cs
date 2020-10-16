@@ -77,7 +77,7 @@ public class PlayerBehaviour : MonoBehaviour
     [Tooltip("The time window to perform a superboost (Double tap 'Jet Button')")]
     public float superBoostInputTime = 0.4f;
 
-    [HideInInspector] public bool boosted, superboosted;
+    [HideInInspector] public bool boosted, superboosted, outBoosted;
 
     [HideInInspector] public GameObject[] jets;
     //----------------------------------------------------------------
@@ -296,9 +296,8 @@ public class PlayerBehaviour : MonoBehaviour
         l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);
 
         //--------------- DEBUG
-            //RECHARGE ENERGY
-            if (playerInput.rechargeEnergy)
-                RechargeEnergy(30 * Time.deltaTime);
+        if (playerInput.rechargeEnergy) //RECHARGE ENERGY
+            RechargeEnergy(30 * Time.deltaTime);
     }
 
     private void LateUpdate()
@@ -349,7 +348,7 @@ public class PlayerBehaviour : MonoBehaviour
                 }
 
                 //REDUCE SPEED WHEN OVERLIMIT & NOT BOOSTED
-                if(currentSpeed > l_maxSpeed + (l_maxSpeed * 0.1f) && !boosted && !superboosted)
+                if(currentSpeed > l_maxSpeed + (l_maxSpeed * 0.2f) && !boosted && !superboosted && !outBoosted)
                 {
                     currentSpeed -= engineParameters.maxAcceleration * Time.deltaTime;
                 }
@@ -433,6 +432,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     void UpdateNitro()
     {
+        boosted = false;
+
         //DETECT PLAYER'S FIRST INPUT
         if (playerInput.nitroPress && !nitroInputPhase)
         {
@@ -475,17 +476,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         //IS PLAYER HOLDING?
         if (playerInput.nitroHold)
-        {
-            //IF THERE IS ENERGY...
-            if (l_energy > 0)
-            {
-                //BOOST
-                Boost(jetParameters.boostAcceleration, CameraState.boost);
-                l_energy -= jetParameters.boostConsumption * Time.deltaTime;
-                boosted = true;
-            }
+            if (l_energy > 0) //IF THERE IS ENERGY...
+                Boost(jetParameters.boostAcceleration, true, CameraState.boost);
             else boosted = false;
-        }
         else boosted = false;
     }
 
@@ -537,8 +530,12 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    public void Boost(float accelerationBoost, CameraState camState)
+    public void Boost(float accelerationBoost, bool energyCost, CameraState camState)
     {       
+        if(energyCost)
+            l_energy -= jetParameters.boostConsumption * Time.deltaTime;
+
+        boosted = true;
         currentSpeed += accelerationBoost * Time.deltaTime;
         GameManager.Instance.playerCamera.ChangeState(camState);
     }
@@ -686,10 +683,21 @@ public class PlayerBehaviour : MonoBehaviour
                     GameManager.Instance.playerCamera.GetComponent<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("RaceTrack"));
                 }
                 break;
+
             case "Fog":
                 isInsideFog = true;
                 Debug.Log("in");
+                break;
+        }
+    }
 
+    private void OnTriggerStay(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "Boost":
+                Boost(jetParameters.boostAcceleration, false, CameraState.boost);
+                outBoosted = true;
                 break;
         }
     }
@@ -703,15 +711,10 @@ public class PlayerBehaviour : MonoBehaviour
                 isInsideFog = false;
                 Debug.Log("out");
                 break;
-        }
-    }
 
-    private void OnTriggerStay(Collider other)
-    {
-        switch (other.tag)
-        {
             case "Boost":
-                Boost(jetParameters.boostAcceleration, CameraState.boost);
+                boosted = false;
+                outBoosted = false;
                 break;
         }
     }

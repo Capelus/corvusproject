@@ -14902,11 +14902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effects:
     warp: {fileID: 8819578365901251009}
-    warpSpeed: 0
     nebula: {fileID: 1187312954}
-    nebulaSpeed: 0.3
-    nebulaDissolve: 1
-    nebulaActive: 0
     explosion: {fileID: 2332627243320502491, guid: 647e17c6261d14047806894511c36883,
       type: 3}
 --- !u!1 &1340356407
@@ -23882,11 +23878,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8722126189664132587, guid: 90b88f01a498fad49a51cfe33b8b73a9,
-        type: 3}
-      propertyPath: inputEnabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8819578367080092920, guid: 90b88f01a498fad49a51cfe33b8b73a9,
         type: 3}

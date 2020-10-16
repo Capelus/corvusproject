@@ -565,6 +565,7 @@ MonoBehaviour:
   superBoostInputTime: 0.4
   boosted: 0
   superboosted: 0
+  outBoosted: 0
   jets:
   - {fileID: 0}
   - {fileID: 0}
@@ -919,7 +920,7 @@ VisualEffect:
       - m_Value: {x: 0.17254902, y: 0.7921569, z: 0.84313726, w: 1}
         m_Name: New Color
         m_Overridden: 1
-      - m_Value: {x: 31.121569, y: 39.654903, z: 47.937256, w: 0.6509804}
+      - m_Value: {x: 31.999996, y: 31.999996, z: 31.999996, w: 0.56078434}
         m_Name: Color
         m_Overridden: 1
     m_Uint:
@@ -1190,9 +1191,8 @@ MonoBehaviour:
     maxShakeAmount: 0.05
   sightBeyond: 20
   invertedOffsets: 0
-  horizontalOffsetFraction: 4
+  horizontalOffsetFraction: 2
   verticalOffsetFraction: 3
-  postpro: {fileID: 0}
 --- !u!114 &8819578367204387778
 MonoBehaviour:
   m_ObjectHideFlags: 0
