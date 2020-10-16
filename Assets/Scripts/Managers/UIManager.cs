@@ -31,8 +31,9 @@ public class UIManager : MonoBehaviour
         public Image energyBar;
         public Image AButton;
         public Text raceTimer;
-        public Text[] timeChart;
+        public Text positionNumber;
         public GameObject skillcheck;
+        public Text[] timeChart;
     }
     public UIElements UI;
 
@@ -171,5 +172,35 @@ public class UIManager : MonoBehaviour
             
             else glowIncreasing = true;     
         }
+    }
+
+    public void updatePosition(int newPosition)
+    {
+        switch (newPosition)
+        {
+            case 1:
+
+                UI.positionNumber.text = "1st";
+                break;
+            case 2:
+                UI.positionNumber.text = "2nd";
+                break;
+            case 3:
+                UI.positionNumber.text = "3rd";
+                break;
+            case 4:
+                UI.positionNumber.text = "4th";
+                break;
+            case 5:
+                UI.positionNumber.text = "5th";
+                break;
+            case 6:
+                UI.positionNumber.text = "6th";
+                break;
+
+
+        }
+
+
     }
 }
