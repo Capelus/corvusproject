@@ -79,6 +79,7 @@ public class SplineObjectSpawner : EditorWindow
                 FillTrack();
             }
         }
+
         //NINE POSITION GRID MODE
         nineObjectsMode = EditorGUILayout.Foldout(nineObjectsMode, new GUIContent("Nine Position Grid"), true);
         if (nineObjectsMode)

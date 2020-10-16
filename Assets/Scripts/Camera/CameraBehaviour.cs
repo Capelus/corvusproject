@@ -120,7 +120,7 @@ public class CameraBehaviour : MonoBehaviour
 
         else
         {
-            hOffset = Mathf.Lerp(hOffset, -player.horizontalMove / horizontalOffsetFraction, t);
+            hOffset = Mathf.Lerp(hOffset, player.horizontalMove / horizontalOffsetFraction, t);
             vOffset = Mathf.Lerp(vOffset, player.verticalMove / verticalOffsetFraction, t);
         }
 
@@ -130,8 +130,16 @@ public class CameraBehaviour : MonoBehaviour
         // CALULATE ROTATION
         //transform.LookAt(TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + sightBeyond), player.transform.up); //OLD WAY
         Vector3 lookDirection = (TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + sightBeyond)) - transform.position;
-        lookDirection = Quaternion.AngleAxis(-hOffset * 2, player.transform.up) * lookDirection;
-        lookDirection = Quaternion.AngleAxis(-vOffset * 2, player.transform.right) * lookDirection;
+        if (invertedOffsets)
+        {
+            lookDirection = Quaternion.AngleAxis(-hOffset * 2, player.transform.up) * lookDirection;
+            lookDirection = Quaternion.AngleAxis(-vOffset * 2, player.transform.right) * lookDirection;
+        }
+        else
+        {
+            lookDirection = Quaternion.AngleAxis(hOffset * 2, player.transform.up) * lookDirection;
+            lookDirection = Quaternion.AngleAxis(-vOffset * 2, player.transform.right) * lookDirection;
+        }     
         Quaternion lookRotation = Quaternion.LookRotation(lookDirection, player.transform.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, currentParameters.lookAtSpeed * Time.deltaTime);
     }

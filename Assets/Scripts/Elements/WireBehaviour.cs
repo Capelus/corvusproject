@@ -18,6 +18,6 @@ public class WireBehaviour : MonoBehaviour
         transform.position = TrackManager.Instance.GetPositionAtDistance(player.distanceTravelled + distanceBeyond);
 
         //CALCULATE ROTATION
-        transform.rotation = player.transform.rotation;
+        transform.rotation = TrackManager.Instance.GetRotationAtDistance(player.distanceTravelled + distanceBeyond);
     }
 }
