@@ -27,7 +27,7 @@ namespace PathCreationEditor {
         // Display
         const int inspectorSectionSpacing = 10;
         const float constantHandleScale = .01f;
-        const float normalsSpacing = .2f;
+        const float normalsSpacing = 30f;
         GUIStyle boldFoldoutStyle;
 
         // References:
@@ -35,7 +35,7 @@ namespace PathCreationEditor {
         Editor globalDisplaySettingsEditor;
         ScreenSpacePolyLine screenSpaceLine;
         ScreenSpacePolyLine.MouseInfo pathMouseInfo;
-        GlobalDisplaySettings globalDisplaySettings;
+        public GlobalDisplaySettings globalDisplaySettings;
         PathHandle.HandleColours splineAnchorColours;
         PathHandle.HandleColours splineControlColours;
         Dictionary<GlobalDisplaySettings.HandleType, Handles.CapFunction> capFunctions;
@@ -428,7 +428,6 @@ namespace PathCreationEditor {
             }
 
             shiftLastFrame = e.shift;
-
         }
 
         void DrawBezierPathSceneEditor () {

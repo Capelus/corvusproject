@@ -5229,6 +5229,11 @@ MonoBehaviour:
   initialSequence: 0
   warmUpSequence: 0
   countDownTime: 3
+  AIRacer1: {fileID: 0}
+  AIRacer2: {fileID: 0}
+  AIRacer3: {fileID: 0}
+  AIRacer4: {fileID: 0}
+  AIRacer5: {fileID: 0}
   raceTimer: 0
   lapCount: 0
   raceStarted: 0
@@ -7496,9 +7501,18 @@ MonoBehaviour:
     _bezierPath:
       points:
       - {x: -900, y: 0, z: 0}
-      - {x: -899, y: 0.5, z: 0}
-      - {x: 899, y: -0.5, z: 0}
-      - {x: 900, y: 0, z: 0}
+      - {x: -899.28955, y: 0.35522258, z: 0}
+      - {x: 610.5892, y: 0.063733354, z: 0}
+      - {x: 610.60406, y: 0.06373008, z: 0}
+      - {x: 610.6115, y: 0.06372845, z: 0}
+      - {x: 610.6137, y: 0.06372797, z: 0}
+      - {x: 610.62115, y: 0.06372633, z: 0}
+      - {x: 610.6249, y: 0.06372551, z: 0}
+      - {x: 610.62604, y: 0.06372527, z: 0}
+      - {x: 610.62976, y: 0.06372445, z: 0}
+      - {x: 610.6501, y: 0.06371998, z: 0}
+      - {x: 610.6559, y: 0.06371873, z: 0}
+      - {x: 610.6762, y: 0.06371427, z: 0}
       isClosed: 0
       space: 0
       controlMode: 0
@@ -7508,6 +7522,9 @@ MonoBehaviour:
         m_Center: {x: 0, y: 0, z: 0}
         m_Extent: {x: 0, y: 0, z: 0}
       perAnchorNormalsAngle:
+      - 0
+      - 0
+      - 0
       - 0
       - 0
       globalNormalsAngle: 0
@@ -7520,9 +7537,9 @@ MonoBehaviour:
     showPerSegmentBounds: 0
     displayAnchorPoints: 1
     displayControlPoints: 1
-    bezierHandleScale: 1.09
+    bezierHandleScale: 70
     globalDisplaySettingsFoldout: 0
-    keepConstantHandleSize: 1
+    keepConstantHandleSize: 0
     showNormalsInVertexMode: 1
     showBezierPathInVertexMode: 0
     showDisplayOptions: 0
@@ -11554,6 +11571,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 8819578366449739518}
+    - target: {fileID: 2475808015731484958, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+        type: 3}
+      propertyPath: UI.positionNumber
+      value: 
+      objectReference: {fileID: 1024777491}
     - target: {fileID: 2475808015731484959, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11666,6 +11688,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15f40a3f4c666d6499600befb4b3c0c9, type: 3}
+--- !u!114 &1024777491 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1543092665462127724, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1024777490}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1027973830
 GameObject:
   m_ObjectHideFlags: 0
@@ -17172,10 +17206,10 @@ MonoBehaviour:
     showNormalsInVertexMode: 1
     showBezierPathInVertexMode: 0
     showDisplayOptions: 0
-    showPathOptions: 1
+    showPathOptions: 0
     showVertexPathDisplayOptions: 1
     showVertexPathOptions: 1
-    showNormals: 1
+    showNormals: 0
     showNormalsHelpInfo: 0
     tabIndex: 0
   initialized: 1
