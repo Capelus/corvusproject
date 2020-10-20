@@ -7744,8 +7744,8 @@ MonoBehaviour:
       - 55.5878
       - 0
       - 12.13504
-      - 0
-      - 0
+      - 18.926666
+      - 47.75331
       - 0
       - 0
       - 0
@@ -7759,9 +7759,9 @@ MonoBehaviour:
     showPerSegmentBounds: 0
     displayAnchorPoints: 1
     displayControlPoints: 1
-    bezierHandleScale: 1.26
+    bezierHandleScale: 30
     globalDisplaySettingsFoldout: 0
-    keepConstantHandleSize: 1
+    keepConstantHandleSize: 0
     showNormalsInVertexMode: 1
     showBezierPathInVertexMode: 0
     showDisplayOptions: 0
@@ -18722,6 +18722,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 221284218021738627}
+    - target: {fileID: 2475808015731484958, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+        type: 3}
+      propertyPath: UI.positionNumber
+      value: 
+      objectReference: {fileID: 676865662}
     - target: {fileID: 2475808015731484959, guid: 15f40a3f4c666d6499600befb4b3c0c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18832,8 +18837,30 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4760549272750515606, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313675814441520313, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15f40a3f4c666d6499600befb4b3c0c9, type: 3}
+--- !u!114 &676865662 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1543092665462127724, guid: 15f40a3f4c666d6499600befb4b3c0c9,
+    type: 3}
+  m_PrefabInstance: {fileID: 676865661}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &682379886
 GameObject:
   m_ObjectHideFlags: 0
@@ -54919,11 +54946,11 @@ MonoBehaviour:
   initialSequence: 1
   warmUpSequence: 1
   countDownTime: 3
-  AIRacer1: {fileID: 0}
-  AIRacer2: {fileID: 0}
-  AIRacer3: {fileID: 0}
-  AIRacer4: {fileID: 0}
-  AIRacer5: {fileID: 0}
+  AIRacer1: {fileID: 5301488595347028893}
+  AIRacer2: {fileID: 532469547}
+  AIRacer3: {fileID: 527815671}
+  AIRacer4: {fileID: 477567338}
+  AIRacer5: {fileID: 1600964863}
   raceTimer: 0
   lapCount: 0
   raceStarted: 0

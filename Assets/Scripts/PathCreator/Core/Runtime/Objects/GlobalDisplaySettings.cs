@@ -4,10 +4,9 @@ using UnityEngine;
 
 namespace PathCreation
 {
-    //[CreateAssetMenu()]
+    [CreateAssetMenu(fileName = "Path Settings", menuName = "Path/New Path Settings", order = 0)]
     public class GlobalDisplaySettings : ScriptableObject
     {
-
         public enum HandleType { Sphere, Circle, Square };
 
         [Header("Appearance")]
@@ -47,8 +46,8 @@ namespace PathCreation
 
         [Header("Normals")]
         public Color normals = Color.yellow;
-        [Range(0,1)]
-        public float normalsLength = .1f;
+        [Range(0,5)]
+        public float normalsLength = 2f;
 
 #if UNITY_EDITOR
         public static GlobalDisplaySettings Load() {
