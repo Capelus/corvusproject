@@ -27,7 +27,7 @@ public class BoostRingBehaviour : MonoBehaviour
     private void Update()
     {
         //ROTATE
-        transform.GetChild(0).Rotate(0, 0, ringRotationSpeed * Time.deltaTime);
+        transform.Rotate(0, 0, ringRotationSpeed * Time.deltaTime);
 
         l_cooldownTime -= Time.deltaTime;
         if (l_cooldownTime < 0)

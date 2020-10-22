@@ -14,6 +14,9 @@ public class SpaceshipStructure : MonoBehaviour
 
     //REFERENCES
     public GameObject[] jets;
+    public GameObject[] windTrails;
+    public GameObject[] overchargeTrails;
+    public GameObject[] sparks;
     public Transform cannon;
 
     private void Start()
@@ -21,6 +24,9 @@ public class SpaceshipStructure : MonoBehaviour
         if(GameManager.Instance.player != null)
         {
             GameManager.Instance.player.jets = jets;
+            GameManager.Instance.player.windTrails = windTrails;
+            GameManager.Instance.player.sparks = sparks;
+            GameManager.Instance.player.overchargeTrails = overchargeTrails;
             GameManager.Instance.player.shotSpawn = cannon;
             GameManager.Instance.player.animator = GetComponentInParent<Animator>();
         }        

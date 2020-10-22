@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3610183916425567831
+--- !u!1 &1823554465383775490
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4130402876934554861}
-  - component: {fileID: 2470557815100367306}
-  - component: {fileID: 886388194850277683}
-  - component: {fileID: 3610183916425567829}
-  - component: {fileID: 3610183916425567828}
+  - component: {fileID: 781944612987115014}
+  - component: {fileID: 2941161883289319878}
+  - component: {fileID: 492336317881454911}
+  - component: {fileID: 1823554465383775492}
+  - component: {fileID: 1823554465383775491}
   m_Layer: 0
-  m_Name: BoostRing
+  m_Name: StunTriangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4130402876934554861
+--- !u!4 &781944612987115014
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3610183916425567831}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -621.5105, y: -0.07, z: 233.6}
-  m_LocalScale: {x: 0.64343, y: 0.64343, z: 0.64343}
+  m_GameObject: {fileID: 1823554465383775490}
+  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
+  m_LocalPosition: {x: -780.3, y: -0.07, z: 240.89}
+  m_LocalScale: {x: 0.10732035, y: 0.10732035, z: 0.10732035}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!33 &2470557815100367306
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2941161883289319878
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3610183916425567831}
-  m_Mesh: {fileID: -6150326042995890324, guid: df7ac87b02e1e7c40bc88fba8e7a694c, type: 3}
---- !u!23 &886388194850277683
+  m_GameObject: {fileID: 1823554465383775490}
+  m_Mesh: {fileID: 5060444177187149915, guid: cb9221c70f9b8bf44a88d94951de5cf5, type: 3}
+--- !u!23 &492336317881454911
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3610183916425567831}
+  m_GameObject: {fileID: 1823554465383775490}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: df6a812c615c52a419bd4eb69dc6fa02, type: 2}
+  - {fileID: 2100000, guid: 47fbc90daa91ab541984ebd9f72db2d4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,34 +83,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3610183916425567829
+--- !u!114 &1823554465383775492
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3610183916425567831}
+  m_GameObject: {fileID: 1823554465383775490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7109c0f380c52aa4096d339afcacd418, type: 3}
+  m_Script: {fileID: 11500000, guid: 41baa609245216f45ae3be24e74d7ee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boostTime: 2
-  accelerationBoost: 25
-  cameraState: 4
-  ringRotationSpeed: 30
+  stunDuration: 2
+  ringRotationSpeed: 2
   cooldownTime: 2
---- !u!136 &3610183916425567828
+--- !u!136 &1823554465383775491
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3610183916425567831}
+  m_GameObject: {fileID: 1823554465383775490}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 5.97
-  m_Height: 8.1
+  m_Radius: 24.4
+  m_Height: 48.8
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}

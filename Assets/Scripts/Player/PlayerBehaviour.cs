@@ -17,6 +17,13 @@ public class PlayerBehaviour : MonoBehaviour
     UpgradesProfile upgradesProfile;
     //--------------------------------------------------------------//
 
+    //----------------------------------- SPACESHIP EFFECTS REFERENCES
+    [HideInInspector] public GameObject[] jets;
+    [HideInInspector] public GameObject[] windTrails;
+    [HideInInspector] public GameObject[] sparks;
+    [HideInInspector] public GameObject[] overchargeTrails;
+    //----------------------------------------------------------------
+
     //---------------------------------------------- ENGINE PARAMETERS  
     [System.Serializable]
     public class EngineParameters
@@ -80,8 +87,6 @@ public class PlayerBehaviour : MonoBehaviour
     public float superBoostInputTime = 0.4f;
 
     [HideInInspector] public bool boosted, superboosted, outBoosted;
-
-    [HideInInspector] public GameObject[] jets;
     //----------------------------------------------------------------
 
     //--------------------------------------------- BLASTER PARAMETERS 
@@ -304,7 +309,9 @@ public class PlayerBehaviour : MonoBehaviour
                 //BLASTERS
                 UpdateBlasters();
             }
-        }    
+        }
+
+        UpdateEffects();
         
         //CLAMP ENERGY
         l_energy = Mathf.Clamp(l_energy, 0, energyParameters.maxEnergy);
@@ -398,6 +405,9 @@ public class PlayerBehaviour : MonoBehaviour
         //CALCULATE 2D MOVEMENT VALUE WITH HANDLING CURVE
         float handling = chassisParameters.maxHandlingSpeed * chassisParameters.handlingCurve.Evaluate(currentSpeed / l_maxSpeed);
 
+        if (stunTime > 0)
+            handling /= 3;
+
         //GET PLAYER'S INPUT
         float inputX = playerInput.rawMovement.x;
         float inputY = playerInput.rawMovement.y;
@@ -418,8 +428,8 @@ public class PlayerBehaviour : MonoBehaviour
         //CALCULATE 2D MOVEMENT
         if (playerInput.inputEnabled)
         {
-        horizontalMove += inputX * handling * Time.deltaTime;
-        verticalMove += inputY * handling * Time.deltaTime;
+            horizontalMove += inputX * handling * Time.deltaTime;
+            verticalMove += inputY * handling * Time.deltaTime;
         }
 
         //CLAMP IT ON LIMITS
@@ -529,6 +539,19 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    void UpdateEffects()
+    {
+        // UPDATE JET SIZE
+        foreach (GameObject jet in jets)
+        {
+            jet.transform.localScale = Vector3.one * Mathf.Clamp(playerInput.throttle, 0.5f, 1);
+        }
+
+        // UPDATE WINDTRAIL DISSOLVE
+        foreach (GameObject windTrail in windTrails)
+            windTrail.GetComponent<TrailRenderer>().material.SetFloat("Dissolve_", Mathf.Clamp(1 - (currentSpeed / engineParameters.maxSpeed), 0.2f, 0.8f));        
+    }
+
     public void Boost(float accelerationBoost, bool energyCost, CameraState camState)
     {       
         if(energyCost)
@@ -548,6 +571,10 @@ public class PlayerBehaviour : MonoBehaviour
     {
         superboosted = true;
         GameManager.Instance.playerCamera.ChangeState(camState);
+
+        foreach (GameObject overchargeTrail in overchargeTrails)
+            overchargeTrail.SetActive(true);
+        
         while (duration > 0)
         {
             duration -= Time.deltaTime;
@@ -558,8 +585,10 @@ public class PlayerBehaviour : MonoBehaviour
 
             yield return null;
         }
+
         superboosted = false;
-        yield break;
+        foreach (GameObject overchargeTrail in overchargeTrails)
+            overchargeTrail.SetActive(false);
     }
 
     IEnumerator RollCoroutine()
@@ -628,35 +657,49 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else this.hitDown = false;
 
-        if (Physics.Raycast(rayLeft, out RaycastHit hitLeft, 2))
+        if (Physics.Raycast(rayLeft, out RaycastHit hitLeft, 2.3f))
         {
             if (hitLeft.transform.CompareTag("Wall"))
             {
                 Vector3 prevMovement = movement;
-                movement += transform.right * (2 - (Vector3.Distance(hitLeft.point, movement)));
+                movement += transform.right * (2.3f - (Vector3.Distance(hitLeft.point, movement)));
 
                 Vector3 offsetMovement = (movement - prevMovement);
                 offsetMovement.y = 0;
                 horizontalMove += offsetMovement.magnitude;
                 this.hitLeft = true;
+
+                //EFFECTS
+                sparks[0].SetActive(true);
             }
         }
-        else this.hitLeft = false;
+        else
+        {
+            this.hitLeft = false;
+            sparks[0].SetActive(false);
+        }
 
-        if (Physics.Raycast(rayRight, out RaycastHit hitRight, 2))
+        if (Physics.Raycast(rayRight, out RaycastHit hitRight, 2.3f))
         {
             if (hitRight.transform.CompareTag("Wall"))
             {
                 Vector3 prevMovement = movement;
-                movement -= transform.right * (2 - (Vector3.Distance(hitRight.point, movement)));
+                movement -= transform.right * (2.3f - (Vector3.Distance(hitRight.point, movement)));
 
                 Vector3 offsetMovement = (movement - prevMovement);
                 offsetMovement.y = 0;
                 horizontalMove -= offsetMovement.magnitude;
                 this.hitRight = true;
+
+                //EFFECTS
+                sparks[1].SetActive(true);
             }
         }
-        else this.hitRight = false;
+        else
+        {
+            this.hitRight = false;
+            sparks[1].SetActive(false);
+        }
     }
 
     public void RechargeEnergy(float amount)
@@ -675,6 +718,11 @@ public class PlayerBehaviour : MonoBehaviour
         stunTime = 0.5f;
         EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
         animator.SetBool("Knockback", true);
+    }
+
+    public void Stun(float time)
+    {
+        stunTime = time;
     }
 
     public void Explode()
@@ -736,7 +784,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         switch (other.tag)
         {
-            case "BoostRail":
+            case "Boost":
                 Boost(jetParameters.boostAcceleration, false, CameraState.boost);
                 RechargeEnergy(10);
                 outBoosted = true;
@@ -753,7 +801,7 @@ public class PlayerBehaviour : MonoBehaviour
                 isInsideFog = false;
                 break;
 
-            case "BoostRail":
+            case "Boost":
                 boosted = false;
                 outBoosted = false;
                 break;

@@ -25,7 +25,7 @@ public class StunRingBehaviour : MonoBehaviour
     private void Update()
     {
         //ROTATE
-        transform.GetChild(0).Rotate(0, 0, ringRotationSpeed * Time.deltaTime);
+        transform.Rotate(0, 0, ringRotationSpeed * Time.deltaTime);
 
         l_cooldownTime -= Time.deltaTime;
         if (l_cooldownTime < 0)
@@ -39,7 +39,7 @@ public class StunRingBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.Instance.playerInput.inputEnabled = false;
+            GameManager.Instance.player.Stun(stunDuration);
             l_cooldownTime = cooldownTime;
         }
 
