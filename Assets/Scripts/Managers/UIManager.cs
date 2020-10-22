@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class UIManager : MonoBehaviour
 {
     //SINGLETON
@@ -32,8 +34,13 @@ public class UIManager : MonoBehaviour
         public Image AButton;
         public Text raceTimer;
         public Text positionNumber;
+        public Text positionSufix;
         public GameObject skillcheck;
+        public Text actualLap;
+        public Text numberOfLaps;
+        public Text bestLap;
         public Text[] timeChart;
+        public GameObject endPanel; 
     }
     public UIElements UI;
 
@@ -90,7 +97,9 @@ public class UIManager : MonoBehaviour
         }
 
         //UPDATE RACE TIMER
-        UI.raceTimer.text = FormatTime(RaceManager.Instance.raceTimer);
+        UI.raceTimer.text = FormatTime(RaceManager.Instance.lapTimer);
+        //UPDATE LAP 
+        UI.actualLap.text = "0"+RaceManager.Instance.actualLap.ToString();
     }
 
     public void LaunchWarmUpEvent(float countDownTime)
@@ -118,7 +127,7 @@ public class UIManager : MonoBehaviour
         UIW.countDown.text = "GO!";
 
         //ENABLE INPUT
-        GameManager.Instance.playerInput.inputEnabled = true;
+        GameManager.Instance.playerInput.movementEnabled = true;
 
         //CHECK QUICK TIME EVENT
         if (UIManager.Instance.UIW.warmUpQTE.successQTE)
@@ -140,6 +149,7 @@ public class UIManager : MonoBehaviour
         UIW.countDown.enabled = false;
     }
 
+    //RAW TO MIN/SEC/MILISEC
     public string FormatTime(float totalRaceTime)
     {
         int minutes = (int)totalRaceTime / 60;
@@ -150,9 +160,11 @@ public class UIManager : MonoBehaviour
         return convertToString;
     }
 
+    
+
     public void UpdateTimeChart(string lastLapTime)
     {
-        UI.timeChart[RaceManager.Instance.lapCount].text = lastLapTime;
+        //UI.timeChart[RaceManager.Instance.lapCount].text = lastLapTime;
     }
 
     void QTEGlowing()
@@ -180,22 +192,28 @@ public class UIManager : MonoBehaviour
         {
             case 1:
 
-                UI.positionNumber.text = "1st";
+                UI.positionNumber.text = "1";
+                UI.positionSufix.text = "st";
                 break;
             case 2:
-                UI.positionNumber.text = "2nd";
+                UI.positionNumber.text = "2";
+                UI.positionSufix.text = "nd";
                 break;
             case 3:
-                UI.positionNumber.text = "3rd";
+                UI.positionNumber.text = "3";
+                UI.positionSufix.text = "rd";
                 break;
             case 4:
-                UI.positionNumber.text = "4th";
+                UI.positionNumber.text = "4";
+                UI.positionSufix.text = "th";
                 break;
             case 5:
-                UI.positionNumber.text = "5th";
+                UI.positionNumber.text = "5"; 
+                UI.positionSufix.text = "th";
                 break;
             case 6:
-                UI.positionNumber.text = "6th";
+                UI.positionNumber.text = "6";
+                UI.positionSufix.text = "th";
                 break;
 
 
