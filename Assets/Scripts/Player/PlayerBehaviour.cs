@@ -45,6 +45,7 @@ public class PlayerBehaviour : MonoBehaviour
         public float maxHandlingSpeed = 15;
         public AnimationCurve handlingCurve;
         public float knockback = 10;
+        public float dashDistance = 2f;
     }
 
     [Header("CHASIS")]
@@ -52,6 +53,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     //LOCAL
     float stunTime = 0;
+    bool rolling = false;
     //----------------------------------------------------------------
 
     //------------------------------------------------- JET PARAMETERS
@@ -184,12 +186,15 @@ public class PlayerBehaviour : MonoBehaviour
             //---------------------------------------------------------- FROM CHASSIS
             if (spaceshipProfile.chassisProfile != null)
             {
-                //LIMIT SPEED
+                // LIMIT SPEED
                 chassisParameters.limitSpeed = spaceshipProfile.chassisProfile.limitSpeed;
 
                 // HANDLING
                 chassisParameters.maxHandlingSpeed = spaceshipProfile.chassisProfile.handling;
                 chassisParameters.handlingCurve = spaceshipProfile.chassisProfile.handlingCurve;
+
+                // ROLL DASH
+                chassisParameters.dashDistance = spaceshipProfile.chassisProfile.dashDistance;
 
                 // RESISTANCE
                 chassisParameters.knockback = spaceshipProfile.chassisProfile.knockback;
@@ -490,34 +495,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     void UpdateRoll()
     {
-        if (animator != null)
+        if (playerInput.roll && !rolling)
+            StartCoroutine("RollCoroutine");
+
+        else
         {
-            if (playerInput.roll)
-            {
-                //SET ANIMATOR
-                animator.SetBool("Brake", false);
-
-                //LEFT
-                if (playerInput.rawMovement.x < 0)
-                    animator.SetBool("Roll_Left", true);
-
-                //RIGHT
-                else if (playerInput.rawMovement.x > 0)
-                    animator.SetBool("Roll_Right", true);
-
-                //STRAIGHT
-                else
-                {
-                    if (Random.value < 0.5f) animator.SetBool("Roll_Left", true);
-                    else animator.SetBool("Roll_Right", true);
-                }
-            }
-
-            else
-            {
-                animator.SetBool("Roll_Left", false);
-                animator.SetBool("Roll_Right", false);
-            }
+            animator.SetBool("Roll_Left", false);
+            animator.SetBool("Roll_Right", false);
         }
     }
 
@@ -567,6 +551,41 @@ public class PlayerBehaviour : MonoBehaviour
         }
         superboosted = false;
         yield break;
+    }
+
+    IEnumerator RollCoroutine()
+    {
+        //ANIMATE
+        if (animator != null)
+        {
+            animator.SetBool("Brake", false); //RESET ANIMATOR
+
+            if (playerInput.rawMovement.x < 0)  //LEFT
+                animator.SetBool("Roll_Left", true);
+
+            else if (playerInput.rawMovement.x > 0) //RIGHT
+                animator.SetBool("Roll_Right", true);
+
+            else //STRAIGHT
+            {
+                if (Random.value < 0.5f) animator.SetBool("Roll_Left", true);
+                else animator.SetBool("Roll_Right", true);
+            }
+        }
+
+        // CALCULATE DIRECTION TO DASH
+        Vector2 dashVector = (transform.right * playerInput.rawMovement.x + transform.up * playerInput.rawMovement.y).normalized * chassisParameters.dashDistance;
+
+        float t = 0;
+        // DASH
+        while(t > 0.3f)
+        {
+            t += Time.deltaTime;
+            horizontalMove += dashVector.x * Time.deltaTime;
+            verticalMove += dashVector.y * Time.deltaTime;
+            //verticalMove = Mathf.Lerp(verticalMove, dashVector.y, t * Time.deltaTime);
+            yield return null;
+        }
     }
 
     public void CheckCollisions()
@@ -694,6 +713,7 @@ public class PlayerBehaviour : MonoBehaviour
                 isInsideFog = true;
                 Debug.Log("in");
                 break;
+
             case "Finish":
                 if (!endedLap)
                 {
@@ -708,8 +728,9 @@ public class PlayerBehaviour : MonoBehaviour
     {
         switch (other.tag)
         {
-            case "Boost":
+            case "BoostRail":
                 Boost(jetParameters.boostAcceleration, false, CameraState.boost);
+                RechargeEnergy(10);
                 outBoosted = true;
                 break;
         }
@@ -725,10 +746,11 @@ public class PlayerBehaviour : MonoBehaviour
                 Debug.Log("out");
                 break;
 
-            case "Boost":
+            case "BoostRail":
                 boosted = false;
                 outBoosted = false;
                 break;
+
             case "Finish":
                 endedLap = false;
                 break;

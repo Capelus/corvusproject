@@ -7751,7 +7751,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 90
       flipNormals: 0
-    vertexPathUpToDate: 0
+    vertexPathUpToDate: 1
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -10267,7 +10267,7 @@ GameObject:
   - component: {fileID: 413307606}
   m_Layer: 0
   m_Name: Boost Trigger
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16808,7 +16808,7 @@ GameObject:
   - component: {fileID: 533250804}
   m_Layer: 0
   m_Name: Cube (6)
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32189,7 +32189,7 @@ GameObject:
   - component: {fileID: 1040571322}
   m_Layer: 0
   m_Name: Cube (2)
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32614,7 +32614,7 @@ GameObject:
   - component: {fileID: 1103746478}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38400,7 +38400,7 @@ GameObject:
   - component: {fileID: 1224750519}
   m_Layer: 0
   m_Name: Cube (5)
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39780,7 +39780,7 @@ GameObject:
   - component: {fileID: 1354543372}
   m_Layer: 0
   m_Name: Cube (7)
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49959,7 +49959,7 @@ GameObject:
   - component: {fileID: 1395837406}
   m_Layer: 0
   m_Name: Cube (3)
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51215,7 +51215,7 @@ GameObject:
   - component: {fileID: 1496884322}
   m_Layer: 0
   m_Name: Cube (8)
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51839,7 +51839,7 @@ GameObject:
   - component: {fileID: 1555732582}
   m_Layer: 0
   m_Name: Boost Trigger
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52205,7 +52205,7 @@ GameObject:
   - component: {fileID: 1595610079}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53563,7 +53563,7 @@ GameObject:
   - component: {fileID: 1750800326}
   m_Layer: 0
   m_Name: Cube (4)
-  m_TagString: Boost
+  m_TagString: BoostRail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
