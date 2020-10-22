@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RaceManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class RaceManager : MonoBehaviour
     [HideInInspector] public int actualLap;
     int racePosition;
     float bestLapTime;
+    float totalRaceTime;
     [System.Serializable]
     public class Lap
     {
@@ -52,7 +54,7 @@ public class RaceManager : MonoBehaviour
         actualLap = 1;
         if (numberOfLaps == 0)
             numberOfLaps = 2;
-        UIManager.Instance.UI.numberOfLaps.text ="/ "+ numberOfLaps.ToString();
+        UIManager.Instance.UI.numberOfLaps.text ="/0"+ numberOfLaps.ToString();
     }
 
     void Update()
@@ -65,11 +67,11 @@ public class RaceManager : MonoBehaviour
             //START RACE
             raceStarted = true;
             lapTimer += Time.deltaTime;
+            totalRaceTime += Time.deltaTime;
             lapLog.rawTime += Time.deltaTime;
 
         }
- 
-            
+        //CALCULATE ACTUAL POSITION IN RACE
         calculatePosition();
     }
 
@@ -127,6 +129,7 @@ public class RaceManager : MonoBehaviour
         else
         {
             bestLapTime = lapTimer;
+            UIManager.Instance.UI.bestLap.gameObject.SetActive(true);
             UIManager.Instance.UI.bestLap.text = UIManager.Instance.FormatTime(lapTimer);
 
         }
@@ -177,7 +180,7 @@ public class RaceManager : MonoBehaviour
         }
 
         // CHANGE POSITION TEXT
-        UIManager.Instance.updatePosition(racePosition);
+        UIManager.Instance.UpdatePosition(racePosition);
 
     }
 
@@ -185,7 +188,37 @@ public class RaceManager : MonoBehaviour
     {
         GameManager.Instance.playerInput.inputEnabled = false;
         UIManager.Instance.UI.endPanel.SetActive(true);
+        UIManager.Instance.DisableRaceUI();
+        UIManager.Instance.UI.resetRace.Select();
+        switch (racePosition){
 
+            case 1:
+                UIManager.Instance.UI.endPanelPositionText.text = "1st";
+                UIManager.Instance.UI.endPanelPositionPanel.GetComponent<Image>().color = Color.yellow;
+                break;
+
+            case 2:
+                UIManager.Instance.UI.endPanelPositionText.text = "2nd";
+                UIManager.Instance.UI.endPanelPositionPanel.GetComponent<Image>().color = Color.white;
+                break;
+
+            case 3:
+                UIManager.Instance.UI.endPanelPositionText.text = "3rd";
+                UIManager.Instance.UI.endPanelPositionPanel.GetComponent<Image>().color = new Color(1.0f, 0.64f, 0.0f);
+                break;
+            case 4:
+                UIManager.Instance.UI.endPanelPositionText.text = "4th";
+                break;
+            case 5:
+                UIManager.Instance.UI.endPanelPositionText.text = "5th";
+                break;
+            case 6:
+                UIManager.Instance.UI.endPanelPositionText.text = "6th";
+                break;
+        }
+
+        UIManager.Instance.UI.endPanelFastestLap.text = UIManager.Instance.FormatTime(bestLapTime);
+        UIManager.Instance.UI.endPanelRaceTime.text = UIManager.Instance.FormatTime(totalRaceTime);
 
     }
 }
