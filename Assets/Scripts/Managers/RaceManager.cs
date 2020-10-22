@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RaceManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class RaceManager : MonoBehaviour
     public bool initialSequence, warmUpSequence;
     public float countDownTime = 3;
     public int numberOfLaps;
-    public GameObject [] AIRacers;
+    public GameObject AIRacer1, AIRacer2, AIRacer3, AIRacer4, AIRacer5;
     Camera initialSequenceCamera;
 
     //LOCAL
@@ -21,6 +22,7 @@ public class RaceManager : MonoBehaviour
     [HideInInspector] public int actualLap;
     int racePosition;
     float bestLapTime;
+    float totalRaceTime;
     [System.Serializable]
     public class Lap
     {
@@ -52,7 +54,7 @@ public class RaceManager : MonoBehaviour
         actualLap = 1;
         if (numberOfLaps == 0)
             numberOfLaps = 2;
-        UIManager.Instance.UI.numberOfLaps.text ="/ "+ numberOfLaps.ToString();
+        UIManager.Instance.UI.numberOfLaps.text ="/0"+ numberOfLaps.ToString();
     }
 
     void Update()
@@ -61,17 +63,16 @@ public class RaceManager : MonoBehaviour
         {
             //ENABLE INPUT & MOVEMENT
             GameManager.Instance.playerInput.movementEnabled = true;
-            //GameManager.Instance.playerInput.inputEnabled = true;
-
+            GameManager.Instance.playerInput.inputEnabled = true;
             //START RACE
             raceStarted = true;
             lapTimer += Time.deltaTime;
+            totalRaceTime += Time.deltaTime;
             lapLog.rawTime += Time.deltaTime;
 
         }
- 
-        if(AIRacers != null)
-            CalculatePosition();
+        //CALCULATE ACTUAL POSITION IN RACE
+        calculatePosition();
     }
 
     void LaunchInitialSequence()
@@ -128,6 +129,7 @@ public class RaceManager : MonoBehaviour
         else
         {
             bestLapTime = lapTimer;
+            UIManager.Instance.UI.bestLap.gameObject.SetActive(true);
             UIManager.Instance.UI.bestLap.text = UIManager.Instance.FormatTime(lapTimer);
 
         }
@@ -143,16 +145,16 @@ public class RaceManager : MonoBehaviour
         }
     }
 
-    void CalculatePosition()
+    void calculatePosition()
     {
         racePosition = 6;
         //GET AI RACERS DISTANCE TRAVELLED
         float AI1Dis, AI2Dis, AI3Dis, AI4Dis, AI5Dis, PlayerDis;
-        AI1Dis = AIRacers[0].GetComponent<AIBehaviour>().distanceTravelled;
-        AI2Dis = AIRacers[1].GetComponent<AIBehaviour>().distanceTravelled;
-        AI3Dis = AIRacers[2].GetComponent<AIBehaviour>().distanceTravelled;
-        AI4Dis = AIRacers[3].GetComponent<AIBehaviour>().distanceTravelled;
-        AI5Dis = AIRacers[4].GetComponent<AIBehaviour>().distanceTravelled;
+        AI1Dis = AIRacer1.GetComponent<AIBehaviour>().distanceTravelled;
+        AI2Dis = AIRacer2.GetComponent<AIBehaviour>().distanceTravelled;
+        AI3Dis = AIRacer3.GetComponent<AIBehaviour>().distanceTravelled;
+        AI4Dis = AIRacer4.GetComponent<AIBehaviour>().distanceTravelled;
+        AI5Dis = AIRacer5.GetComponent<AIBehaviour>().distanceTravelled;
         PlayerDis = GameManager.Instance.player.distanceTravelled;
 
         //CALCULATE PLAYER POSITION
@@ -178,14 +180,45 @@ public class RaceManager : MonoBehaviour
         }
 
         // CHANGE POSITION TEXT
-        UIManager.Instance.updatePosition(racePosition);
+        UIManager.Instance.UpdatePosition(racePosition);
+
     }
 
     void RaceEndSequence()
     {
         GameManager.Instance.playerInput.inputEnabled = false;
         UIManager.Instance.UI.endPanel.SetActive(true);
+        UIManager.Instance.DisableRaceUI();
+        UIManager.Instance.UI.resetRace.Select();
+        switch (racePosition){
 
+            case 1:
+                UIManager.Instance.UI.endPanelPositionText.text = "1st";
+                UIManager.Instance.UI.endPanelPositionPanel.GetComponent<Image>().color = Color.yellow;
+                break;
+
+            case 2:
+                UIManager.Instance.UI.endPanelPositionText.text = "2nd";
+                UIManager.Instance.UI.endPanelPositionPanel.GetComponent<Image>().color = Color.white;
+                break;
+
+            case 3:
+                UIManager.Instance.UI.endPanelPositionText.text = "3rd";
+                UIManager.Instance.UI.endPanelPositionPanel.GetComponent<Image>().color = new Color(1.0f, 0.64f, 0.0f);
+                break;
+            case 4:
+                UIManager.Instance.UI.endPanelPositionText.text = "4th";
+                break;
+            case 5:
+                UIManager.Instance.UI.endPanelPositionText.text = "5th";
+                break;
+            case 6:
+                UIManager.Instance.UI.endPanelPositionText.text = "6th";
+                break;
+        }
+
+        UIManager.Instance.UI.endPanelFastestLap.text = UIManager.Instance.FormatTime(bestLapTime);
+        UIManager.Instance.UI.endPanelRaceTime.text = UIManager.Instance.FormatTime(totalRaceTime);
 
     }
 }

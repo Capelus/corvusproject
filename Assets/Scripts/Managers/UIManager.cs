@@ -40,7 +40,12 @@ public class UIManager : MonoBehaviour
         public Text numberOfLaps;
         public Text bestLap;
         public Text[] timeChart;
-        public GameObject endPanel; 
+        public GameObject endPanel;
+        public GameObject endPanelPositionPanel;
+        public Text endPanelPositionText;
+        public Text endPanelFastestLap;
+        public Text endPanelRaceTime;
+        public Button resetRace;
     }
     public UIElements UI;
 
@@ -186,7 +191,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void updatePosition(int newPosition)
+    public void UpdatePosition(int newPosition)
     {
         switch (newPosition)
         {
@@ -220,5 +225,19 @@ public class UIManager : MonoBehaviour
         }
 
 
+    }
+
+    public void DisableRaceUI()
+    {
+        UI.energyBar.enabled = false;
+        UI.energyBarSlider.enabled = false;
+        UI.raceTimer.enabled = false;
+        UI.speedometer.enabled = false;
+        UI.positionNumber.enabled = false;
+        UI.numberOfLaps.enabled = false;
+        UI.actualLap.enabled = false;
+        UI.bestLap.enabled = false;
+        UI.AButton.enabled = false;
+        UI.positionSufix.enabled = false;
     }
 }
