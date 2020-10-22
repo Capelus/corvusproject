@@ -13,7 +13,8 @@ TagManager:
   - Racer
   - Wall
   - InitialSequenceCamera
-  - BoostRail
+  - Boost
+  - End Panel
   layers:
   - Default
   - TransparentFX

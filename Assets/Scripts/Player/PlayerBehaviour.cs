@@ -288,19 +288,22 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (playerInput.inputEnabled)
+        if (playerInput.movementEnabled)
         {
             //MOVEMENT
             UpdateMove();
 
-            //NITRO 
-            UpdateNitro();
+            if (playerInput.inputEnabled)
+            {
+                //NITRO 
+                UpdateNitro();
 
-            //BARREL ROLL
-            UpdateRoll();
+                //BARREL ROLL
+                UpdateRoll();
 
-            //BLASTERS
-            UpdateBlasters();
+                //BLASTERS
+                UpdateBlasters();
+            }
         }    
         
         //CLAMP ENERGY
@@ -324,7 +327,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (stunTime <= 0)
         {
             //BRAKE
-            if (playerInput.brake)
+            if (playerInput.inputEnabled && playerInput.brake)
             {
                 //CALCULATE BRAKE VALUE ON CURVE
                 l_acceleration = (engineParameters.brakeCurve.Evaluate(currentSpeed / l_maxSpeed) * engineParameters.maxBrake);
@@ -343,7 +346,7 @@ public class PlayerBehaviour : MonoBehaviour
             }
 
             //ACCELERATE (EXCEPT IF PLAYER IS INSIDE FOG)
-            else if (playerInput.accelerate && !isInsideFog)
+            else if (playerInput.accelerate && !isInsideFog && playerInput.inputEnabled)
             {
                 //GET ACCELERATION VALUE FROM CURVE
                 l_acceleration = (engineParameters.accelerationCurve.Evaluate(currentSpeed / l_maxSpeed) * engineParameters.maxAcceleration);
@@ -413,8 +416,11 @@ public class PlayerBehaviour : MonoBehaviour
             if (inputX > 0) inputX = 0;
 
         //CALCULATE 2D MOVEMENT
+        if (playerInput.inputEnabled)
+        {
         horizontalMove += inputX * handling * Time.deltaTime;
         verticalMove += inputY * handling * Time.deltaTime;
+        }
 
         //CLAMP IT ON LIMITS
         horizontalMove = Mathf.Clamp(horizontalMove, -TrackManager.Instance.movementLimits.x, TrackManager.Instance.movementLimits.x);
@@ -437,8 +443,11 @@ public class PlayerBehaviour : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
 
         //TILT
+        if (playerInput.inputEnabled)
+        {
         animator.SetFloat("Tilt X", playerInput.smoothedMovement.x);
         animator.SetFloat("Tilt Y", playerInput.smoothedMovement.y);
+        }
     }
 
     void UpdateNitro()
@@ -711,7 +720,6 @@ public class PlayerBehaviour : MonoBehaviour
 
             case "Fog":
                 isInsideFog = true;
-                Debug.Log("in");
                 break;
 
             case "Finish":
@@ -743,7 +751,6 @@ public class PlayerBehaviour : MonoBehaviour
             //------------------------------------FOG
             case "Fog":
                 isInsideFog = false;
-                Debug.Log("out");
                 break;
 
             case "BoostRail":

@@ -10,15 +10,17 @@ public class RaceManager : MonoBehaviour
     //PUBLIC
     public bool initialSequence, warmUpSequence;
     public float countDownTime = 3;
+    public int numberOfLaps;
     public GameObject AIRacer1, AIRacer2, AIRacer3, AIRacer4, AIRacer5;
     Camera initialSequenceCamera;
 
     //LOCAL
-    [HideInInspector] public float raceTimer = 0;
+    [HideInInspector] public float lapTimer = 0;
     [HideInInspector] public int lapCount = 0;
-    [HideInInspector] public bool raceStarted;
+    [HideInInspector] public bool raceStarted,raceEnded;
+    [HideInInspector] public int actualLap;
     int racePosition;
-
+    float bestLapTime;
     [System.Serializable]
     public class Lap
     {
@@ -38,28 +40,36 @@ public class RaceManager : MonoBehaviour
         initialSequenceCamera = GameObject.FindGameObjectWithTag("InitialSequenceCamera").GetComponent<Camera>();
 
         //DISABLE INPUT
-        GameManager.Instance.playerInput.inputEnabled = false;
+        GameManager.Instance.playerInput.movementEnabled = false;
 
         if (initialSequence)
             LaunchInitialSequence();
 
         else if (warmUpSequence)
-            UIManager.Instance.LaunchWarmUpEvent(countDownTime);       
+            UIManager.Instance.LaunchWarmUpEvent(countDownTime);
+
+        //SET LAP VALUES
+        actualLap = 1;
+        if (numberOfLaps == 0)
+            numberOfLaps = 2;
+        UIManager.Instance.UI.numberOfLaps.text ="/ "+ numberOfLaps.ToString();
     }
 
     void Update()
     {
-        if (!initialSequence && !warmUpSequence)
+        if (!initialSequence && !warmUpSequence && !raceEnded)
         {
-            //ENABLE INPUT
+            //ENABLE INPUT & MOVEMENT
+            GameManager.Instance.playerInput.movementEnabled = true;
             GameManager.Instance.playerInput.inputEnabled = true;
-
             //START RACE
             raceStarted = true;
-
-            raceTimer += Time.deltaTime;
+            lapTimer += Time.deltaTime;
             lapLog.rawTime += Time.deltaTime;
+
         }
+ 
+            
         calculatePosition();
     }
 
@@ -95,14 +105,41 @@ public class RaceManager : MonoBehaviour
 
     public void LapChecker()
     {
+
+        //UPDATE TIME CHART
         lapLog.lapConvertedTime = UIManager.Instance.FormatTime(lapLog.rawTime);
         
         UIManager.Instance.UpdateTimeChart(lapLog.lapConvertedTime);
         
+        //INCREASE LAP
         lapCount++;
+        actualLap++;
+
+        //CHECK IF FASTEST LAP
+        if (bestLapTime !=0)
+        {
+            if (lapTimer < bestLapTime)
+            {
+                bestLapTime = lapTimer;
+                UIManager.Instance.UI.bestLap.text = UIManager.Instance.FormatTime(lapTimer);
+            }
+        }
+        else
+        {
+            bestLapTime = lapTimer;
+            UIManager.Instance.UI.bestLap.text = UIManager.Instance.FormatTime(lapTimer);
+
+        }
         lapLog.rawTime = 0;
-        raceTimer = 0;
-        Debug.Log(lapLog.lapConvertedTime);       
+        lapTimer = 0;
+
+
+        //CHECK IF RACE FINISHED
+        if (actualLap > numberOfLaps)
+        {
+            raceEnded = true;
+            RaceEndSequence();
+        }
     }
 
     void calculatePosition()
@@ -141,6 +178,14 @@ public class RaceManager : MonoBehaviour
 
         // CHANGE POSITION TEXT
         UIManager.Instance.updatePosition(racePosition);
+
+    }
+
+    void RaceEndSequence()
+    {
+        GameManager.Instance.playerInput.inputEnabled = false;
+        UIManager.Instance.UI.endPanel.SetActive(true);
+
 
     }
 }
