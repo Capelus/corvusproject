@@ -12,7 +12,7 @@ public class RaceManager : MonoBehaviour
     public bool initialSequence, warmUpSequence;
     public float countDownTime = 3;
     public int numberOfLaps;
-    public GameObject AIRacer1, AIRacer2, AIRacer3, AIRacer4, AIRacer5;
+    public GameObject [] AIRacers;
     Camera initialSequenceCamera;
 
     //LOCAL
@@ -72,7 +72,8 @@ public class RaceManager : MonoBehaviour
 
         }
         //CALCULATE ACTUAL POSITION IN RACE
-        calculatePosition();
+        if(AIRacers!=null)
+            CalculatePosition();
     }
 
     void LaunchInitialSequence()
@@ -136,7 +137,6 @@ public class RaceManager : MonoBehaviour
         lapLog.rawTime = 0;
         lapTimer = 0;
 
-
         //CHECK IF RACE FINISHED
         if (actualLap > numberOfLaps)
         {
@@ -145,16 +145,17 @@ public class RaceManager : MonoBehaviour
         }
     }
 
-    void calculatePosition()
+    void CalculatePosition()
     {
         racePosition = 6;
         //GET AI RACERS DISTANCE TRAVELLED
         float AI1Dis, AI2Dis, AI3Dis, AI4Dis, AI5Dis, PlayerDis;
-        AI1Dis = AIRacer1.GetComponent<AIBehaviour>().distanceTravelled;
-        AI2Dis = AIRacer2.GetComponent<AIBehaviour>().distanceTravelled;
-        AI3Dis = AIRacer3.GetComponent<AIBehaviour>().distanceTravelled;
-        AI4Dis = AIRacer4.GetComponent<AIBehaviour>().distanceTravelled;
-        AI5Dis = AIRacer5.GetComponent<AIBehaviour>().distanceTravelled;
+
+        AI1Dis = AIRacers[0].GetComponent<AIBehaviour>().distanceTravelled;
+        AI2Dis = AIRacers[1].GetComponent<AIBehaviour>().distanceTravelled;
+        AI3Dis = AIRacers[2].GetComponent<AIBehaviour>().distanceTravelled;
+        AI4Dis = AIRacers[3].GetComponent<AIBehaviour>().distanceTravelled;
+        AI5Dis = AIRacers[4].GetComponent<AIBehaviour>().distanceTravelled;
         PlayerDis = GameManager.Instance.player.distanceTravelled;
 
         //CALCULATE PLAYER POSITION
