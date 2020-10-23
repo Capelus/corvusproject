@@ -52,7 +52,7 @@ public class PlayerBehaviour : MonoBehaviour
         public float maxHandlingSpeed = 15;
         public AnimationCurve handlingCurve;
         public float knockback = 10;
-        public float dashDistance = 2f;
+        public float handlingRollMultiplier = 10;
     }
 
     [Header("CHASIS")]
@@ -61,6 +61,7 @@ public class PlayerBehaviour : MonoBehaviour
     //LOCAL
     float stunTime = 0;
     bool rolling = false;
+    float l_handlingRollMultiplier;
     //----------------------------------------------------------------
 
     //------------------------------------------------- JET PARAMETERS
@@ -199,7 +200,7 @@ public class PlayerBehaviour : MonoBehaviour
                 chassisParameters.handlingCurve = spaceshipProfile.chassisProfile.handlingCurve;
 
                 // ROLL DASH
-                chassisParameters.dashDistance = spaceshipProfile.chassisProfile.dashDistance;
+                chassisParameters.handlingRollMultiplier = spaceshipProfile.chassisProfile.handlingRollMultiplier;
 
                 // RESISTANCE
                 chassisParameters.knockback = spaceshipProfile.chassisProfile.knockback;
@@ -273,6 +274,7 @@ public class PlayerBehaviour : MonoBehaviour
         l_energy = energyParameters.initialEnergy;
         l_cadence = blasterParameters.cadence;
         l_nitroInputTime = superBoostInputTime;
+        l_handlingRollMultiplier = 1;
 
         //SET INITIAL POSITION
         transform.position = TrackManager.Instance.GetPositionAtDistance(initialDistance) + transform.up * initialVerticalOffset + transform.right * initialHorizontalOffset;
@@ -394,6 +396,10 @@ public class PlayerBehaviour : MonoBehaviour
                 //CHANGE CAMERA STATE
                 GameManager.Instance.playerCamera.ChangeState(CameraState.idle);
             }
+
+            //RESTORE STUN EFFECT (Esta un poco feo aquí pero bueno, ya se hará un manager de efectos de cámara en condiciones!)
+            GameManager.Instance.playerCamera.ModifyPostproEffect("ChromaticAberration", 0);
+            UIManager.Instance.UI.engineWarning.SetActive(false);
         }
 
         //CLAMP SPEED
@@ -428,8 +434,8 @@ public class PlayerBehaviour : MonoBehaviour
         //CALCULATE 2D MOVEMENT
         if (playerInput.inputEnabled)
         {
-            horizontalMove += inputX * handling * Time.deltaTime;
-            verticalMove += inputY * handling * Time.deltaTime;
+            horizontalMove += inputX * handling * l_handlingRollMultiplier * Time.deltaTime;
+            verticalMove += inputY * handling * l_handlingRollMultiplier * Time.deltaTime;
         }
 
         //CLAMP IT ON LIMITS
@@ -593,6 +599,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     IEnumerator RollCoroutine()
     {
+        //BOOST HANDLING
+        l_handlingRollMultiplier = chassisParameters.handlingRollMultiplier;
+
         //ANIMATE
         if (animator != null)
         {
@@ -611,19 +620,11 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
 
-        // CALCULATE DIRECTION TO DASH
-        Vector2 dashVector = (transform.right * playerInput.rawMovement.x + transform.up * playerInput.rawMovement.y).normalized * chassisParameters.dashDistance;
+        float t = 0.3f; // The time while handling is boosted. Currently hardcoded because it is not clear if we are gonna use it.
+        yield return new WaitForSeconds(t);
 
-        float t = 0;
-        // DASH
-        while(t > 0.3f)
-        {
-            t += Time.deltaTime;
-            horizontalMove += dashVector.x * Time.deltaTime;
-            verticalMove += dashVector.y * Time.deltaTime;
-            //verticalMove = Mathf.Lerp(verticalMove, dashVector.y, t * Time.deltaTime);
-            yield return null;
-        }
+        // RESTORE HANDLING
+        l_handlingRollMultiplier = 1;
     }
 
     public void CheckCollisions()
@@ -723,6 +724,8 @@ public class PlayerBehaviour : MonoBehaviour
     public void Stun(float time)
     {
         stunTime = time;
+        GameManager.Instance.playerCamera.ModifyPostproEffect("ChromaticAberration", 1);
+        UIManager.Instance.UI.engineWarning.SetActive(true);
     }
 
     public void Explode()

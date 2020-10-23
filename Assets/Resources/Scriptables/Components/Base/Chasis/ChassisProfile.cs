@@ -17,8 +17,8 @@ public class ChassisProfile : ScriptableObject
     public AnimationCurve handlingCurve;
 
     //---------------------------------- ROLL DASH
-    [Tooltip("The distance of the dash when barrel rolling.")]
-    public float dashDistance = 2f;
+    [Tooltip("The extra handling multiplier when performing a barrell roll.")]
+    public float handlingRollMultiplier = 3;
 
     //--------------------------------- RESISTANCE
     [Tooltip("The amount of deceleration after crashing on an obstacle.")]

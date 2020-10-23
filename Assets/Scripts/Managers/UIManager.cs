@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour
         public Text endPanelFastestLap;
         public Text endPanelRaceTime;
         public Button resetRace;
+        public GameObject engineWarning;
     }
     public UIElements UI;
 
@@ -165,8 +166,6 @@ public class UIManager : MonoBehaviour
         return convertToString;
     }
 
-    
-
     public void UpdateTimeChart(string lastLapTime)
     {
         //UI.timeChart[RaceManager.Instance.lapCount].text = lastLapTime;
@@ -220,11 +219,7 @@ public class UIManager : MonoBehaviour
                 UI.positionNumber.text = "6";
                 UI.positionSufix.text = "th";
                 break;
-
-
         }
-
-
     }
 
     public void DisableRaceUI()

@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41baa609245216f45ae3be24e74d7ee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stunDuration: 2
+  stunDuration: 3
   ringRotationSpeed: 2
   cooldownTime: 2
 --- !u!136 &1823554465383775491

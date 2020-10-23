@@ -72,7 +72,7 @@ public class RaceManager : MonoBehaviour
 
         }
         //CALCULATE ACTUAL POSITION IN RACE
-        if(AIRacers!=null)
+        if(AIRacers.Length!=0)
             CalculatePosition();
     }
 

@@ -39,7 +39,7 @@ public class BasicShot : MonoBehaviour
         //LIFETIME COUNTDOWN
         lifeTime -= Time.deltaTime;
         if (lifeTime < 0)
-            DestroyShot();
+            DestroyShot(false);
     }
 
     //EFFECT
@@ -51,7 +51,7 @@ public class BasicShot : MonoBehaviour
                 if (!transform.CompareTag("Enemy"))
                 {
                     other.GetComponent<EnemyBehaviour>().TakeDamage(damage);
-                    DestroyShot();
+                    DestroyShot(true);
                 }
                 break;
 
@@ -59,23 +59,26 @@ public class BasicShot : MonoBehaviour
                 if (!transform.CompareTag("Player"))
                 {
                     other.GetComponent<PlayerBehaviour>().TakeDamage(damage);
-                    DestroyShot();
+                    DestroyShot(true);
                 }
                 break;
 
             case "Obstacle":
-                if (other.transform.GetComponent<BreakableBehaviour>())
-                    other.transform.GetComponent<BreakableBehaviour>().Destroy();
+                if (other.transform.parent.GetComponent<BreakableBehaviour>())
+                    other.transform.parent.GetComponent<BreakableBehaviour>().Destroy();
                 break;
 
             default: 
-                DestroyShot();
+                DestroyShot(true);
                 break;
         }
     }
 
-    public void DestroyShot()
+    public void DestroyShot(bool explode)
     {
+        if (explode)
+            EffectsManager.Instance.InstantiateEffect("Explosion", transform.position, transform.rotation);
+
         Destroy(this.gameObject);
     }
 }

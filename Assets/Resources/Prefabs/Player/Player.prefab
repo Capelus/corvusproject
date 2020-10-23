@@ -454,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b41d92e43e9474bbfccbcc543882ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementEnabled: 0
   inputEnabled: 1
 --- !u!114 &8722126189664132580
 MonoBehaviour:
@@ -470,6 +471,12 @@ MonoBehaviour:
   animator: {fileID: 0}
   spaceship: {fileID: 3503255384420799087, guid: 7edc21d18352e0849b40a35542985667,
     type: 3}
+  jets:
+  - {fileID: 0}
+  - {fileID: 0}
+  windTrails: []
+  sparks: []
+  overchargeTrails: []
   engineParameters:
     maxSpeed: 120
     maxAcceleration: 900
@@ -557,6 +564,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     knockback: 10
+    handlingRollMultiplier: 10
   jetParameters:
     boostAcceleration: 15
     boostConsumption: 30
@@ -566,9 +574,6 @@ MonoBehaviour:
   boosted: 0
   superboosted: 0
   outBoosted: 0
-  jets:
-  - {fileID: 0}
-  - {fileID: 0}
   blasterParameters:
     projectile: {fileID: 269988879153526050, guid: 218686552ecf9f242bec07f7b39a1035,
       type: 3}
@@ -1193,6 +1198,7 @@ MonoBehaviour:
   invertedOffsets: 0
   horizontalOffsetFraction: 2
   verticalOffsetFraction: 3
+  postpro: {fileID: 8819578366158019356}
 --- !u!114 &8819578367204387778
 MonoBehaviour:
   m_ObjectHideFlags: 0
