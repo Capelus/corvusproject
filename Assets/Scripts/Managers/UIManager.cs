@@ -136,8 +136,9 @@ public class UIManager : MonoBehaviour
 
         //CHECK QUICK TIME EVENT
         if (UIManager.Instance.UIW.warmUpQTE.successQTE)
-            GameManager.Instance.player.OneShotBoost(2, 30, false, CameraState.superboost);
-
+            GameManager.Instance.player.OneShotBoost(3, 60, false, CameraState.superboost);
+        if (UIManager.Instance.UIW.warmUpQTE.halfSuccessQTE)
+            GameManager.Instance.player.OneShotBoost(1.5f, 25, false, CameraState.superboost);
         //DISABLE QUICK TIME EVENT
         UIW.warmUpQTE.gameObject.SetActive(false);
         UIW.warmUpQTE.successQTE = false;
