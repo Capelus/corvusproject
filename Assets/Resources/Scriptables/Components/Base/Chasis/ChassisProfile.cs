@@ -16,6 +16,10 @@ public class ChassisProfile : ScriptableObject
     [Tooltip("The curve defining the spaceship's handling. (Over velocity)")]
     public AnimationCurve handlingCurve;
 
+    //---------------------------------- ROLL DASH
+    [Tooltip("The extra handling multiplier when performing a barrell roll.")]
+    public float handlingRollMultiplier = 3;
+
     //--------------------------------- RESISTANCE
     [Tooltip("The amount of deceleration after crashing on an obstacle.")]
     public float knockback = 10;

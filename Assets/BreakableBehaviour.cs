@@ -17,13 +17,11 @@ public class BreakableBehaviour : MonoBehaviour
 
     public void Destroy()
     {
-        GetComponent<BoxCollider>().enabled = false;
-
         foreach (GameObject p in portions)
         {
-            p.transform.parent = null;
             p.GetComponent<Rigidbody>().isKinematic = false;
-            p.GetComponent<Rigidbody>().AddExplosionForce(1000, p.transform.position, 5);
+            p.GetComponent<Rigidbody>().AddExplosionForce(200, p.transform.position, 10);
+            p.GetComponent<Rigidbody>().AddForce(GameManager.Instance.player.transform.forward * 500);
         }
     }
  }

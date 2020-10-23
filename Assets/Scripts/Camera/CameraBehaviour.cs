@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public enum CameraMode { railSmoothMode, railSmoothModeInverted, railSmoothModeLookAt }
 public enum CameraState { idle, moving, braking, boost, superboost }
@@ -75,7 +76,8 @@ public class CameraBehaviour : MonoBehaviour
     public float verticalOffsetFraction = 3;
 
     // THE POSTPROCESSING VOLUME IF ANY
-    //public Volume postpro;
+    public Volume postpro;
+    ChromaticAberration chromaticAberration;
 
     void Start()
     {
@@ -83,6 +85,9 @@ public class CameraBehaviour : MonoBehaviour
         GameManager.Instance.playerCamera = this;
         player = GameManager.Instance.player;
         cam = GetComponent<Camera>();
+
+        //POSTPRO REFERENCES
+        postpro.profile.TryGet<ChromaticAberration>(out chromaticAberration);
 
         // PARAMETERS
         ChangeState(CameraState.moving);
@@ -173,6 +178,16 @@ public class CameraBehaviour : MonoBehaviour
 
             cameraState = state;
             l_stateTransitionTime = 0;
+        }
+    }
+
+    public void ModifyPostproEffect(string effect, float value)
+    {
+        switch (effect)
+        {
+            case "ChromaticAberration":
+                chromaticAberration.intensity.value = value;
+                break;
         }
     }
 }

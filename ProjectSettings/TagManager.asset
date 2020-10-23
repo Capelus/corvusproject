@@ -15,6 +15,7 @@ TagManager:
   - InitialSequenceCamera
   - Boost
   - End Panel
+  - Fog
   layers:
   - Default
   - TransparentFX
