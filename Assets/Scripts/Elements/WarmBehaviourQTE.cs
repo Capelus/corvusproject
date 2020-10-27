@@ -16,11 +16,13 @@ public class WarmBehaviourQTE : MonoBehaviour
     float yellowZoneScaleValue , greenZoneScaleValue;
     
     //SUCCESS ZONE VALUES
-    public bool successQTE;
-    Vector2 successZone = Vector2.zero;
-
+    public bool successQTE,halfSuccessQTE;
+    Vector2 greenSuccessZone = Vector2.zero;
+    Vector2 yellowSuccessZone = Vector2.zero;
     void Start()
     {
+        successQTE = false;
+        halfSuccessQTE = false;
         //SET YELLOW ZONE SCALE VALUES
         yellowZoneScaleValue = GameManager.Instance.player.jetParameters.boostAcceleration / 60.0f;
         yellowZone.localScale = new Vector2(yellowZoneScaleValue, 1);
@@ -33,8 +35,11 @@ public class WarmBehaviourQTE : MonoBehaviour
         yellowZone.localPosition = new Vector2(50 + Random.Range(0, 47 - yellowZone.rect.width * yellowZone.localScale.x), 0);
         greenZone.localPosition = new Vector2(yellowZone.localPosition.x + (((yellowZone.rect.width * yellowZone.localScale.x)/2)-((greenZone.rect.width * greenZone.localScale.x) / 2)), 0);
 
-        successZone.x = greenZone.localPosition.x;
-        successZone.y = greenZone.localPosition.x + greenZone.rect.width;
+        //GET VECTOR POSITION OF BOTH SUCCESS ZONES
+        greenSuccessZone.x = greenZone.localPosition.x;
+        greenSuccessZone.y = greenZone.localPosition.x + greenZone.rect.width;
+        yellowSuccessZone.x = yellowZone.localPosition.x;
+        yellowSuccessZone.y = yellowZone.localPosition.x + yellowZone.rect.width;
     }
 
     void Update()
@@ -50,11 +55,16 @@ public class WarmBehaviourQTE : MonoBehaviour
             decelerationValue += Time.deltaTime;
             checkMark.localPosition = new Vector2(checkMark.localPosition.x - decelerationValue, 50);
         }
-
-        if (checkMark.localPosition.x > successZone.x && checkMark.localPosition.x < successZone.y)
+        //CHECK GREEN SUCCESS ZONE
+        if (checkMark.localPosition.x > greenSuccessZone.x && checkMark.localPosition.x < greenSuccessZone.y)
         {
             successQTE = true;
         }
-        else successQTE = false;
+        //CHECK YELLOW SUCCESS ZONE
+        else if(checkMark.localPosition.x >yellowSuccessZone.x && checkMark.localPosition.x < yellowSuccessZone.y)
+        {
+            halfSuccessQTE = true;
+        }
+       
     }
 }
