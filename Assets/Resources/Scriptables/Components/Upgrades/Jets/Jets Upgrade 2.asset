@@ -1,22 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ac3192978fee48488ea6cbb4e53b0bd, type: 3}
-  m_Name: Jets Upgrade 2
-  m_EditorClassIdentifier: 
-  id: 0
-  unlockCost: 0
-  upgradeName: JUT2
-  upgradeInfo: This is a test for the jets upgrades.
-  bonusMaxBoost: 20
-  bonusMaxSuperBoost: 40
-  bonusBoostIntake: 2
-  bonusSuperBoostIntake: 2
+version https://git-lfs.github.com/spec/v1
+oid sha256:e4c584c61ca474bed188fdbbbb6b600d8e16ca7c65961bf73d719b2bf69de59e
+size 594

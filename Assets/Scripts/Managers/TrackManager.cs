@@ -35,7 +35,7 @@ public class TrackManager : MonoBehaviour
     {
         //SET REFERENCES
         pathCreator = GetComponent<PathCreator>();
-        objectPoolPosition = GameObject.Find("Object Pool").transform.position;
+        //objectPoolPosition = GameObject.Find("Object Pool").transform.position;
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
     }
 

@@ -1,34 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e806c40c961480c45bbb35cd461550e4, type: 3}
-  m_Name: Swordfish
-  m_EditorClassIdentifier: 
-  engineUpgrades:
-  - {fileID: 11400000, guid: d2cb9339edc56494abd6af07ea95bbeb, type: 2}
-  - {fileID: 11400000, guid: 90fcdd66217821741ade2dcaa121e48b, type: 2}
-  - {fileID: 11400000, guid: 947b81cf16529264388bfe0845a4d15d, type: 2}
-  chassisUpgrades:
-  - {fileID: 11400000, guid: 7c9fb237b70b2904fb867226e1bf9932, type: 2}
-  - {fileID: 11400000, guid: 89dc087a89a3a12439b7c586ae7db00d, type: 2}
-  - {fileID: 11400000, guid: 7c9f9147d3ea40248b58928fb5aa8727, type: 2}
-  jetsUpgrades:
-  - {fileID: 11400000, guid: 6c15086e051790d4e925d74e1d31e9d7, type: 2}
-  - {fileID: 11400000, guid: d917a8e3435d4434782c71649a24991d, type: 2}
-  - {fileID: 11400000, guid: 55e34eeb8d409424da7da7a29ef5f5b4, type: 2}
-  blastersUpgrades:
-  - {fileID: 11400000, guid: 45c653fccefef3e4d9dc9858cffb7798, type: 2}
-  - {fileID: 11400000, guid: 1a0a24aa711b8ee4ea1ba76035831219, type: 2}
-  - {fileID: 11400000, guid: 0dcf2fda71192fc448897058d26ee5c2, type: 2}
-  tanksUpgrades:
-  - {fileID: 11400000, guid: e017d10afc0d72b4dbd6ae9bf86e76e1, type: 2}
-  - {fileID: 11400000, guid: 9b7fa67f92d35c54982c7abcd967be8a, type: 2}
-  - {fileID: 11400000, guid: aa0a9e267196136438e346b08d061ac5, type: 2}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d66f286203c017f443de08627863c5820b97367621e4fce4097e6f4a1bf0fc1f
+size 1568

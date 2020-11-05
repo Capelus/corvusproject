@@ -1,20 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af791abbe9abd2745b424e10463c1b8f, type: 3}
-  m_Name: Blaster Upgrade 2
-  m_EditorClassIdentifier: 
-  id: 0
-  unlockCost: 0
-  upgradeName: BUT2
-  upgradeInfo: This is a test for the blaster upgrades.
-  bonusDamage: 0
-  bonusCadence: -0.06
+version https://git-lfs.github.com/spec/v1
+oid sha256:b2965f07c839a1110660a7301890d7c90786339f90c54dfe3b7c82a367ad5d0f
+size 545

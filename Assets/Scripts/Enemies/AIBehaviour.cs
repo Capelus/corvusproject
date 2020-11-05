@@ -39,7 +39,10 @@ public class AIBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (RaceManager.Instance.raceStarted)
+        if (RaceManager.Instance == null)
+            Move();
+
+        if (RaceManager.Instance != null && RaceManager.Instance.raceStarted)
             Move();        
     }
 

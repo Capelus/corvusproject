@@ -1,20 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1510646f6b183684da029d86a970c75d, type: 3}
-  m_Name: Chassis Upgrade 3
-  m_EditorClassIdentifier: 
-  id: 0
-  unlockCost: 0
-  upgradeName: CUT3
-  upgradeInfo: This is a test for the chassis upgrades.
-  bonusMaxHandling: 12
-  bonusKnockback: -6
+version https://git-lfs.github.com/spec/v1
+oid sha256:64912bd4c9aed988bb980548d9725430964a64c197b5b93cd8d84aa8a97d91e4
+size 550

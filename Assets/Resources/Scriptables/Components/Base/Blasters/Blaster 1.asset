@@ -1,17 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9698ef7cbe3224e4cb9c60a7c4dd565f, type: 3}
-  m_Name: Blaster 1
-  m_EditorClassIdentifier: 
-  projectile: {fileID: 269988879153526050, guid: 218686552ecf9f242bec07f7b39a1035,
-    type: 3}
-  cadence: 0.2
+version https://git-lfs.github.com/spec/v1
+oid sha256:8cb933f9c0d8440d95b1efff85adf39f3dd6c0b338d280b6d691bda2b423d086
+size 509

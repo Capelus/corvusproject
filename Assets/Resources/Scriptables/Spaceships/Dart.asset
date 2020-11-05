@@ -1,20 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 732ce129d7450814c8322f5680ab65cb, type: 3}
-  m_Name: Dart
-  m_EditorClassIdentifier: 
-  engineProfile: {fileID: 11400000, guid: 245f8f2f4bfa4d944957f71a40915350, type: 2}
-  chassisProfile: {fileID: 11400000, guid: 578c40e1cea283f44a9b8caa89b2315f, type: 2}
-  blasterProfile: {fileID: 11400000, guid: 697397c26517a7f47838dd027d41e1ae, type: 2}
-  jetProfile: {fileID: 11400000, guid: f8f011bbc80ad9542b76139aa28da223, type: 2}
-  tankProfile: {fileID: 11400000, guid: 44d45edc49af54c4e85522909ed84d0a, type: 2}
-  upgradesProfile: {fileID: 11400000, guid: 7dfbba822c162e14caf9138147cd4f22, type: 2}
+version https://git-lfs.github.com/spec/v1
+oid sha256:97b372ba0b76a3b80d8a296459d6bed16725099b63d0dff68c6088ef9c7b203b
+size 902

@@ -1,21 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4f4fa93b4a03a24a9701dbf898cba99, type: 3}
-  m_Name: Engine Upgrade 3
-  m_EditorClassIdentifier: 
-  id: 0
-  unlockCost: 0
-  upgradeName: EUT3
-  upgradeInfo: Hola
-  bonusMaxSpeed: 30
-  bonusMaxAcceleration: 20
-  bonusMaxBrake: 10
+version https://git-lfs.github.com/spec/v1
+oid sha256:b172823012e413e28e0da90007ec20ef563441963cf92fb812d1de8813e0d47a
+size 536
